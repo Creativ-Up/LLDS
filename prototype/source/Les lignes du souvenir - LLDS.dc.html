@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..600&display=swap">
+<style>
+  body{margin:0;background:#EDE7D6;color:#231F20;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#E42127}
+  a:hover{color:#8C191C}
+  ::selection{background:rgba(228,33,39,.18)}
+  @keyframes lldsIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes lldsUp{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:none}}
+  @keyframes lldsPop{0%{opacity:0;transform:scale(.6)}60%{transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+  @keyframes lldsStamp{0%{opacity:0;transform:scale(2.4) rotate(-16deg)}55%{opacity:1;transform:scale(.93) rotate(-4deg)}75%{transform:scale(1.04) rotate(-6deg)}100%{opacity:1;transform:scale(1) rotate(-5deg)}}
+  @keyframes lldsSpin{to{transform:rotate(360deg)}}
+  @keyframes lldsPulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.9);opacity:0}}
+  @keyframes lldsDraw{to{stroke-dashoffset:0}}
+  @keyframes lldsDrop{from{opacity:0;transform:translateY(-120%)}to{opacity:1;transform:none}}
+  @keyframes lldsBuzz{0%,100%{transform:translateX(0)}15%{transform:translateX(-5px) rotate(-1deg)}30%{transform:translateX(5px) rotate(1deg)}45%{transform:translateX(-4px)}60%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
+  @keyframes lldsBlink{0%,100%{opacity:1}50%{opacity:.25}}
+</style>
+</helmet>
+
+<div style="display:flex;flex-direction:column;align-items:center;gap:22px;box-sizing:border-box;min-height:{{ wrapMinH }};padding:{{ wrapPad }};background:{{ wrapBg }}">
+
+  <sc-if value="{{ showChrome }}" hint-placeholder-val="{{ true }}">
+  <div style="width:100%;max-width:980px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <img src="llds/img/logo-llds-mark.png" alt="Les lignes du souvenir" style="width:190px;height:auto;display:block">
+    <div style="display:flex;align-items:center;gap:10px;font:500 11px/1 Inter,system-ui;letter-spacing:.1em;text-transform:uppercase;color:#77732F">
+      <span style="width:8px;height:8px;border-radius:50%;background:#E42127;display:block"></span>Prototype — direction artistique LLDS
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="position:relative;width:390px;height:852px;border-radius:44px;overflow:hidden;background:#FFFDF2;box-shadow:0 26px 70px rgba(35,31,32,.28),0 0 0 1px rgba(35,31,32,.1)">
+
+    <!-- ══════════ ACCUEIL ══════════ -->
+    <sc-if value="{{ isAccueil }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="01 Accueil" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .4s cubic-bezier(.2,.7,.2,1) both">
+        <div style="position:absolute;left:0;top:0;right:0;height:852px;background:url(llds/img/postcard-hero.jpg) -903px 0/1340px 870px no-repeat"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,253,242,.1) 0%,rgba(35,31,32,0) 40%,rgba(35,31,32,.5) 74%,rgba(35,31,32,.82) 100%)"></div>
+        <img src="llds/img/logo-llds.png" alt="Les lignes du souvenir" style="position:absolute;left:-71px;top:63px;width:533px">
+        <div style="position:absolute;left:67px;top:624px;width:257px;display:flex;flex-direction:column;gap:19px">
+          <div role="button" tabindex="0" onClick="{{ goConnexion }}" style="height:53px;border-radius:10px;background:#E42127;color:#FFFFFF;font:500 16px/53px Inter,system-ui;text-align:center;cursor:pointer;transition:background .18s,transform .18s" style-hover="background:#8C191C;transform:translateY(-1px)" style-active="transform:translateY(1px)">Se connecter</div>
+          <div role="button" tabindex="0" onClick="{{ goLangue }}" style="height:53px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #E42127;color:#E42127;font:500 16px/53px Inter,system-ui;text-align:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">Continuer sans compte</div>
+        </div>
+        <div role="button" tabindex="0" onClick="{{ goInscription }}" style="position:absolute;left:0;right:0;top:773px;text-align:center;font:500 16px/22px Inter,system-ui;color:#FFFFFF;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Créer un compte</div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ CONNEXION ══════════ -->
+    <sc-if value="{{ isConnexion }}">
+      <div data-screen-label="01b Connexion" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px;opacity:.5;pointer-events:none">
+          <g fill="none" stroke="#F6A1A7" stroke-width="1.4" opacity=".5"><path d="M -40 760 C 120 660 280 620 460 590"></path></g>
+          <g fill="#F6A1A7" opacity=".24"><rect x="36" y="700" width="62" height="38" rx="3" transform="rotate(-10 67 719)"></rect><rect x="270" y="660" width="54" height="32" rx="3" transform="rotate(12 297 676)"></rect></g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goBackAuth }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="#E42127" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 1.5 2 9l7.5 7.5"></path></svg>
+        </div>
+        <div style="position:absolute;left:32px;right:32px;top:140px;display:flex;flex-direction:column;gap:10px">
+          <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Se connecter</div>
+          <div style="font:400 16px/1.35 Inter,system-ui;color:#77732F">Retrouvez vos points, cachets et parcours.</div>
+        </div>
+        <div style="position:absolute;left:31px;right:31px;top:250px;display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">E-MAIL</label>
+            <div style="position:relative">
+              <input type="email" placeholder="prenom@exemple.be" value="{{ form.email }}" onInput="{{ on_email }}" style="width:100%;height:52px;box-sizing:border-box;padding:0 16px 0 16px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 2px {{ form.emailRing }};font:400 16px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">MOT DE PASSE</label>
+            <div style="position:relative">
+              <input type="{{ pwType }}" placeholder="••••••••" value="{{ form.pw }}" onInput="{{ on_pw }}" style="width:100%;height:52px;box-sizing:border-box;padding:0 16px 0 16px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 2px {{ form.pwRing }};font:400 16px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+              <div role="button" tabindex="0" onClick="{{ togglePw }}" aria-label="Afficher le mot de passe" style="position:absolute;right:4px;top:4px;width:44px;height:44px;display:grid;place-items:center;cursor:pointer">
+                <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="#77732F" stroke-width="1.9"><path d="M1 8s3.6-6.6 10-6.6S21 8 21 8s-3.6 6.6-10 6.6S1 8 1 8Z"></path><circle cx="11" cy="8" r="3"></circle></svg>
+              </div>
+            </div>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ goOubli }}" style="align-self:flex-end;font:400 14px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 0">Mot de passe oublié&nbsp;?</div>
+          <sc-if value="{{ form.hasError }}"><div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;background:#FBE9E9;font:400 14px/1.35 Inter,system-ui;color:#8C191C"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#8C191C" stroke-width="2"><circle cx="9" cy="9" r="7.6"></circle><path d="M9 5v4.6M9 12.4v.2" stroke-linecap="round"></path></svg>{{ form.error }}</div></sc-if>
+          <div role="button" tabindex="0" onClick="{{ submitConnexion }}" style="height:56px;border-radius:10px;background:#E42127;color:#FFFFFF;font:500 16px/56px Inter,system-ui;text-align:center;cursor:pointer;transition:background .18s" style-hover="background:#8C191C">{{ form.busy }}</div>
+        </div>
+        <div style="position:absolute;left:31px;right:31px;top:640px;display:flex;align-items:center;gap:14px"><span style="flex:1;height:1px;background:#B8B248;display:block"></span><span style="font:400 13px/1 Inter,system-ui;color:#77732F">ou</span><span style="flex:1;height:1px;background:#B8B248;display:block"></span></div>
+        <div role="button" tabindex="0" onClick="{{ skipAuth }}" style="position:absolute;left:31px;right:31px;top:676px;height:52px;border-radius:10px;box-shadow:inset 0 0 0 2px #E42127;color:#E42127;font:500 16px/52px Inter,system-ui;text-align:center;cursor:pointer" style-hover="background:#FBE9E9">Continuer sans compte</div>
+        <div style="position:absolute;left:0;right:0;top:770px;display:flex;justify-content:center;gap:6px;font:400 15px/1 Inter,system-ui;color:#231F20">Pas encore de compte&nbsp;?<span role="button" tabindex="0" onClick="{{ goInscription }}" style="color:#E42127;font-weight:500;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Créer un compte</span></div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ INSCRIPTION ══════════ -->
+    <sc-if value="{{ isInscription }}">
+      <div data-screen-label="01c Inscription" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px;opacity:.5;pointer-events:none">
+          <g fill="none" stroke="#F6A1A7" stroke-width="1.4" opacity=".5"><path d="M -40 760 C 120 660 280 620 460 590"></path></g>
+          <g fill="#F6A1A7" opacity=".24"><rect x="36" y="700" width="62" height="38" rx="3" transform="rotate(-10 67 719)"></rect><rect x="270" y="660" width="54" height="32" rx="3" transform="rotate(12 297 676)"></rect></g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goBackAuth }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="#E42127" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 1.5 2 9l7.5 7.5"></path></svg>
+        </div>
+        <div style="position:absolute;left:32px;right:32px;top:140px;display:flex;flex-direction:column;gap:10px">
+          <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Créer un compte</div>
+          <div style="font:400 16px/1.35 Inter,system-ui;color:#77732F">Pour garder vos cachets et profiter des avantages partenaires.</div>
+        </div>
+        <div style="position:absolute;left:31px;right:31px;top:262px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">PRÉNOM</label>
+            <div style="position:relative">
+              <input type="text" placeholder="Camille" value="{{ form.name }}" onInput="{{ on_name }}" style="width:100%;height:52px;box-sizing:border-box;padding:0 16px 0 16px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 2px {{ form.nameRing }};font:400 16px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">E-MAIL</label>
+            <div style="position:relative">
+              <input type="email" placeholder="prenom@exemple.be" value="{{ form.email }}" onInput="{{ on_email }}" style="width:100%;height:52px;box-sizing:border-box;padding:0 16px 0 16px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 2px {{ form.emailRing }};font:400 16px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">MOT DE PASSE</label>
+            <div style="position:relative">
+              <input type="{{ pwType }}" placeholder="8 caractères minimum" value="{{ form.pw }}" onInput="{{ on_pw }}" style="width:100%;height:52px;box-sizing:border-box;padding:0 16px 0 16px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 2px {{ form.pwRing }};font:400 16px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+              <div role="button" tabindex="0" onClick="{{ togglePw }}" aria-label="Afficher le mot de passe" style="position:absolute;right:4px;top:4px;width:44px;height:44px;display:grid;place-items:center;cursor:pointer">
+                <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="#77732F" stroke-width="1.9"><path d="M1 8s3.6-6.6 10-6.6S21 8 21 8s-3.6 6.6-10 6.6S1 8 1 8Z"></path><circle cx="11" cy="8" r="3"></circle></svg>
+              </div>
+            </div>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ toggleConsent }}" style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:4px 0">
+            <div style="flex:none;width:24px;height:24px;border-radius:6px;box-shadow:inset 0 0 0 2px {{ consentRing }};background:{{ consentBg }};display:grid;place-items:center">
+              <sc-if value="{{ form.consent }}"><svg width="13" height="10" viewBox="0 0 13 10" fill="none" stroke="#FFFDF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.2 4.8 8.4 11.5 1.6"></path></svg></sc-if>
+            </div>
+            <span style="font:400 14px/1.4 Inter,system-ui;color:#231F20">J’accepte les <u>conditions d’utilisation</u> et la <u>politique de confidentialité</u>.</span>
+          </div>
+          <sc-if value="{{ form.hasError }}"><div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;background:#FBE9E9;font:400 14px/1.35 Inter,system-ui;color:#8C191C"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#8C191C" stroke-width="2"><circle cx="9" cy="9" r="7.6"></circle><path d="M9 5v4.6M9 12.4v.2" stroke-linecap="round"></path></svg>{{ form.error }}</div></sc-if>
+          <div role="button" tabindex="0" onClick="{{ submitInscription }}" style="height:56px;border-radius:10px;background:#E42127;color:#FFFFFF;font:500 16px/56px Inter,system-ui;text-align:center;cursor:pointer;transition:background .18s" style-hover="background:#8C191C">{{ form.busy }}</div>
+        </div>
+        <div style="position:absolute;left:0;right:0;top:770px;display:flex;justify-content:center;gap:6px;font:400 15px/1 Inter,system-ui;color:#231F20">Déjà inscrit&nbsp;?<span role="button" tabindex="0" onClick="{{ goConnexion }}" style="color:#E42127;font-weight:500;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Se connecter</span></div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ MOT DE PASSE OUBLIÉ ══════════ -->
+    <sc-if value="{{ isOubli }}">
+      <div data-screen-label="01d Mot de passe oublié" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <div role="button" tabindex="0" onClick="{{ goConnexion }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="#E42127" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 1.5 2 9l7.5 7.5"></path></svg>
+        </div>
+        <sc-if value="{{ resetForm }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;left:32px;right:32px;top:140px;display:flex;flex-direction:column;gap:10px">
+            <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Mot de passe oublié</div>
+            <div style="font:400 16px/1.4 Inter,system-ui;color:#77732F;text-wrap:pretty">Saisissez l’e-mail de votre compte : nous vous envoyons un lien pour choisir un nouveau mot de passe.</div>
+          </div>
+          <div style="position:absolute;left:31px;right:31px;top:282px;display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <label style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">E-MAIL</label>
+              <input type="email" placeholder="prenom@exemple.be" value="{{ form.email }}" onInput="{{ on_email }}" style="width:100%;height:52px;box-sizing:border-box;padding:0 16px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 2px {{ form.emailRing }};font:400 16px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+            </div>
+            <sc-if value="{{ form.hasError }}"><div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;background:#FBE9E9;font:400 14px/1.35 Inter,system-ui;color:#8C191C"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#8C191C" stroke-width="2"><circle cx="9" cy="9" r="7.6"></circle><path d="M9 5v4.6M9 12.4v.2" stroke-linecap="round"></path></svg>{{ form.error }}</div></sc-if>
+            <div role="button" tabindex="0" onClick="{{ submitReset }}" style="height:56px;border-radius:10px;background:#E42127;color:#FFFFFF;font:500 16px/56px Inter,system-ui;text-align:center;cursor:pointer;transition:background .18s" style-hover="background:#8C191C">{{ form.busy }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ resetSent }}">
+          <div style="position:absolute;left:32px;right:32px;top:170px;display:flex;flex-direction:column;align-items:flex-start;gap:22px;animation:lldsIn .35s both">
+            <div style="position:relative;width:96px;height:96px;display:grid;place-items:center;animation:lldsPop .45s both">
+              <svg width="96" height="96" viewBox="0 0 96 96" style="position:absolute;inset:0" fill="none"><circle cx="48" cy="48" r="45" stroke="#E42127" stroke-width="4" stroke-dasharray="120 20 60 40" stroke-linecap="round"></circle></svg>
+              <svg width="38" height="28" viewBox="0 0 38 28" fill="none" stroke="#E42127" stroke-width="2.6" stroke-linejoin="round"><rect x="1.5" y="1.5" width="35" height="25" rx="3"></rect><path d="M2.5 3 19 16 35.5 3"></path></svg>
+            </div>
+            <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Vérifiez vos e-mails</div>
+            <div style="font:400 16px/1.45 Inter,system-ui;color:#231F20;text-wrap:pretty">Un lien de réinitialisation a été envoyé à <b style="font-weight:600">{{ form.email }}</b>. Il reste valable 1 heure.</div>
+            <div style="font:400 14px/1.45 Inter,system-ui;color:#77732F">Rien reçu&nbsp;? Regardez dans vos courriers indésirables.</div>
+          </div>
+          <div style="position:absolute;left:31px;right:31px;bottom:40px;display:flex;flex-direction:column;align-items:stretch;gap:18px">
+            <div role="button" tabindex="0" onClick="{{ goConnexion }}" style="height:56px;border-radius:10px;background:#E42127;color:#FFFFFF;font:500 16px/56px Inter,system-ui;text-align:center;cursor:pointer" style-hover="background:#8C191C">Retour à la connexion</div>
+            <div role="button" tabindex="0" onClick="{{ resendReset }}" style="text-align:center;font:400 15px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer">{{ resendLabel }}</div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ LANGUE ══════════ -->
+    <sc-if value="{{ isLangue }}">
+      <div data-screen-label="02 Langue" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px;opacity:.5">
+          <g fill="none" stroke="#F6A1A7" stroke-width="1.4" opacity=".55">
+            <path d="M -60 620 C 90 520 250 470 460 430"></path>
+            <path d="M -40 760 C 120 640 300 590 470 560"></path>
+          </g>
+          <g fill="#F6A1A7" opacity=".28">
+            <rect x="24" y="520" width="52" height="30" rx="3" transform="rotate(-14 50 535)"></rect>
+            <rect x="268" y="470" width="44" height="26" rx="3" transform="rotate(9 290 483)"></rect>
+            <rect x="188" y="690" width="70" height="40" rx="3" transform="rotate(-6 223 710)"></rect>
+            <rect x="96" y="612" width="30" height="18" rx="2" transform="rotate(20 111 621)"></rect>
+            <rect x="320" y="660" width="58" height="34" rx="3" transform="rotate(-11 349 677)"></rect>
+          </g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goAccueil }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+        </div>
+        <svg width="260" height="12" viewBox="0 0 260 12" style="position:absolute;left:94px;top:86px">
+          <line x1="6" y1="6" x2="254" y2="6" stroke="#F6A1A7" stroke-width="2"></line>
+          <circle cx="6" cy="6" r="5.5" fill="#E42127"></circle>
+          <circle cx="47" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="88" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="129" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="170" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="211" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="252" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+        </svg>
+        <div style="position:absolute;left:32px;top:148px;font:500 15px/1 Inter,system-ui;letter-spacing:.02em;color:#B8B248">BIENVENUE - WELKOM - WELCOME</div>
+        <div style="position:absolute;left:32px;top:172px;font:600 31px/1.16 Inter,system-ui;letter-spacing:-.02em;color:#231F20">Votre langue ?</div>
+
+        <svg viewBox="0 0 390 560" style="position:absolute;left:0;top:250px;width:390px;height:560px" fill="none">
+          <g stroke="#231F20" stroke-width="4.5" stroke-linecap="round" fill="none">
+            <path d="M 85 202 L 85 78 Q 85 62 101 62 L 160 62"></path>
+            <path d="M 232 62 L 340 62 Q 356 62 356 78 L 356 395 Q 356 411 340 411 L 250 411"></path>
+            <path d="M 196 98 L 196 166"></path>
+            <path d="M 196 238 L 196 307"></path>
+            <path d="M 85 202 L 160 202"></path>
+            <path d="M 85 202 L 50 202 Q 34 202 34 218 L 34 246"></path>
+            <path d="M 232 343 L 356 343"></path>
+          </g>
+          <g stroke="#231F20" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="1.5 13" fill="none">
+            <path d="M 34 276 L 34 372"></path>
+            <path d="M 150 411 L 214 411"></path>
+          </g>
+          <g stroke="#E42127" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".9">
+            <path d="M 52 60 Q 72 40 96 44"></path>
+            <path d="M 20 250 L 20 296"></path>
+            <path d="M 246 372 L 306 372"></path>
+          </g>
+          <circle cx="85" cy="140" r="7" fill="#E42127"></circle>
+          <circle cx="85" cy="202" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <circle cx="272" cy="62" r="7.5" fill="#E42127"></circle>
+          <circle cx="356" cy="170" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <circle cx="356" cy="208" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <circle cx="340" cy="343" r="7.5" fill="#E42127"></circle>
+          <circle cx="326" cy="411" r="7.5" fill="#E42127"></circle>
+          <circle cx="272" cy="411" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <g transform="translate(100 17)" stroke="#E42127" stroke-width="2.6" stroke-linecap="round"><path d="M1 1l8 8M9 1l-8 8"></path></g>
+          <g transform="translate(292 32)" fill="#E42127"><path d="M1 0c4 2 4 10 0 12 5 0 7-3 7-6S6 0 1 0z"></path><path d="M8 0c4 2 4 10 0 12 5 0 7-3 7-6s-2-6-7-6z"></path></g>
+        </svg>
+
+        <div role="button" tabindex="0" onClick="{{ pickFR }}" style="position:absolute;left:160px;top:276px;width:72px;height:72px;border-radius:50%;background:#FFFDF2;display:grid;place-items:center;font:500 20px/1 Inter,system-ui;color:#231F20;cursor:pointer;transition:transform .2s" style-hover="transform:scale(1.06)">FR</div>
+        <svg width="72" height="72" viewBox="0 0 72 72" style="position:absolute;left:160px;top:276px;pointer-events:none" fill="none"><circle cx="36" cy="36" r="34" stroke="#E42127" stroke-width="4" stroke-dasharray="96 22 48 48" stroke-linecap="round"></circle></svg>
+        <sc-if value="{{ frPicked }}"><div style="position:absolute;left:160px;top:276px;width:72px;height:72px;border-radius:50%;box-shadow:0 0 0 6px rgba(228,33,39,.18);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+
+        <div role="button" tabindex="0" onClick="{{ pickNL }}" style="position:absolute;left:160px;top:416px;width:72px;height:72px;border-radius:50%;background:#FFFDF2;display:grid;place-items:center;font:500 20px/1 Inter,system-ui;color:#231F20;cursor:pointer;transition:transform .2s" style-hover="transform:scale(1.06)">NL</div>
+        <svg width="72" height="72" viewBox="0 0 72 72" style="position:absolute;left:160px;top:416px;pointer-events:none" fill="none"><circle cx="36" cy="36" r="34" stroke="#E42127" stroke-width="4" stroke-dasharray="64 20 80 30" stroke-dashoffset="40" stroke-linecap="round"></circle></svg>
+        <sc-if value="{{ nlPicked }}"><div style="position:absolute;left:160px;top:416px;width:72px;height:72px;border-radius:50%;box-shadow:0 0 0 6px rgba(228,33,39,.18);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+
+        <div role="button" tabindex="0" onClick="{{ pickEN }}" style="position:absolute;left:160px;top:557px;width:72px;height:72px;border-radius:50%;background:#FFFDF2;display:grid;place-items:center;font:500 20px/1 Inter,system-ui;color:#231F20;cursor:pointer;transition:transform .2s" style-hover="transform:scale(1.06)">EN</div>
+        <svg width="72" height="72" viewBox="0 0 72 72" style="position:absolute;left:160px;top:557px;pointer-events:none" fill="none"><circle cx="36" cy="36" r="34" stroke="#E42127" stroke-width="4" stroke-dasharray="50 22 92 34" stroke-dashoffset="84" stroke-linecap="round"></circle></svg>
+        <sc-if value="{{ enPicked }}"><div style="position:absolute;left:160px;top:557px;width:72px;height:72px;border-radius:50%;box-shadow:0 0 0 6px rgba(228,33,39,.18);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ AUTORISATIONS ══════════ -->
+    <sc-if value="{{ isPermissions }}">
+      <div data-screen-label="02b Autorisations" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <div role="button" tabindex="0" onClick="{{ goLangue }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="#E42127" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 1.5 2 9l7.5 7.5"></path></svg>
+        </div>
+        <div style="position:absolute;left:94px;top:82px;display:flex;align-items:center;gap:10px">
+          <span style="width:28px;height:6px;border-radius:999px;background:#E42127;display:block"></span>
+          <span style="width:28px;height:6px;border-radius:999px;display:block;background:{{ permBar2 }}"></span>
+          <span style="font:500 13px/1 Inter,system-ui;color:#77732F;margin-left:4px">{{ permStepN }} sur 2</span>
+        </div>
+        <div style="position:absolute;left:32px;top:160px;width:150px;height:150px;display:grid;place-items:center">
+          <svg width="150" height="150" viewBox="0 0 150 150" style="position:absolute;inset:0" fill="none"><circle cx="75" cy="75" r="71" stroke="#E42127" stroke-width="5" stroke-dasharray="190 26 90 60 60 20" stroke-linecap="round"></circle></svg>
+          <sc-if value="{{ permLocStep }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative;width:44px;height:52px;animation:lldsPop .4s both">
+              <div style="position:absolute;left:-16px;top:-16px;width:76px;height:76px;border-radius:50%;background:rgba(228,33,39,.16);animation:lldsPulse 2.2s ease-out infinite"></div>
+              <svg width="44" height="52" viewBox="0 0 16 19" fill="none" stroke="#E42127" stroke-width="1.7" style="position:relative;display:block"><path d="M8 1.2c3.2 0 6 2.6 6 5.9 0 4.4-6 10.7-6 10.7S2 11.5 2 7.1C2 3.8 4.8 1.2 8 1.2Z" fill="#FBE9E9"></path><circle cx="8" cy="7" r="2.2" fill="#E42127"></circle></svg>
+            </div>
+          </sc-if>
+          <sc-if value="{{ permNotifStep }}">
+            <svg width="46" height="52" viewBox="0 0 46 52" fill="none" stroke="#E42127" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" style="animation:lldsBuzz .6s .35s ease-in-out 2,lldsPop .4s both"><path d="M23 4c-8.6 0-14 6.4-14 14.6v9.8L4 36.6h38l-5-8.2v-9.8C37 10.4 31.6 4 23 4Z" fill="#FBE9E9"></path><path d="M17 42.5a6.2 6.2 0 0 0 12 0"></path><circle cx="38" cy="9" r="6" fill="#E42127" stroke="none"></circle></svg>
+          </sc-if>
+        </div>
+        <div style="position:absolute;left:32px;right:32px;top:344px;display:flex;flex-direction:column;gap:14px">
+          <sc-if value="{{ permLocStep }}" hint-placeholder-val="{{ true }}">
+            <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Activez la localisation</div>
+            <div style="font:400 16px/1.45 Inter,system-ui;color:#77732F;text-wrap:pretty">Pour situer votre position sur le tracé et vous prévenir à l’approche de chaque arrêt.</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px">
+              <div style="display:flex;align-items:flex-start;gap:12px"><span style="flex:none;width:8px;height:8px;margin-top:7px;border-radius:50%;background:#E42127;display:block"></span><span style="font:400 15px/1.45 Inter,system-ui;color:#231F20">Choisissez <b style="font-weight:600">Toujours</b> pour être alerté téléphone en poche</span></div>
+              <div style="display:flex;align-items:flex-start;gap:12px"><span style="flex:none;width:8px;height:8px;margin-top:7px;border-radius:50%;background:#E42127;display:block"></span><span style="font:400 15px/1.45 Inter,system-ui;color:#231F20">Votre position n’est ni stockée, ni partagée</span></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ permNotifStep }}">
+            <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Activez les notifications</div>
+            <div style="font:400 16px/1.45 Inter,system-ui;color:#77732F;text-wrap:pretty">Pour savoir qu’une carte postale vous attend, même application fermée.</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px">
+              <div style="display:flex;align-items:flex-start;gap:12px"><span style="flex:none;width:8px;height:8px;margin-top:7px;border-radius:50%;background:#E42127;display:block"></span><span style="font:400 15px/1.45 Inter,system-ui;color:#231F20">Une alerte par arrêt, jamais de publicité</span></div>
+              <div style="display:flex;align-items:flex-start;gap:12px"><span style="flex:none;width:8px;height:8px;margin-top:7px;border-radius:50%;background:#E42127;display:block"></span><span style="font:400 15px/1.45 Inter,system-ui;color:#231F20">Modifiable à tout moment dans les réglages</span></div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="position:absolute;left:31px;right:31px;bottom:40px;display:flex;flex-direction:column;align-items:stretch;gap:18px">
+          <div role="button" tabindex="0" onClick="{{ permAllow }}" style="height:56px;border-radius:10px;background:#E42127;color:#FFFFFF;font:500 16px/56px Inter,system-ui;text-align:center;cursor:pointer;transition:background .18s" style-hover="background:#8C191C">{{ permCta }}</div>
+          <div role="button" tabindex="0" onClick="{{ permLater }}" style="text-align:center;font:400 15px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-hover="color:#5E5A22">Plus tard</div>
+        </div>
+        <sc-if value="{{ osDialog }}">
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,.34);animation:lldsIn .18s both"></div>
+          <div style="position:absolute;left:60px;right:60px;top:300px;border-radius:14px;background:rgba(242,242,247,.98);overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;animation:lldsPop .25s both">
+            <div style="padding:20px 16px 16px;display:flex;flex-direction:column;gap:6px;text-align:center">
+              <span style="font:600 16px/1.3 -apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;color:#000000">{{ osTitle }}</span>
+              <span style="font:400 13px/1.35 -apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;color:#1C1C1E">{{ osBody }}</span>
+            </div>
+            <sc-for list="{{ osOptions }}" as="o" hint-placeholder-count="3">
+              <div role="button" tabindex="0" onClick="{{ o.pick }}" style="height:44px;border-top:0.5px solid rgba(60,60,67,.3);display:grid;place-items:center;font-size:16px;color:#007AFF;cursor:pointer;font-weight:{{ o.weight }}" style-active="background:rgba(0,0,0,.06)">{{ o.label }}</div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ LIGNES ══════════ -->
+    <sc-if value="{{ isLignes }}">
+      <div data-screen-label="03 Choix de ligne" style="position:absolute;inset:0;background:#FFFDF2;overflow-y:auto;scrollbar-width:none;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <div style="position:relative;width:390px;height:1000px">
+          <svg viewBox="0 0 390 1000" style="position:absolute;inset:0;width:390px;height:1000px;opacity:.5" fill="none">
+            <g stroke="#F6A1A7" stroke-width="1.4" opacity=".6"><path d="M 420 560 C 300 640 180 790 130 990"></path><path d="M 470 620 C 340 700 230 850 190 1000"></path></g>
+          </svg>
+          <div role="button" tabindex="0" onClick="{{ goLangue }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+            <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+          </div>
+          <svg width="260" height="12" viewBox="0 0 260 12" style="position:absolute;left:94px;top:86px">
+            <line x1="6" y1="6" x2="254" y2="6" stroke="#F6A1A7" stroke-width="2"></line>
+            <circle cx="6" cy="6" r="5.5" fill="#E42127"></circle><circle cx="47" cy="6" r="5.5" fill="#E42127"></circle>
+            <circle cx="88" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+            <circle cx="129" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+            <circle cx="170" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+            <circle cx="211" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+            <circle cx="252" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          </svg>
+          <div style="position:absolute;left:32px;top:150px;font:600 34px/1.1 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Votre ligne&nbsp;?</div>
+          <sc-if value="{{ locOn }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:31px;top:205px;width:328px;height:48px;border-radius:8px;background:#EAE7BF;display:flex;align-items:center;gap:10px;padding:0 18px;box-sizing:border-box">
+            <svg width="16" height="19" viewBox="0 0 16 19" fill="none" stroke="#77732F" stroke-width="1.7"><path d="M8 1.2c3.2 0 6 2.6 6 5.9 0 4.4-6 10.7-6 10.7S2 11.5 2 7.1C2 3.8 4.8 1.2 8 1.2Z"></path><circle cx="8" cy="7" r="2.2"></circle></svg>
+            <span style="font:400 15px/1 Inter,system-ui;color:#231F20">Près de vous&nbsp;: la <b style="font-weight:700">L87</b> passe à 1,2km.</span>
+          </div></sc-if>
+          <sc-if value="{{ locOff }}"><div role="button" tabindex="0" onClick="{{ goPermissions }}" style="position:absolute;left:31px;top:205px;width:328px;height:48px;border-radius:8px;box-shadow:inset 0 0 0 2px #B8B248;display:flex;align-items:center;gap:10px;padding:0 18px;box-sizing:border-box;cursor:pointer" style-hover="background:#F5F1D9">
+            <svg width="16" height="19" viewBox="0 0 16 19" fill="none" stroke="#77732F" stroke-width="1.7"><path d="M8 1.2c3.2 0 6 2.6 6 5.9 0 4.4-6 10.7-6 10.7S2 11.5 2 7.1C2 3.8 4.8 1.2 8 1.2Z"></path><path d="M1.5 1.5l13 16" stroke-linecap="round"></path></svg>
+            <span style="flex:1;font:400 14.5px/1.2 Inter,system-ui;color:#231F20">Localisation désactivée</span>
+            <span style="font:500 14px/1 Inter,system-ui;color:#E42127;text-decoration:underline;text-underline-offset:3px">Activer</span>
+          </div></sc-if>
+
+          <sc-for list="{{ lignes }}" as="l" hint-placeholder-count="5">
+            <div role="button" tabindex="0" onClick="{{ l.pick }}" style="position:absolute;left:31px;width:328px;cursor:pointer;top:{{ l.top }}px;height:{{ l.h }}px">
+              <svg width="328" height="{{ l.h }}" viewBox="0 0 328 {{ l.h }}" style="position:absolute;inset:0" fill="none"><rect x="1.4" y="1.4" width="325.2" height="{{ l.rectH }}" rx="13" stroke="{{ l.stroke }}" stroke-width="2.6" stroke-dasharray="{{ l.dash }}" stroke-dashoffset="{{ l.dashOffset }}" stroke-linecap="round"></rect></svg>
+              <div style="position:absolute;left:12px;top:10px;width:76px;height:54px;border:2px solid #B8B248;box-sizing:border-box;overflow:hidden;background:#EDE7D6;background-image:url({{ l.img }});background-size:cover;background-position:center;filter:grayscale(1) sepia(.22) contrast(.96)"></div>
+              <div style="position:absolute;left:100px;top:11px;display:flex;flex-direction:column;gap:3px;right:{{ l.textRight }}">
+                <div style="display:flex;align-items:baseline;gap:8px;white-space:nowrap">
+                  <span style="font:700 20px/1.1 Inter,system-ui;letter-spacing:-.02em;color:{{ l.code }}">{{ l.id }}</span>
+                  <span style="font:500 italic 14px/1.15 Inter,system-ui;color:{{ l.code }};overflow:hidden;text-overflow:ellipsis">{{ l.name }}</span>
+                </div>
+                <div style="font:400 12.5px/15px Inter,system-ui;color:{{ l.meta }}">{{ l.sub }}</div>
+              </div>
+              <sc-if value="{{ l.suggested }}"><div style="position:absolute;right:14px;bottom:11px;height:26px;padding:0 13px;border-radius:999px;background:#EAE7BF;color:#5E5A22;font:400 12.5px/26px Inter,system-ui">Suggérée</div></sc-if>
+              <div style="position:absolute;left:{{ l.markX }}px;bottom:-9px;font:700 11px/1 Inter,system-ui;color:#E42127;letter-spacing:.06em">{{ l.mark }}</div>
+            </div>
+          </sc-for>
+
+          <sc-if value="{{ notGuest }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;left:0;right:0;top:790px;display:grid;place-items:center;animation:lldsBlink 2.4s ease-in-out infinite">
+            <svg width="54" height="34" viewBox="0 0 54 34" fill="none" stroke="#231F20" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l21 11L48 6"></path><path d="M6 17l21 11 21-11"></path></svg>
+          </div>
+          </sc-if>
+          <sc-if value="{{ guest }}">
+          <div style="position:absolute;left:31px;top:748px;width:328px;padding:16px 18px;box-sizing:border-box;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #E42127;display:flex;flex-direction:column;gap:10px;animation:lldsIn .3s both">
+            <div style="display:flex;align-items:center;gap:10px">
+              <svg width="18" height="18" viewBox="0 0 17 17" fill="#E42127"><circle cx="8.5" cy="5" r="3.4"></circle><path d="M1.8 16c0-3.6 3-5.6 6.7-5.6s6.7 2 6.7 5.6z"></path></svg>
+              <span style="font:600 15px/1.2 Inter,system-ui;color:#231F20">Mode invité</span>
+            </div>
+            <span style="font:400 13.5px/1.4 Inter,system-ui;color:#231F20">Aperçu gratuit de chaque expérience. Vos points et cachets ne seront pas conservés.</span>
+            <span role="button" tabindex="0" onClick="{{ goInscription }}" style="align-self:flex-start;font:500 14px/1 Inter,system-ui;color:#E42127;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px 0">Créer un compte gratuit</span>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ DÉTAIL DE LIGNE ══════════ -->
+    <sc-if value="{{ isLigne }}">
+      <div data-screen-label="03b Détail de ligne" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <div role="button" tabindex="0" onClick="{{ goLignes }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+        </div>
+        <svg width="260" height="12" viewBox="0 0 260 12" style="position:absolute;left:94px;top:86px">
+          <line x1="6" y1="6" x2="254" y2="6" stroke="#F6A1A7" stroke-width="2"></line>
+          <circle cx="6" cy="6" r="5.5" fill="#E42127"></circle><circle cx="47" cy="6" r="5.5" fill="#E42127"></circle>
+          <circle cx="88" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="129" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="170" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="211" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="252" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+        </svg>
+
+        <div style="position:absolute;left:32px;right:32px;top:138px;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:baseline;gap:12px;white-space:nowrap">
+            <span style="font:700 34px/1.1 Inter,system-ui;letter-spacing:-.025em;color:#231F20">{{ ld.id }}</span>
+            <span style="font:500 italic 20px/1.1 Inter,system-ui;color:#231F20;overflow:hidden;text-overflow:ellipsis">{{ ld.name }}</span>
+          </div>
+          <span style="font:400 14px/1.3 Inter,system-ui;color:#77732F">{{ ld.sub }}</span>
+        </div>
+
+        <div style="position:absolute;left:31px;top:214px;width:328px;height:150px;border:2px solid #B8B248;box-sizing:border-box;overflow:hidden;background:#EDE7D6;background-size:cover;background-position:center;filter:grayscale(1) sepia(.22) contrast(.96);background-image:url({{ ld.img }})"></div>
+
+        <div style="position:absolute;left:31px;top:388px;width:328px;display:flex;flex-direction:column;gap:10px">
+          <span style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">SENS DE PARCOURS</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;border-radius:10px;box-shadow:inset 0 0 0 2px #B8B248">
+            <div role="button" tabindex="0" onClick="{{ setDirA }}" style="height:38px;border-radius:7px;display:grid;place-items:center;font:500 13.5px/1 Inter,system-ui;cursor:pointer;transition:background .18s,color .18s;background:{{ ld.aBg }};color:{{ ld.aFg }}">{{ ld.dirA }}</div>
+            <div role="button" tabindex="0" onClick="{{ setDirB }}" style="height:38px;border-radius:7px;display:grid;place-items:center;font:500 13.5px/1 Inter,system-ui;cursor:pointer;transition:background .18s,color .18s;background:{{ ld.bBg }};color:{{ ld.bFg }}">{{ ld.dirB }}</div>
+          </div>
+        </div>
+
+        <div style="position:absolute;left:31px;top:478px;width:328px;height:56px">
+          <div style="position:absolute;left:7px;right:7px;top:6px;height:3px;background:#231F20"></div>
+          <sc-for list="{{ ld.dots }}" as="d" hint-placeholder-count="11">
+            <div style="position:absolute;top:0;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;box-sizing:border-box;left:{{ d.x }}px;background:{{ d.bg }};box-shadow:inset 0 0 0 {{ d.ring }}px #231F20"></div>
+          </sc-for>
+          <span style="position:absolute;left:0;top:28px;font:700 11.5px/1 Inter,system-ui;letter-spacing:.08em;color:#231F20">{{ ld.fromLabel }}</span>
+          <span style="position:absolute;right:0;top:28px;font:700 11.5px/1 Inter,system-ui;letter-spacing:.08em;color:#231F20">{{ ld.toLabel }}</span>
+          <sc-if value="{{ ld.showCurrent }}">
+            <span style="position:absolute;top:28px;transform:translateX(-50%);font:700 11.5px/1 Inter,system-ui;letter-spacing:.08em;color:#E42127;white-space:nowrap;left:{{ ld.currentX }}px">{{ ld.currentLabel }}</span>
+          </sc-if>
+        </div>
+
+        <div style="position:absolute;left:31px;top:556px;width:328px;padding:14px 18px;box-sizing:border-box;border-radius:8px;background:#EAE7BF;display:flex;align-items:center;gap:14px">
+          <img src="llds/img/cachet-biere.png" alt="" style="width:40px;height:40px;display:block;flex:none;opacity:{{ ld.stampOp }}">
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+            <span style="font:600 15px/1.25 Inter,system-ui;color:#231F20">{{ ld.statusTitle }}</span>
+            <span style="font:400 13.5px/1.3 Inter,system-ui;color:#5E5A22">{{ ld.statusSub }}</span>
+          </div>
+        </div>
+
+        <div style="position:absolute;left:31px;right:31px;bottom:34px;display:flex;flex-direction:column;align-items:stretch;gap:18px">
+          <div role="button" tabindex="0" onClick="{{ ld.cta }}" style="height:60px;border-radius:8px;background:#77732F;display:flex;align-items:center;justify-content:space-between;padding:0 26px;box-sizing:border-box;cursor:pointer;transition:background .18s" style-hover="background:#635F26">
+            <span style="font:500 16px/1 Inter,system-ui;letter-spacing:.06em;color:#FFFDF2">{{ ld.ctaLabel }}</span>
+            <svg width="26" height="18" viewBox="0 0 26 18" fill="none" stroke="#FFFDF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9h23"></path><path d="M17 2l7 7-7 7"></path></svg>
+          </div>
+          <sc-if value="{{ ld.hasLink }}">
+            <div role="button" tabindex="0" onClick="{{ ld.link }}" style="text-align:center;font:400 15px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-hover="color:#5E5A22">{{ ld.linkLabel }}</div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ TRANSPORT ══════════ -->
+    <sc-if value="{{ isTransport }}">
+      <div data-screen-label="04 Transport" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px;opacity:.5">
+          <g fill="none" stroke="#F6A1A7" stroke-width="1.4" opacity=".55"><path d="M -60 620 C 90 520 250 470 460 430"></path><path d="M -40 780 C 120 660 300 610 470 580"></path></g>
+          <g fill="#F6A1A7" opacity=".26"><rect x="10" y="500" width="48" height="28" rx="3" transform="rotate(-14 34 514)"></rect><rect x="280" y="520" width="52" height="30" rx="3" transform="rotate(10 306 535)"></rect><rect x="176" y="700" width="76" height="44" rx="3" transform="rotate(-7 214 722)"></rect><rect x="60" y="760" width="40" height="24" rx="3" transform="rotate(16 80 772)"></rect></g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goLigne }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+        </div>
+        <svg width="260" height="12" viewBox="0 0 260 12" style="position:absolute;left:94px;top:86px">
+          <line x1="6" y1="6" x2="254" y2="6" stroke="#F6A1A7" stroke-width="2"></line>
+          <circle cx="6" cy="6" r="5.5" fill="#E42127"></circle><circle cx="47" cy="6" r="5.5" fill="#E42127"></circle><circle cx="88" cy="6" r="5.5" fill="#E42127"></circle>
+          <circle cx="129" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="170" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="211" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="252" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+        </svg>
+        <div style="position:absolute;left:32px;right:32px;top:138px;display:flex;flex-direction:column;gap:11px">
+          <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Votre mode de transport&nbsp;?</div>
+          <div style="font:400 16px/1.2 Inter,system-ui;color:#77732F">Un parcours qui s’adapte à votre rythme.</div>
+        </div>
+
+        <svg viewBox="0 0 390 560" style="position:absolute;left:0;top:250px;width:390px;height:560px" fill="none">
+          <g stroke="#231F20" stroke-width="4.5" stroke-linecap="round" fill="none">
+            <path d="M 85 202 L 85 78 Q 85 62 101 62 L 160 62"></path>
+            <path d="M 232 62 L 340 62 Q 356 62 356 78 L 356 395 Q 356 411 340 411 L 250 411"></path>
+            <path d="M 196 98 L 196 166"></path><path d="M 196 238 L 196 307"></path>
+            <path d="M 85 202 L 160 202"></path><path d="M 85 202 L 50 202 Q 34 202 34 218 L 34 246"></path>
+            <path d="M 232 343 L 356 343"></path>
+          </g>
+          <g stroke="#231F20" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="1.5 13" fill="none"><path d="M 34 276 L 34 372"></path><path d="M 150 411 L 214 411"></path></g>
+          <g stroke="#E42127" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".9"><path d="M 52 60 Q 72 40 96 44"></path><path d="M 20 250 L 20 296"></path><path d="M 246 372 L 306 372"></path></g>
+          <circle cx="85" cy="140" r="7" fill="#E42127"></circle>
+          <circle cx="85" cy="202" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <circle cx="272" cy="62" r="7.5" fill="#E42127"></circle>
+          <circle cx="356" cy="170" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <circle cx="356" cy="208" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <circle cx="340" cy="343" r="7.5" fill="#E42127"></circle>
+          <circle cx="326" cy="411" r="7.5" fill="#E42127"></circle>
+          <circle cx="272" cy="411" r="6" fill="#FFFDF2" stroke="#231F20" stroke-width="3.4"></circle>
+          <g transform="translate(100 17)" stroke="#E42127" stroke-width="2.6" stroke-linecap="round"><path d="M1 1l8 8M9 1l-8 8"></path></g>
+          <g transform="translate(292 32)" fill="#E42127"><path d="M1 0c4 2 4 10 0 12 5 0 7-3 7-6S6 0 1 0z"></path><path d="M8 0c4 2 4 10 0 12 5 0 7-3 7-6s-2-6-7-6z"></path></g>
+        </svg>
+
+        <div role="button" tabindex="0" onClick="{{ pickPied }}" style="position:absolute;left:160px;top:276px;width:72px;height:72px;border-radius:50%;background:#FFFDF2;display:grid;place-items:center;cursor:pointer;transition:transform .2s" style-hover="transform:scale(1.06)">
+          <img src="llds/svg/ic-walk.svg" alt="À pied" style="width:23.07px;height:30.705px;display:block">
+        </div>
+        <svg width="72" height="72" viewBox="0 0 72 72" style="position:absolute;left:160px;top:276px;pointer-events:none" fill="none"><circle cx="36" cy="36" r="34" stroke="#E42127" stroke-width="4" stroke-dasharray="96 22 48 48" stroke-linecap="round"></circle></svg>
+        <sc-if value="{{ piedPicked }}"><div style="position:absolute;left:160px;top:276px;width:72px;height:72px;border-radius:50%;box-shadow:0 0 0 6px rgba(228,33,39,.18);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+
+        <div role="button" tabindex="0" onClick="{{ pickVelo }}" style="position:absolute;left:160px;top:416px;width:72px;height:72px;border-radius:50%;background:#FFFDF2;display:grid;place-items:center;cursor:pointer;transition:transform .2s" style-hover="transform:scale(1.06)">
+          <img src="llds/svg/ic-bike.svg" alt="À vélo" style="width:28px;height:23.917px;display:block">
+        </div>
+        <svg width="72" height="72" viewBox="0 0 72 72" style="position:absolute;left:160px;top:416px;pointer-events:none" fill="none"><circle cx="36" cy="36" r="34" stroke="#E42127" stroke-width="4" stroke-dasharray="64 20 80 30" stroke-dashoffset="40" stroke-linecap="round"></circle></svg>
+        <sc-if value="{{ veloPicked }}"><div style="position:absolute;left:160px;top:416px;width:72px;height:72px;border-radius:50%;box-shadow:0 0 0 6px rgba(228,33,39,.18);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+
+        <div role="button" tabindex="0" onClick="{{ pickAuto }}" style="position:absolute;left:160px;top:557px;width:72px;height:72px;border-radius:50%;background:#FFFDF2;display:grid;place-items:center;cursor:pointer;transition:transform .2s" style-hover="transform:scale(1.06)">
+          <img src="llds/svg/ic-car.svg" alt="En voiture" style="width:25.23px;height:22.203px;display:block">
+        </div>
+        <svg width="72" height="72" viewBox="0 0 72 72" style="position:absolute;left:160px;top:557px;pointer-events:none" fill="none"><circle cx="36" cy="36" r="34" stroke="#E42127" stroke-width="4" stroke-dasharray="50 22 92 34" stroke-dashoffset="84" stroke-linecap="round"></circle></svg>
+        <sc-if value="{{ autoPicked }}"><div style="position:absolute;left:160px;top:557px;width:72px;height:72px;border-radius:50%;box-shadow:0 0 0 6px rgba(228,33,39,.18);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ EXPÉRIENCE ══════════ -->
+    <sc-if value="{{ isExperience }}">
+      <div data-screen-label="05 Type d’expérience" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px;opacity:.5">
+          <g fill="none" stroke="#F6A1A7" stroke-width="1.4" opacity=".5"><path d="M 420 330 C 300 420 160 560 60 852"></path><path d="M 470 400 C 350 490 210 640 120 852"></path></g>
+          <g fill="#F6A1A7" opacity=".24"><rect x="96" y="580" width="60" height="120" rx="4" transform="rotate(-12 126 640)"></rect><rect x="240" y="690" width="70" height="46" rx="3" transform="rotate(8 275 713)"></rect><rect x="130" y="520" width="34" height="22" rx="2" transform="rotate(-20 147 531)"></rect><rect x="290" y="420" width="44" height="26" rx="3" transform="rotate(14 312 433)"></rect></g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goTransport }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+        </div>
+        <svg width="260" height="12" viewBox="0 0 260 12" style="position:absolute;left:94px;top:86px">
+          <line x1="6" y1="6" x2="254" y2="6" stroke="#F6A1A7" stroke-width="2"></line>
+          <circle cx="6" cy="6" r="5.5" fill="#E42127"></circle><circle cx="47" cy="6" r="5.5" fill="#E42127"></circle><circle cx="88" cy="6" r="5.5" fill="#E42127"></circle><circle cx="129" cy="6" r="5.5" fill="#E42127"></circle>
+          <circle cx="170" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="211" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+          <circle cx="252" cy="6" r="5" fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.6"></circle>
+        </svg>
+        <div style="position:absolute;left:32px;right:32px;top:138px;display:flex;flex-direction:column;gap:11px">
+          <div style="font:600 32px/1.14 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Votre type d’expérience&nbsp;?</div>
+          <div style="font:400 16px/1.2 Inter,system-ui;color:#77732F">Modifiable à tout moment.</div>
+        </div>
+
+        <div role="button" tabindex="0" onClick="{{ pickExpComplete }}" style="position:absolute;left:31px;top:274px;width:328px;height:136px;cursor:pointer">
+          <svg width="328" height="136" viewBox="0 0 328 136" style="position:absolute;inset:0" fill="none"><rect x="1.4" y="1.4" width="325.2" height="133.2" rx="13" stroke="#231F20" stroke-width="2.6" stroke-dasharray="30 12 46 14 250 14 170 14" stroke-linecap="round"></rect></svg>
+          <div style="position:absolute;left:50px;top:24px;display:flex;align-items:center;gap:14px">
+            <img src="llds/svg/play-sq.svg" alt="" style="width:30px;height:30px;display:block">
+            <span style="font:600 21px/1 Inter,system-ui;letter-spacing:-.02em;color:#231F20">Expérience complète</span>
+          </div>
+          <div style="position:absolute;left:50px;top:62px;right:26px;bottom:18px;font:400 14.5px/1.38 Inter,system-ui;color:#231F20;text-wrap:pretty">Cartes postales animées + narration. Le lieu reprend vie sous vos yeux.</div>
+          <div style="position:absolute;left:-3px;top:46px;font:700 11px/1 Inter,system-ui;color:#E42127"><svg width="10" height="10" viewBox="0 0 10 10" stroke="#E42127" stroke-width="2.6" stroke-linecap="round" style="display:block"><path d="M1 1l8 8M9 1l-8 8"></path></svg></div>
+          <sc-if value="{{ expCompletePicked }}"><div style="position:absolute;inset:-4px;border-radius:17px;box-shadow:0 0 0 4px rgba(228,33,39,.16);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+        </div>
+
+        <div role="button" tabindex="0" onClick="{{ pickExpAudio }}" style="position:absolute;left:31px;top:428px;width:328px;height:136px;cursor:pointer">
+          <svg width="328" height="136" viewBox="0 0 328 136" style="position:absolute;inset:0" fill="none"><rect x="1.4" y="1.4" width="325.2" height="133.2" rx="13" stroke="#231F20" stroke-width="2.6" stroke-dasharray="210 14 40 14 60 14 190 14" stroke-dashoffset="-40" stroke-linecap="round"></rect></svg>
+          <div style="position:absolute;left:50px;top:24px;display:flex;align-items:center;gap:14px">
+            <img src="llds/svg/speaker.svg" alt="" style="width:29px;height:21.47px;display:block">
+            <span style="font:600 21px/1 Inter,system-ui;letter-spacing:-.02em;color:#231F20">Audio uniquement</span>
+          </div>
+          <div style="position:absolute;left:50px;top:62px;right:26px;bottom:18px;font:400 14.5px/1.38 Inter,system-ui;color:#231F20;text-wrap:pretty">La narration seule, les yeux sur le paysage. Idéal en roulant.</div>
+          <div style="position:absolute;left:150px;top:-9px;font:700 11px/1 Inter,system-ui;color:#E42127"><svg width="16" height="12" viewBox="0 0 16 12" fill="#E42127" style="display:block"><path d="M1 0c4 2 4 10 0 12 5 0 7-3 7-6S6 0 1 0z"></path><path d="M8 0c4 2 4 10 0 12 5 0 7-3 7-6s-2-6-7-6z"></path></svg></div>
+          <div style="position:absolute;right:-5px;top:52px;font:700 13px/1 Inter,system-ui;color:#E42127"><svg width="8" height="14" viewBox="0 0 8 14" fill="#E42127" style="display:block"><path d="M4 0l4 7-4 7-4-7z"></path></svg></div>
+          <sc-if value="{{ expAudioPicked }}"><div style="position:absolute;inset:-4px;border-radius:17px;box-shadow:0 0 0 4px rgba(228,33,39,.16);animation:lldsPop .3s both;pointer-events:none"></div></sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ PRÊT ══════════ -->
+    <sc-if value="{{ isPret }}">
+      <div data-screen-label="06 Prêt pour le départ" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px;opacity:.5">
+          <g fill="none" stroke="#F6A1A7" stroke-width="1.4" opacity=".5"><path d="M -40 700 C 120 600 280 560 460 520"></path></g>
+          <g fill="#F6A1A7" opacity=".24"><rect x="40" y="640" width="70" height="42" rx="3" transform="rotate(-10 75 661)"></rect><rect x="250" y="600" width="56" height="34" rx="3" transform="rotate(12 278 617)"></rect></g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goExperience }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer" style-hover="background:#FBE9E9">
+          <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+        </div>
+        <svg width="260" height="12" viewBox="0 0 260 12" style="position:absolute;left:94px;top:86px">
+          <line x1="6" y1="6" x2="254" y2="6" stroke="#F6A1A7" stroke-width="2"></line>
+          <circle cx="6" cy="6" r="5.5" fill="#E42127"></circle><circle cx="47" cy="6" r="5.5" fill="#E42127"></circle><circle cx="88" cy="6" r="5.5" fill="#E42127"></circle><circle cx="129" cy="6" r="5.5" fill="#E42127"></circle><circle cx="170" cy="6" r="5.5" fill="#E42127"></circle><circle cx="211" cy="6" r="5.5" fill="#E42127"></circle><circle cx="252" cy="6" r="5.5" fill="#E42127"></circle>
+        </svg>
+        <div style="position:absolute;left:32px;top:150px;font:600 34px/1.1 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Prêt pour le départ&nbsp;!</div>
+
+        <div style="position:absolute;left:31px;top:224px;width:328px">
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:17px 4px;border-bottom:1px solid #B8B248">
+              <span style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">LANGUE</span>
+              <span style="font:500 16px/1 Inter,system-ui;color:#231F20">{{ langLabel }}</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:17px 4px;border-bottom:1px solid #B8B248">
+              <span style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">LIGNE</span>
+              <span style="font:500 16px/1 Inter,system-ui;color:#231F20">{{ ligneLabel }}</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:17px 4px;border-bottom:1px solid #B8B248">
+              <span style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">TRANSPORT</span>
+              <span style="font:500 16px/1 Inter,system-ui;color:#231F20">{{ transportLabel }}</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:17px 4px">
+              <span style="font:500 13px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">EXPÉRIENCE</span>
+              <span style="font:500 16px/1 Inter,system-ui;color:#231F20">{{ expLabel }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="position:absolute;left:31px;top:500px;width:328px;height:66px;border-radius:8px;background:#EAE7BF;display:flex;align-items:center;gap:14px;padding:0 20px;box-sizing:border-box">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#77732F" stroke-width="2"><circle cx="11" cy="11" r="9.2"></circle><path d="M11 6.4v5.2l3.4 2"></path></svg>
+          <span style="font:400 14.5px/1.3 Inter,system-ui;color:#5E5A22">11 arrêts · 18 km · environ 4 h à pied.<br>5 cachets à récolter sur cette ligne.</span>
+        </div>
+
+        <div style="position:absolute;left:31px;top:586px;width:328px;height:92px;padding:0 14px 0 18px;box-sizing:border-box;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;display:flex;flex-direction:column;justify-content:center;gap:10px">
+          <sc-if value="{{ dlNone }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                <span style="font:600 15px/1.2 Inter,system-ui;color:#231F20;white-space:nowrap">Télécharger la ligne</span>
+                <span style="font:400 13px/1.3 Inter,system-ui;color:#77732F;white-space:nowrap">180 Mo · sans réseau</span>
+              </div>
+              <div role="button" tabindex="0" onClick="{{ startDl }}" aria-label="Télécharger la ligne" style="flex:none;width:44px;height:44px;border-radius:50%;background:#77732F;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#635F26">
+                <svg width="16" height="18" viewBox="0 0 16 18" fill="none" stroke="#FFFDF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5v11"></path><path d="M3 8l5 5 5-5"></path><path d="M2 16.5h12"></path></svg>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ dlLoading }}">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <span style="font:600 15px/1.2 Inter,system-ui;color:#231F20">Téléchargement… {{ dlPct }}&nbsp;%</span>
+              <span role="button" tabindex="0" onClick="{{ cancelDl }}" style="font:400 14px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 0">Annuler</span>
+            </div>
+            <div style="height:6px;border-radius:999px;background:#EAE7BF;overflow:hidden"><div style="height:100%;border-radius:999px;background:#77732F;transition:width .15s linear;width:{{ dlPct }}%"></div></div>
+            <span style="font:400 12.5px/1 Inter,system-ui;color:#77732F">{{ dlMo }} Mo sur 180 Mo · restez en Wi-Fi</span>
+          </sc-if>
+          <sc-if value="{{ dlDone }}">
+            <div style="display:flex;align-items:center;gap:14px;animation:lldsIn .3s both">
+              <svg width="28" height="28" viewBox="0 0 30 30" fill="none" style="flex:none;animation:lldsPop .4s both"><circle cx="15" cy="15" r="15" fill="#E42127"></circle><path d="M8.6 15.4l4.2 4.2 8.6-8.6" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="font:600 15px/1.2 Inter,system-ui;color:#231F20">Ligne disponible hors connexion</span>
+                <span style="font:400 13px/1.3 Inter,system-ui;color:#77732F">180 Mo · vidéos, audio et carte</span>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <div role="button" tabindex="0" onClick="{{ goMap }}" style="position:absolute;left:31px;top:700px;width:328px;height:60px;border-radius:8px;background:#77732F;display:flex;align-items:center;justify-content:space-between;padding:0 26px;box-sizing:border-box;cursor:pointer;transition:background .18s" style-hover="background:#635F26">
+          <span style="font:500 16px/1 Inter,system-ui;letter-spacing:.06em;color:#FFFDF2">COMMENCER LE PARCOURS</span>
+          <svg width="26" height="18" viewBox="0 0 26 18" fill="none" stroke="#FFFDF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9h23"></path><path d="M17 2l7 7-7 7"></path></svg>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ CARTE ══════════ -->
+    <sc-if value="{{ isMap }}">
+      <div data-screen-label="07 Carte du parcours" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px" fill="none">
+          <path d="M 65 719 C 62 680 78 640 96 612 C 108 594 112 588 117 587 C 126 585 132 566 142 546 C 150 531 168 526 196 526 C 212 526 224 526 230 524" stroke="#231F20" stroke-width="7" stroke-linecap="round" stroke-dasharray="360" stroke-dashoffset="360" style="animation:lldsDraw 1.1s ease-out .15s forwards"></path>
+          <path d="M 230 524 C 224 510 214 486 209 450 C 204 414 226 390 250 366 C 270 346 280 334 284 326 C 292 310 296 280 292 250 C 290 232 290 214 290 198 C 290 182 290 172 291 161 C 292 140 288 110 285 90 C 283 74 283 58 283 47" stroke="#231F20" stroke-width="7" stroke-linecap="round" opacity=".92"></path>
+
+          <g font-family="Inter" font-size="15" font-weight="700" fill="#231F20" letter-spacing="1.1">
+            <text x="94" y="723">BASSILY</text><text x="128" y="500">LESSINES</text><text x="190" y="331">FLOBECQ</text><text x="166" y="205">ELLEZELLES</text><text x="308" y="52">RENAIX</text>
+          </g>
+          <g fill="#E42127"><circle cx="65" cy="719" r="13"></circle><circle cx="117" cy="587" r="13"></circle><circle cx="142" cy="546" r="13"></circle><circle cx="196" cy="526" r="13"></circle></g>
+          <g fill="#FFFDF2" stroke="#F6A1A7" stroke-width="1.8" stroke-dasharray="4 3.4">
+            <circle cx="209" cy="450" r="12"></circle><circle cx="284" cy="326" r="12"></circle><circle cx="290" cy="237" r="12"></circle><circle cx="290" cy="198" r="12"></circle><circle cx="291" cy="161" r="12"></circle><circle cx="283" cy="47" r="12"></circle>
+          </g>
+          <circle cx="230" cy="524" r="13" fill="#FFFDF2" stroke="#E42127" stroke-width="3" stroke-dasharray="11 6"></circle>
+          <circle cx="230" cy="524" r="5" fill="#E42127"></circle>
+        </svg>
+        <img src="llds/svg/lock.svg" alt="" style="position:absolute;left:202px;top:443px;width:14px;height:14px">
+        <img src="llds/svg/lock.svg" alt="" style="position:absolute;left:277px;top:319px;width:14px;height:14px">
+        <img src="llds/svg/lock.svg" alt="" style="position:absolute;left:283px;top:230px;width:14px;height:14px">
+        <img src="llds/svg/lock.svg" alt="" style="position:absolute;left:283px;top:191px;width:14px;height:14px">
+        <img src="llds/svg/lock.svg" alt="" style="position:absolute;left:284px;top:154px;width:14px;height:14px">
+        <img src="llds/svg/lock.svg" alt="" style="position:absolute;left:276px;top:40px;width:14px;height:14px">
+
+        <div style="position:absolute;left:161px;top:539px;width:35px;height:35px;display:grid;place-items:center">
+          <div style="position:absolute;inset:0;border-radius:50%;background:rgba(184,178,72,.24);animation:lldsPulse 2.2s ease-out infinite"></div>
+          <div style="position:relative;width:16px;height:16px;border-radius:50%;background:#B8B248;box-shadow:inset 0 0 0 2px #FFFDF2"></div>
+        </div>
+
+        <div style="position:absolute;left:27px;top:55px;height:39px;padding:0 16px;border-radius:20px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;display:flex;align-items:center;gap:10px">
+          <span style="font:700 12px/1 Inter,system-ui;color:#231F20">L87</span>
+          <span style="font:400 12px/1 Inter,system-ui;color:#231F20">Bassilly - Renaix</span>
+        </div>
+        <div role="button" tabindex="0" onClick="{{ goProfil }}" style="position:absolute;left:210px;top:55px;width:39px;height:39px;border-radius:50%;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#F5F1D9">
+          <img src="llds/svg/profile.svg" alt="" style="width:15px;height:15px;display:block">
+        </div>
+        <div role="button" tabindex="0" onClick="{{ goParametres }}" style="position:absolute;left:31px;top:200px;width:39px;height:39px;border-radius:50%;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#F5F1D9">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#77732F" stroke-width="1.9"><circle cx="10" cy="10" r="3"></circle><path d="M10 1.4v2.2M10 16.4v2.2M18.6 10h-2.2M3.6 10H1.4M16.1 3.9l-1.6 1.6M5.5 14.5l-1.6 1.6M16.1 16.1l-1.6-1.6M5.5 5.5 3.9 3.9"></path></svg>
+        </div>
+        <div role="button" tabindex="0" onClick="{{ goCachets }}" style="position:absolute;left:31px;top:249px;width:39px;height:39px;border-radius:50%;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#F5F1D9">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#77732F" stroke-width="1.8"><circle cx="10" cy="10" r="8"></circle><circle cx="10" cy="10" r="4.6" stroke-dasharray="3 2.4"></circle></svg>
+        </div>
+
+        <div role="button" tabindex="0" onClick="{{ openLigne }}" style="position:absolute;left:31px;top:110px;width:123px;padding:12px 14px;box-sizing:border-box;border-radius:5px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;cursor:pointer;transition:background .18s" style-hover="background:#F5F1D9">
+          <div style="font:400 12px/17px Inter,system-ui;color:#77732F">4/11 arrêts<br>120/560 points<br>1/5 cachets</div>
+          <img src="llds/svg/medal.svg" alt="" style="position:absolute;right:11px;top:9px;width:11.667px;height:16.667px">
+        </div>
+
+        <div style="position:absolute;left:31px;top:745px;width:328px;height:85px;border-radius:8px;background:#77732F;display:flex;align-items:center;padding:0 22px;box-sizing:border-box;gap:16px">
+          <img src="llds/svg/arrow-up.svg" alt="" style="width:17.5px;height:20.667px;display:block">
+          <div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px">
+            <img src="llds/svg/walk.svg" alt="" style="width:12px;height:12.586px;display:block;align-self:flex-end;margin-bottom:3px">
+            <div style="flex:1;min-width:0">
+            <div style="font:500 19px/1.2 Inter,system-ui;color:#FFFDF2">Continuez tout droit</div>
+            <div style="font:400 12.5px/1.25 Inter,system-ui;color:rgba(255,253,242,.72);margin-top:3px">À pied · prochain arrêt : gare de Lessines</div>
+            </div>
+          </div>
+          <span style="font:400 16px/1 Inter,system-ui;color:#FFFDF2;white-space:nowrap">150 m</span>
+        </div>
+
+        
+
+        <sc-if value="{{ ligneOpen }}">
+          <div style="position:absolute;inset:0;background:rgba(35,31,32,.32);animation:lldsIn .22s both"></div>
+          <div style="position:absolute;left:12px;right:12px;bottom:14px;top:52px;border-radius:26px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #77732F;overflow:hidden;animation:lldsUp .34s cubic-bezier(.2,.7,.2,1) both">
+            <div style="position:absolute;left:50%;top:16px;width:44px;height:5px;margin-left:-22px;border-radius:10px;background:#77732F"></div>
+            <div style="position:absolute;left:28px;right:28px;top:56px;display:flex;align-items:baseline;gap:12px">
+              <span style="font:400 46px/1 Inter,system-ui;letter-spacing:-.03em;color:#231F20">L87</span>
+              <span style="font:600 italic 24px/1 Inter,system-ui;color:#231F20">Bassilly - Renaix</span>
+            </div>
+            <p style="position:absolute;left:28px;right:28px;top:118px;margin:0;font:400 16px/1.42 Inter,system-ui;color:#231F20;text-wrap:pretty">La <b style="font-weight:700">Ligne 87</b> est une ancienne ligne de chemin de fer belge en grande partie fermée et désaffectée, qui reliait autrefois Bassilly à Tournai en passant par Renaix, Flobecq et Ellezelles.</p>
+            <div style="position:absolute;left:28px;right:28px;top:250px;border-radius:14px;box-shadow:inset 0 0 0 2px #77732F;padding:18px 18px 14px;box-sizing:border-box">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:13px;border-bottom:1px solid #B8B248">
+                <span style="font:500 15px/1 Inter,system-ui;letter-spacing:.04em;color:#77732F">ARRÊTS VISITÉS</span><span style="font:500 17px/1 Inter,system-ui;color:#231F20">4/11</span>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;padding:13px 0;border-bottom:1px solid #B8B248">
+                <span style="font:500 15px/1 Inter,system-ui;letter-spacing:.04em;color:#77732F">POINTS RÉCOLTÉS</span><span style="font:500 17px/1 Inter,system-ui;color:#231F20">120/560</span>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;padding:13px 0 14px">
+                <span style="font:500 15px/1 Inter,system-ui;letter-spacing:.04em;color:#77732F">CACHETS OBTENUS</span><span style="font:500 17px/1 Inter,system-ui;color:#231F20">1/5</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+                <div style="width:54px;height:54px;border-radius:50%;box-shadow:inset 0 0 0 1.4px rgba(86,58,41,.2);opacity:.35"></div>
+                <div style="width:54px;height:54px;border-radius:50%;background:url(llds/img/cachet-biere.png) center/86% no-repeat;box-shadow:inset 0 0 0 1.4px rgba(86,58,41,.55)"></div>
+                <div style="width:54px;height:54px;border-radius:50%;box-shadow:inset 0 0 0 1.4px rgba(86,58,41,.2);opacity:.35"></div>
+                <div style="width:54px;height:54px;border-radius:50%;box-shadow:inset 0 0 0 1.4px rgba(86,58,41,.2);opacity:.35"></div>
+                <div style="width:54px;height:54px;border-radius:50%;box-shadow:inset 0 0 0 1.4px rgba(86,58,41,.2);opacity:.35"></div>
+              </div>
+            </div>
+            <div role="button" tabindex="0" onClick="{{ closeSheets }}" style="position:absolute;left:0;right:0;bottom:22px;text-align:center;font:400 16px/1 Inter,system-ui;color:#77732F;cursor:pointer" style-hover="color:#5E5A22">Fermer</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ voucherOpen }}">
+          <div style="position:absolute;inset:0;background:rgba(35,31,32,.32);animation:lldsIn .22s both"></div>
+          <div style="position:absolute;left:12px;right:12px;bottom:14px;top:40px;border-radius:26px;background:#FFFDF2;overflow:hidden;box-shadow:inset 0 0 0 2px #77732F;animation:lldsUp .34s cubic-bezier(.2,.7,.2,1) both">
+            <img src="llds/img/voucher-chaudron.jpg" alt="Au Chaudron des Légendes" style="width:100%;height:250px;object-fit:cover;display:block">
+            <div style="position:absolute;left:50%;top:18px;width:44px;height:4px;margin-left:-22px;border-radius:10px;background:rgba(255,255,255,.9)"></div>
+            <div style="padding:26px 30px 0">
+              <div style="font:700 italic 22px/1.2 Inter,system-ui;color:#231F20">Au Chaudron des Légendes</div>
+              <div style="margin-top:16px;font:400 15px/1.4 Inter,system-ui;color:#231F20"><i style="font-weight:600">Guinaumont 75, 7890 Ellezelles</i><br>ouverture du jeudi au dimanche de 11h à 22h</div>
+              <div style="margin-top:16px;font:400 15px/1.4 Inter,system-ui;color:#231F20;text-wrap:pretty">Profitez d’une remise de <b style="font-weight:700">15%</b> sur votre addition* sur présentation du <i style="font-weight:600">cachet « Bière locale »</i> validé dans l’application.</div>
+              <div style="margin-top:18px;font:400 13px/1.45 Inter,system-ui;color:#585858">*Conditions : uniquement valable le jeudi et le vendredi hors jours fériés — montant de la remise plafonné à 25,00&nbsp;€.</div>
+            </div>
+            <div style="position:absolute;left:30px;bottom:26px;width:78px;height:78px;background:url(llds/img/cachet-biere.png) center/contain no-repeat;opacity:.28"></div>
+            <img src="llds/img/logo-chaudron.png" alt="" style="position:absolute;right:26px;bottom:22px;height:86px;width:auto">
+            <div role="button" tabindex="0" onClick="{{ closeSheets }}" style="position:absolute;right:16px;top:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,253,242,.92);display:grid;place-items:center;cursor:pointer">
+              <svg width="14" height="14" viewBox="0 0 14 14" stroke="#E42127" stroke-width="2.4" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"></path></svg>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ noSheet }}">
+        <sc-for list="{{ stops }}" as="st" hint-placeholder-count="5">
+          <div role="button" tabindex="0" onClick="{{ st.open }}" aria-label="{{ st.name }}" style="position:absolute;width:44px;height:44px;border-radius:50%;cursor:pointer;left:{{ st.hitX }}px;top:{{ st.hitY }}px"></div>
+        </sc-for>
+        <div role="button" tabindex="0" onClick="{{ openLessines }}" style="position:absolute;left:252px;top:509px;padding:7px 14px;border-radius:999px;background:#E42127;color:#FFFFFF;font:500 12.5px/1 Inter,system-ui;cursor:pointer;box-shadow:0 6px 16px rgba(228,33,39,.32);animation:lldsPop .4s .6s both" style-hover="background:#8C191C">Arrêt 5 · 150 m</div>
+        </sc-if>
+
+        <sc-if value="{{ mapOffline }}">
+          <div style="position:absolute;left:0;right:0;top:0;height:40px;background:#563A29;display:flex;align-items:center;justify-content:center;gap:10px;animation:lldsIn .3s both">
+            <svg width="18" height="15" viewBox="0 0 24 20" fill="none" stroke="#FFFDF2" stroke-width="2.2" stroke-linecap="round"><path d="M2 6.5a15 15 0 0 1 20 0"></path><path d="M5.5 10.5a10 10 0 0 1 13 0"></path><path d="M9 14.4a5 5 0 0 1 6 0"></path><circle cx="12" cy="18" r="1.2" fill="#FFFDF2"></circle><path d="M3 1l18 18"></path></svg>
+            <span style="font:500 13px/1 Inter,system-ui;color:#FFFDF2">Hors connexion · {{ offlineNote }}</span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ arrivalShown }}">
+          <div style="position:absolute;left:12px;right:12px;top:14px;animation:lldsDrop .45s cubic-bezier(.2,.8,.2,1) both">
+            <div role="button" tabindex="0" onClick="{{ openArrival }}" style="display:flex;align-items:center;gap:14px;padding:14px 14px 14px 16px;border-radius:18px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #77732F,0 14px 34px rgba(35,31,32,.22);cursor:pointer;animation:lldsBuzz .5s .5s ease-in-out 2">
+              <div style="position:relative;flex:none;width:40px;height:40px;border-radius:50%;background:#E42127;display:grid;place-items:center">
+                <div style="position:absolute;inset:0;border-radius:50%;background:rgba(228,33,39,.35);animation:lldsPulse 1.8s ease-out infinite"></div>
+                <svg width="16" height="19" viewBox="0 0 16 19" fill="none" stroke="#FFFFFF" stroke-width="2" style="position:relative"><path d="M8 1.2c3.2 0 6 2.6 6 5.9 0 4.4-6 10.7-6 10.7S2 11.5 2 7.1C2 3.8 4.8 1.2 8 1.2Z"></path><circle cx="8" cy="7" r="2.2" fill="#FFFFFF"></circle></svg>
+              </div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                <span style="font:600 15px/1.2 Inter,system-ui;color:#231F20">Vous arrivez à la gare de Lessines</span>
+                <span style="font:400 13px/1.25 Inter,system-ui;color:#77732F">Arrêt 5 · l’expérience est prête</span>
+              </div>
+              <span style="flex:none;height:30px;padding:0 13px;border-radius:999px;background:#77732F;color:#FFFDF2;font:500 13px/30px Inter,system-ui">Ouvrir</span>
+            </div>
+            <div role="button" tabindex="0" onClick="{{ dismissArrival }}" aria-label="Ignorer" style="position:absolute;right:-4px;top:-8px;width:26px;height:26px;border-radius:50%;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #77732F;display:grid;place-items:center;cursor:pointer">
+              <svg width="9" height="9" viewBox="0 0 14 14" stroke="#77732F" stroke-width="2.6" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"></path></svg>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ poiCardOpen }}">
+          <div role="button" tabindex="0" onClick="{{ closeSheets }}" aria-label="Fermer" style="position:absolute;inset:0;background:rgba(35,31,32,.3);animation:lldsIn .22s both;cursor:pointer"></div>
+          <div data-screen-label="08 Fiche point d’intérêt" style="position:absolute;left:0;right:0;bottom:0;height:374px;border-radius:20px 20px 40px 40px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;animation:lldsUp .34s cubic-bezier(.2,.7,.2,1) both">
+            <div style="position:absolute;left:175px;top:19px;width:44px;height:5px;border-radius:10px;background:#77732F"></div>
+            <div style="position:absolute;left:33px;right:29px;top:36px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+              <div style="font:400 14px/1 Inter,system-ui;color:#231F20;white-space:nowrap">{{ poi.dist }}</div>
+              <sc-if value="{{ poi.voucher }}">
+                <div role="button" tabindex="0" onClick="{{ openVoucher }}" style="flex:none;height:26px;padding:0 13px;border-radius:999px;background:#E42127;color:#FFFFFF;font:600 10.5px/26px Inter,system-ui;letter-spacing:.06em;cursor:pointer" style-hover="background:#8C191C">VOIR VOUCHER</div>
+              </sc-if>
+            </div>
+            <div style="position:absolute;left:31px;right:31px;top:64px;font:500 30px/1.2 Inter,system-ui;color:#231F20">{{ poi.name }}</div>
+            <div style="position:absolute;left:31px;right:31px;top:112px;display:flex;align-items:center;gap:17px;height:24px">
+              <sc-for list="{{ poi.icons }}" as="ic" hint-placeholder-count="7">
+                <div style="flex:none;height:{{ ic.h }}px;width:{{ ic.w }}px;background-size:contain;background-repeat:no-repeat;background-position:center;background-image:url({{ ic.src }});opacity:{{ ic.op }}"></div>
+              </sc-for>
+            </div>
+            <p style="position:absolute;left:31px;right:31px;top:150px;bottom:152px;margin:0;overflow:hidden;font:400 12.5px/1.38 Inter,system-ui;color:#231F20;text-wrap:pretty">{{ poi.desc }}</p>
+            <div style="position:absolute;left:32px;right:32px;bottom:20px;display:flex;flex-direction:column;align-items:stretch;gap:10px">
+              <sc-if value="{{ poi.playable }}">
+                <div role="button" tabindex="0" onClick="{{ goPlayer }}" style="height:71px;border-radius:7px;background:#77732F;display:flex;align-items:center;justify-content:center;gap:14px;cursor:pointer;transition:background .18s" style-hover="background:#635F26">
+                  <img src="llds/svg/svc-play.svg" alt="" style="width:16px;height:16px;display:block">
+                  <span style="font:400 20px/1 Inter,system-ui;color:#FFFDF2">{{ poi.cta }}</span>
+                </div>
+                <sc-if value="{{ poi.guestNote }}">
+                  <div style="text-align:center;font:400 11.5px/1.2 Inter,system-ui;color:#77732F">Mode invité · <span role="button" tabindex="0" onClick="{{ goInscription }}" style="color:#E42127;text-decoration:underline;text-underline-offset:2px;cursor:pointer">créez un compte</span> pour tout voir</div>
+                </sc-if>
+              </sc-if>
+              <sc-if value="{{ poi.locked }}">
+                <div style="height:71px;border-radius:7px;background:#EDEACB;box-shadow:inset 0 0 0 2px #DCD8A8;display:flex;align-items:center;justify-content:center;gap:14px">
+                  <img src="llds/svg/svc-play.svg" alt="" style="width:16px;height:16px;display:block;filter:brightness(.72) sepia(.5) saturate(.4)">
+                  <span style="font:400 20px/1 Inter,system-ui;color:#A9A67C">{{ poi.cta }}</span>
+                </div>
+                <div style="text-align:center;font:400 11.5px/1.2 Inter,system-ui;color:#A9A67C">Disponible sur place</div>
+              </sc-if>
+              <sc-if value="{{ poi.missing }}">
+                <div style="height:71px;border-radius:7px;background:#EDEACB;box-shadow:inset 0 0 0 2px #DCD8A8;display:flex;align-items:center;justify-content:center;gap:12px">
+                  <svg width="22" height="20" viewBox="0 0 24 22" fill="none" stroke="#A9A67C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v11"></path><path d="M7 8.5l5 5 5-5"></path><path d="M3 19h18"></path></svg>
+                  <span style="font:400 20px/1 Inter,system-ui;color:#A9A67C">Contenu non téléchargé</span>
+                </div>
+                <div style="text-align:center;font:400 11.5px/1.3 Inter,system-ui;color:#77732F">Téléchargez la ligne en Wi-Fi depuis l’écran «&nbsp;Prêt&nbsp;»</div>
+              </sc-if>
+              <div role="button" tabindex="0" onClick="{{ closeSheets }}" style="text-align:center;font:400 12px/1.2 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-hover="color:#5E5A22">Plus tard</div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+
+    <sc-if value="{{ isPlayer }}">
+      <div data-screen-label="09 Lecteur" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;left:0;top:480px;width:390px;height:372px;opacity:.5">
+          <g fill="#F6A1A7" opacity=".26"><rect x="40" y="30" width="60" height="36" rx="3" transform="rotate(-12 70 48)"></rect><rect x="150" y="10" width="46" height="28" rx="3" transform="rotate(7 173 24)"></rect><rect x="270" y="50" width="70" height="42" rx="3" transform="rotate(-9 305 71)"></rect><rect x="90" y="250" width="50" height="30" rx="3" transform="rotate(15 115 265)"></rect></g>
+          <g fill="none" stroke="#F6A1A7" stroke-width="1.4" opacity=".5"><path d="M -30 170 C 110 80 260 40 430 30"></path></g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goMap }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer" style-hover="background:#FBE9E9">
+          <svg width="14" height="14" viewBox="0 0 14 14" stroke="#E42127" stroke-width="2.4" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"></path></svg>
+        </div>
+        <div style="position:absolute;left:0;right:0;top:74px;text-align:center;font:600 26px/1.1 Inter,system-ui;letter-spacing:-.02em;color:#231F20">Gare de Bassilly</div>
+        <div style="position:absolute;left:0;right:0;top:110px;text-align:center;font:400 16px/1 Inter,system-ui;color:#77732F">L87 - Arrêt 1 sur 11 - 1905</div>
+
+        <div style="position:absolute;left:0;right:0;top:236px;height:248px;overflow:hidden;background:#231F20">
+          <img src="llds/img/bassilly-gare.jpg" alt="Gare de Bassilly, 1905" style="width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(.98)">
+        </div>
+        <sc-if value="{{ paused }}">
+          <div role="button" tabindex="0" onClick="{{ togglePlay }}" style="position:absolute;left:150px;top:330px;width:90px;height:90px;border-radius:50%;background:rgba(255,253,242,.14);display:grid;place-items:center;cursor:pointer">
+            <svg width="90" height="90" viewBox="0 0 90 90" style="position:absolute;inset:0" fill="none"><circle cx="45" cy="45" r="42" stroke="#E42127" stroke-width="5" stroke-dasharray="150 20 60 34" stroke-linecap="round"></circle></svg>
+            <svg width="30" height="34" viewBox="0 0 30 34" fill="#E42127" style="margin-left:5px"><path d="M2 1l26 16L2 33z"></path></svg>
+          </div>
+        </sc-if>
+
+        <div style="position:absolute;left:31px;right:31px;top:580px;text-align:center;font:600 italic 19px/1.32 Inter,system-ui;color:#231F20;text-wrap:pretty">“{{ caption }}”</div>
+
+        <div style="position:absolute;left:31px;right:31px;top:{{ progressTop }}px">
+          <div style="position:relative;height:5px;border-radius:999px;background:#F6D3D5;overflow:hidden">
+            <div style="position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#E42127;transition:width .3s linear;width:{{ progressPct }}%"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:9px;font:400 15px/1 Inter,system-ui;color:#F6A1A7">
+            <span>{{ elapsed }}</span><span>0:24</span>
+          </div>
+          <sc-if value="{{ guest }}">
+            <div style="position:absolute;top:-4px;left:{{ previewPct }}%;width:3px;height:13px;margin-left:-1.5px;border-radius:2px;background:#77732F"></div>
+          </sc-if>
+        </div>
+
+        <div style="position:absolute;left:31px;right:31px;bottom:22px;display:flex;flex-direction:column;align-items:center;gap:14px">
+          <sc-if value="{{ guest }}">
+            <div style="text-align:center;font:400 12.5px/1 Inter,system-ui;color:#77732F">Aperçu gratuit jusqu’à 0:12</div>
+          </sc-if>
+          <div style="display:flex;align-items:center;justify-content:center;gap:34px">
+          <div role="button" tabindex="0" onClick="{{ toggleST }}" style="width:58px;height:58px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;font:500 16px/1 Inter,system-ui;color:#E42127;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">ST</div>
+          <div role="button" tabindex="0" onClick="{{ togglePlay }}" style="position:relative;width:88px;height:88px;border-radius:50%;display:grid;place-items:center;cursor:pointer">
+            <svg width="88" height="88" viewBox="0 0 88 88" style="position:absolute;inset:0" fill="none"><circle cx="44" cy="44" r="41" stroke="#E42127" stroke-width="5" stroke-dasharray="150 20 55 33" stroke-linecap="round"></circle></svg>
+            <sc-if value="{{ playing }}"><svg width="26" height="30" viewBox="0 0 26 30" fill="#E42127"><rect x="1" y="0" width="8.5" height="30" rx="1.6"></rect><rect x="16.5" y="0" width="8.5" height="30" rx="1.6"></rect></svg></sc-if>
+            <sc-if value="{{ paused }}"><svg width="28" height="32" viewBox="0 0 28 32" fill="#E42127" style="margin-left:5px"><path d="M2 1l24 15L2 31z"></path></svg></sc-if>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ toggleMute }}" style="width:58px;height:58px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+            <img src="llds/svg/speaker-red.svg" alt="" style="width:26px;height:19.25px;display:block">
+          </div>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ goReward }}" style="display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;font:400 16px/1 Inter,system-ui;color:#77732F" style-hover="color:#5E5A22">
+            Passer <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="#77732F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h17"></path><path d="M12 1l6 6-6 6"></path></svg>
+          </div>
+        </div>
+
+        <sc-if value="{{ previewEnded }}">
+          <div style="position:absolute;inset:0;background:rgba(35,31,32,.42);animation:lldsIn .25s both"></div>
+          <div data-screen-label="09b Fin de l’aperçu" style="position:absolute;left:0;right:0;bottom:0;padding:34px 31px 30px;border-radius:24px 24px 40px 40px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248;display:flex;flex-direction:column;gap:16px;animation:lldsUp .36s cubic-bezier(.2,.7,.2,1) both">
+            <div style="display:flex;align-items:center;gap:16px">
+              <div style="flex:none;width:64px;height:64px;background:url(llds/img/cachet-biere.png) center/contain no-repeat;opacity:.35;filter:grayscale(1)"></div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font:600 24px/1.15 Inter,system-ui;letter-spacing:-.02em;color:#231F20">Fin de l’aperçu</span>
+                <span style="font:400 14px/1.3 Inter,system-ui;color:#77732F">Gare de Bassilly · 0:12 sur 0:24</span>
+              </div>
+            </div>
+            <p style="margin:0;font:400 15px/1.45 Inter,system-ui;color:#231F20;text-wrap:pretty">Créez un compte gratuit pour voir la suite de la carte postale animée, obtenir ce cachet et garder vos points.</p>
+            <div role="button" tabindex="0" onClick="{{ goInscription }}" style="height:56px;border-radius:10px;background:#E42127;color:#FFFFFF;font:500 16px/56px Inter,system-ui;text-align:center;cursor:pointer;margin-top:6px" style-hover="background:#8C191C">Créer un compte</div>
+            <div role="button" tabindex="0" onClick="{{ goConnexion }}" style="height:52px;border-radius:10px;box-shadow:inset 0 0 0 2px #E42127;color:#E42127;font:500 16px/52px Inter,system-ui;text-align:center;cursor:pointer" style-hover="background:#FBE9E9">J’ai déjà un compte</div>
+            <div role="button" tabindex="0" onClick="{{ goMap }}" style="text-align:center;font:400 14px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 0">Retour à la carte</div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ RÉCOMPENSE ══════════ -->
+    <sc-if value="{{ isReward }}">
+      <div data-screen-label="10 Hier &amp; aujourd’hui" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 460" style="position:absolute;left:0;top:392px;width:390px;height:460px;opacity:.5">
+          <g fill="#F6A1A7" opacity=".24"><rect x="20" y="60" width="66" height="40" rx="3" transform="rotate(-11 53 80)"></rect><rect x="290" y="130" width="60" height="36" rx="3" transform="rotate(9 320 148)"></rect><rect x="120" y="300" width="80" height="48" rx="3" transform="rotate(-6 160 324)"></rect></g>
+        </svg>
+        <div style="position:absolute;left:0;right:0;top:86px;text-align:center;font:500 22px/1 Inter,system-ui;color:#77732F">Gare de Bassilly</div>
+        <div style="position:absolute;left:0;right:0;top:120px;text-align:center;font:600 26px/1 Inter,system-ui;letter-spacing:-.02em;color:#231F20">Hier &amp; aujourd’hui</div>
+
+        <div style="position:absolute;left:0;top:166px;width:390px;height:248px;overflow:hidden;background:#231F20">
+          <img src="llds/img/bassilly-gare.jpg" alt="Gare de Bassilly aujourd’hui" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(1.06) contrast(.82)">
+          <div style="position:absolute;inset:0;overflow:hidden;clip-path:inset(0 0 0 {{ sliderPct }}%)">
+            <img src="llds/img/bassilly-gare.jpg" alt="Gare de Bassilly en 1905" style="width:390px;height:248px;object-fit:cover;filter:grayscale(1) sepia(.35) contrast(1.05)">
+          </div>
+          <div style="position:absolute;left:18px;top:14px;font:400 20px/1 Inter,system-ui;color:#231F20;text-shadow:0 1px 6px rgba(255,255,255,.7)">2026</div>
+          <div style="position:absolute;right:18px;top:14px;font:400 20px/1 Inter,system-ui;color:#231F20;text-shadow:0 1px 6px rgba(255,255,255,.7)">1905</div>
+          <div style="position:absolute;top:0;bottom:0;width:4px;margin-left:-2px;background:#E42127;left:{{ sliderPct }}%"></div>
+          <div style="position:absolute;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:#E42127;display:grid;place-items:center;box-shadow:0 6px 18px rgba(35,31,32,.3);left:{{ sliderPct }}%">
+            <svg width="26" height="14" viewBox="0 0 26 14" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1 1 7l6 6"></path><path d="M19 1l6 6-6 6"></path></svg>
+          </div>
+          <input type="range" min="0" max="100" value="{{ sliderPct }}" onInput="{{ onSlide }}" aria-label="Comparer 1905 et 2026" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0">
+        </div>
+
+        <div style="position:absolute;left:0;right:0;top:446px;text-align:center;font:400 19px/1 Inter,system-ui;color:#77732F">Vous avez obtenu</div>
+        <div style="position:absolute;left:0;right:0;top:484px;display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="display:flex;align-items:center;gap:14px;animation:lldsPop .4s .1s both">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="15" fill="#E42127"></circle><path d="M8.6 15.4l4.2 4.2 8.6-8.6" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span style="font:500 24px/1 Inter,system-ui;color:#77732F">50 POINTS</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;animation:lldsPop .4s .3s both">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="15" fill="#E42127"></circle><path d="M8.6 15.4l4.2 4.2 8.6-8.6" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span style="font:500 24px/1 Inter,system-ui;color:#77732F">CACHET <i style="font-weight:500">bière locale</i></span>
+          </div>
+        </div>
+        <div style="position:absolute;left:50%;top:566px;width:124px;height:124px;margin-left:-62px;background:url(llds/img/cachet-biere.png) center/contain no-repeat;animation:lldsStamp .6s .55s both"></div>
+
+        <div role="button" tabindex="0" onClick="{{ goMap }}" style="position:absolute;left:31px;top:712px;width:328px;height:60px;border-radius:8px;background:#77732F;display:flex;align-items:center;justify-content:space-between;padding:0 26px;box-sizing:border-box;cursor:pointer" style-hover="background:#635F26">
+          <span style="font:500 16px/1 Inter,system-ui;letter-spacing:.06em;color:#FFFDF2">CONTINUER LE PARCOURS</span>
+          <svg width="26" height="18" viewBox="0 0 26 18" fill="none" stroke="#FFFDF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9h23"></path><path d="M17 2l7 7-7 7"></path></svg>
+        </div>
+        <div role="button" tabindex="0" onClick="{{ goPlayer }}" style="position:absolute;left:0;right:0;top:796px;text-align:center;font:400 15px/1 Inter,system-ui;color:#77732F;cursor:pointer" style-hover="color:#5E5A22">Revoir la carte animée</div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ FIN DE LIGNE ══════════ -->
+    <sc-if value="{{ isFin }}">
+      <div data-screen-label="10b Ligne terminée" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <svg viewBox="0 0 390 852" style="position:absolute;inset:0;width:390px;height:852px;opacity:.5;pointer-events:none">
+          <g fill="#F6A1A7" opacity=".26"><rect x="30" y="650" width="70" height="42" rx="3" transform="rotate(12 65 671)"></rect><rect x="300" y="640" width="46" height="28" rx="3" transform="rotate(-14 323 654)"></rect></g>
+        </svg>
+        <div role="button" tabindex="0" onClick="{{ goMap }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <svg width="14" height="14" viewBox="0 0 14 14" stroke="#E42127" stroke-width="2.4" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"></path></svg>
+        </div>
+        <div style="position:absolute;left:32px;right:32px;top:146px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="font:700 16px/1 Inter,system-ui;color:#77732F">L87</span><span style="font:500 italic 16px/1 Inter,system-ui;color:#77732F">Bassilly - Renaix</span></div>
+          <div style="font:600 34px/1.1 Inter,system-ui;letter-spacing:-.025em;color:#231F20;animation:lldsPop .45s .1s both">Ligne terminée&nbsp;!</div>
+          <div style="font:400 16px/1.4 Inter,system-ui;color:#231F20">18 km parcourus, 11 gares revisitées.</div>
+        </div>
+        <div style="position:absolute;left:31px;top:278px;width:328px;display:grid;grid-template-columns:repeat(3,1fr);gap:11px">
+          <div style="height:92px;border:2.6px solid #231F20;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;animation:lldsPop .4s .25s both"><span style="font:700 26px/1 Inter,system-ui;color:#231F20">11/11</span><span style="font:400 13px/1 Inter,system-ui;letter-spacing:.06em;color:#77732F">ARRÊTS</span></div>
+          <div style="height:92px;border:2.6px solid #231F20;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;animation:lldsPop .4s .35s both"><span style="font:700 26px/1 Inter,system-ui;color:#231F20">560</span><span style="font:400 13px/1 Inter,system-ui;letter-spacing:.06em;color:#77732F">POINTS</span></div>
+          <div style="height:92px;border:2.6px solid #231F20;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;animation:lldsPop .4s .45s both"><span style="font:700 26px/1 Inter,system-ui;color:#231F20">5/5</span><span style="font:400 13px/1 Inter,system-ui;letter-spacing:.06em;color:#77732F">CACHETS</span></div>
+        </div>
+        <div style="position:absolute;left:31px;top:404px;font:400 15px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">CACHETS DE LA LIGNE</div>
+        <div style="position:absolute;left:31px;top:432px;width:328px;display:flex;justify-content:space-between">
+          <sc-for list="{{ finStamps }}" as="st" hint-placeholder-count="5">
+            <div style="width:58px;display:flex;flex-direction:column;align-items:center;gap:8px">
+              <sc-if value="{{ st.hasImg }}"><div style="animation:lldsStamp .55s both;animation-delay:{{ st.delay }};width:58px;height:58px;border-radius:50%;background:url(llds/img/cachet-biere.png) center/88% no-repeat;box-shadow:inset 0 0 0 1.6px rgba(86,58,41,.55)"></div></sc-if>
+              <sc-if value="{{ st.noImg }}"><div style="animation:lldsStamp .55s both;animation-delay:{{ st.delay }};width:58px;height:58px;border-radius:50%;box-shadow:inset 0 0 0 2px #563A29;display:grid;place-items:center"><div style="width:44px;height:44px;border-radius:50%;border:1.4px dashed #563A29;box-sizing:border-box;display:grid;place-items:center"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="#563A29" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.2 5.8 10.4 14.5 1.6"></path></svg></div></div></sc-if>
+              <span style="width:64px;font:400 11px/1.2 Inter,system-ui;color:#563A29;text-align:center;animation:lldsIn .3s both;animation-delay:{{ st.delay }}">{{ st.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div role="button" tabindex="0" onClick="{{ goAvantages }}" style="position:absolute;left:31px;top:548px;width:328px;height:56px;border-radius:8px;background:#EAE7BF;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;cursor:pointer;transition:background .18s" style-hover="background:#DFDBA9">
+          <span style="font:500 15px/1 Inter,system-ui;color:#5E5A22">1 avantage partenaire débloqué</span>
+          <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="#5E5A22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg>
+        </div>
+        <div style="position:absolute;left:31px;right:31px;bottom:40px;display:flex;flex-direction:column;align-items:stretch;gap:18px">
+          <div role="button" tabindex="0" onClick="{{ goLignes }}" style="height:60px;border-radius:8px;background:#77732F;display:flex;align-items:center;justify-content:space-between;padding:0 26px;box-sizing:border-box;cursor:pointer" style-hover="background:#635F26">
+            <span style="font:500 16px/1 Inter,system-ui;letter-spacing:.06em;color:#FFFDF2">CHOISIR UNE AUTRE LIGNE</span>
+            <svg width="26" height="18" viewBox="0 0 26 18" fill="none" stroke="#FFFDF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9h23"></path><path d="M17 2l7 7-7 7"></path></svg>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ goProfil }}" style="text-align:center;font:400 15px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-hover="color:#5E5A22">Voir mon carnet de voyage</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ CACHETS ══════════ -->
+    <sc-if value="{{ isCachets }}">
+      <div data-screen-label="11 Cachets" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <x-import component-from-global-scope="AppLigneDTails" from="./llds/Components.bundle.js" hint-size="390px,852px"></x-import>
+        <div role="button" tabindex="0" onClick="{{ goMap }}" style="position:absolute;left:31px;top:89px;width:44px;height:44px;border-radius:50%;cursor:pointer"></div>
+        <div style="position:absolute;left:31px;right:31px;top:580px;text-align:center;font:400 14.5px/1.5 Inter,system-ui;color:#77732F;text-wrap:pretty">2 cachets sur les 9 du réseau — dont 1 des 5 de la L87. Chaque cachet débloque un avantage chez un partenaire de la ligne.</div>
+        <div role="button" tabindex="0" onClick="{{ goAvantages }}" style="position:absolute;left:31px;top:660px;width:328px;height:56px;border-radius:8px;box-shadow:inset 0 0 0 2px #B8B248;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;cursor:pointer;transition:background .18s" style-hover="background:#F5F1D9">
+          <span style="font:500 15px/1 Inter,system-ui;color:#231F20">Voir mes avantages</span>
+          <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="#77732F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ MES AVANTAGES ══════════ -->
+    <sc-if value="{{ isAvantages }}">
+      <div data-screen-label="11b Mes avantages" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <div role="button" tabindex="0" onClick="{{ goCachets }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer;transition:background .18s" style-hover="background:#FBE9E9">
+          <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="#E42127" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 1.5 2 9l7.5 7.5"></path></svg>
+        </div>
+        <div style="position:absolute;left:104px;top:72px;font:600 30px/1.2 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Mes avantages</div>
+        <div style="position:absolute;left:31px;right:31px;top:136px;font:400 15px/1.45 Inter,system-ui;color:#77732F;text-wrap:pretty">Présentez le cachet validé dans l’application chez le partenaire.</div>
+        <div style="position:absolute;left:31px;right:31px;top:200px;display:flex;flex-direction:column;gap:14px">
+          <div role="button" tabindex="0" onClick="{{ openAvantage }}" style="display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;border-radius:12px;box-shadow:inset 0 0 0 2px #77732F;cursor:pointer;transition:background .18s;animation:lldsIn .3s .05s both" style-hover="background:#F5F1D9">
+            <div style="flex:none;width:72px;height:72px;border-radius:8px;background:url(llds/img/voucher-chaudron.jpg) center/cover no-repeat"></div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+              <span style="font:600 16px/1.2 Inter,system-ui;color:#231F20">Au Chaudron des Légendes</span>
+              <span style="font:400 13.5px/1.3 Inter,system-ui;color:#77732F">Ellezelles · −15&nbsp;% sur l’addition</span>
+              <span style="align-self:flex-start;height:24px;padding:0 10px;border-radius:999px;background:#EAE7BF;font:400 12px/24px Inter,system-ui;color:#5E5A22">Cachet Bière locale obtenu</span>
+            </div>
+            <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="#77732F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;border-radius:12px;box-shadow:inset 0 0 0 2px #DDD9B8;animation:lldsIn .3s .12s both">
+            <div style="flex:none;width:72px;height:72px;border-radius:8px;background:#F2EFD6;display:grid;place-items:center">
+              <svg width="20" height="24" viewBox="0 0 20 24" fill="none" stroke="#A9A67C" stroke-width="2.2"><rect x="2" y="10" width="16" height="12" rx="2"></rect><path d="M5.5 10V7a4.5 4.5 0 0 1 9 0v3"></path></svg>
+            </div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+              <span style="font:600 16px/1.2 Inter,system-ui;color:#585858">Avantage à débloquer</span>
+              <span style="font:400 13.5px/1.35 Inter,system-ui;color:#585858">Obtenez le cachet Porphyre à la gare de Lessines</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;left:31px;right:31px;bottom:40px;font:400 13px/1.45 Inter,system-ui;color:#585858;text-align:center;text-wrap:pretty">Chaque partenaire fixe ses propres conditions, précisées sur le bon.</div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ PROFIL ══════════ -->
+    <sc-if value="{{ isProfil }}">
+      <div data-screen-label="12 Carnet de voyage" style="position:absolute;inset:0;background:#FFFDF2;overflow-y:auto;scrollbar-width:none;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <div style="position:relative;width:390px;height:1120px">
+          <div role="button" tabindex="0" onClick="{{ goMap }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer" style-hover="background:#FBE9E9">
+            <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+          </div>
+          <div style="position:absolute;left:104px;top:72px;font:600 30px/1.2 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Carnet de voyage</div>
+
+          <div style="position:absolute;left:31px;top:132px;width:328px;height:195px">
+            <svg width="328" height="195" viewBox="0 0 328 195" style="position:absolute;inset:0" fill="none"><rect x="1.4" y="1.4" width="325.2" height="192.2" rx="4" stroke="#231F20" stroke-width="2.6" stroke-dasharray="180 16 90 16 230 16 120 16" stroke-linecap="round"></rect></svg>
+            <div style="position:absolute;left:0;right:0;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px">
+              <div style="width:62px;height:62px;border-radius:50%;box-shadow:inset 0 0 0 2px #B8B248;display:grid;place-items:center">
+                <img src="llds/svg/profile.svg" alt="" style="width:24px;height:24px;display:block">
+              </div>
+              <div role="button" tabindex="0" onClick="{{ goConnexion }}" style="font:500 16px/1 Inter,system-ui;color:#231F20;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Se connecter</div>
+              <div role="button" tabindex="0" onClick="{{ goInscription }}" style="height:42px;padding:0 26px;border-radius:5px;background:#EAE7BF;font:400 16px/42px Inter,system-ui;color:#5E5A22;cursor:pointer;transition:background .18s" style-hover="background:#DFDBA9">Créer un compte</div>
+            </div>
+            <div style="position:absolute;left:-4px;top:80px;font:700 11px/1 Inter,system-ui;color:#E42127"><svg width="8" height="14" viewBox="0 0 8 14" fill="#E42127" style="display:block"><path d="M4 0l4 7-4 7-4-7z"></path></svg></div>
+          </div>
+
+          <div style="position:absolute;left:31px;top:350px;width:328px;display:grid;grid-template-columns:repeat(3,1fr);gap:11px">
+            <div style="height:92px;border:2.6px solid #231F20;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+              <span style="font:700 26px/1 Inter,system-ui;color:#231F20">12</span><span style="font:400 13px/1 Inter,system-ui;letter-spacing:.06em;color:#77732F">ARRÊTS</span>
+            </div>
+            <div style="height:92px;border:2.6px solid #231F20;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+              <span style="font:700 26px/1 Inter,system-ui;color:#231F20">360</span><span style="font:400 13px/1 Inter,system-ui;letter-spacing:.06em;color:#77732F">POINTS</span>
+            </div>
+            <div style="height:92px;border:2.6px solid #231F20;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+              <span style="font:700 26px/1 Inter,system-ui;color:#231F20">2</span><span style="font:400 13px/1 Inter,system-ui;letter-spacing:.06em;color:#77732F">CACHETS</span>
+            </div>
+          </div>
+
+          <div style="position:absolute;left:31px;top:478px;font:400 15px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">OBJECTIFS</div>
+          <div style="position:absolute;left:31px;top:508px;width:328px;display:flex;flex-direction:column;gap:9px">
+            <div style="border-radius:6px;background:#EAE7BF;padding:14px 20px;font:400 15px/1.35 Inter,system-ui;color:#5E5A22">Plus que 7 arrêts pour terminer la L87</div>
+            <div style="border-radius:6px;background:#EAE7BF;padding:14px 20px;font:400 15px/1.35 Inter,system-ui;color:#5E5A22">Plus que 120 pts pour obtenir le cachet <i style="font-weight:600">Expert</i></div>
+            <div style="border-radius:6px;background:#EAE7BF;padding:14px 20px;font:400 15px/1.35 Inter,system-ui;color:#5E5A22">Plus que 3 cachets à obtenir sur la L87</div>
+          </div>
+
+          <div style="position:absolute;left:31px;top:700px;font:400 15px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">À REVOIR</div>
+          <div role="button" tabindex="0" onClick="{{ goPlayer }}" style="position:absolute;left:31px;top:730px;width:328px;height:190px;border:2.6px solid #231F20;border-radius:4px;overflow:hidden;cursor:pointer">
+            <img src="llds/img/gare-l98.jpg" alt="Gare de la L98" style="width:100%;height:140px;object-fit:cover;display:block;filter:grayscale(1) contrast(.96)">
+            <div style="height:47px;display:flex;align-items:center;justify-content:center;gap:12px">
+              <span style="font:700 17px/1 Inter,system-ui;color:#231F20">L98</span>
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="13.6" stroke="#231F20" stroke-width="2.4"></circle><path d="M12 9.5l8 5.5-8 5.5z" fill="#231F20"></path></svg>
+            </div>
+          </div>
+
+          <div style="position:absolute;left:31px;top:952px;font:400 15px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">HISTORIQUE</div>
+          <div style="position:absolute;left:31px;top:982px;width:328px;border:2.6px solid #231F20;border-radius:4px;padding:0 20px;box-sizing:border-box">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:18px 0;border-bottom:1px solid #B8B248">
+              <span style="font:400 16px/1 Inter,system-ui;color:#231F20"><b style="font-weight:700">L87</b>&nbsp;&nbsp;Bassilly - Renaix</span>
+              <span style="height:30px;padding:0 14px;border-radius:999px;background:#EAE7BF;font:400 13.5px/30px Inter,system-ui;color:#5E5A22;white-space:nowrap">En cours 4/11</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:18px 0">
+              <span style="font:400 16px/1 Inter,system-ui;color:#585858"><b style="font-weight:700">L98</b>&nbsp;&nbsp;Mouscron - Quiévrain</span>
+              <span style="font:400 13.5px/1 Inter,system-ui;color:#585858;white-space:nowrap">Terminée 6/6</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ PARAMÈTRES ══════════ -->
+    <sc-if value="{{ isParametres }}">
+      <div data-screen-label="13 Paramètres" style="position:absolute;inset:0;background:#FFFDF2;animation:lldsIn .34s cubic-bezier(.2,.7,.2,1) both">
+        <div role="button" tabindex="0" onClick="{{ goMap }}" style="position:absolute;left:31px;top:68px;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 2px #E42127;display:grid;place-items:center;cursor:pointer" style-hover="background:#FBE9E9">
+          <img src="llds/svg/arrow-left.svg" alt="" style="width:7.638px;height:14.51px;display:block">
+        </div>
+        <div style="position:absolute;left:104px;top:72px;font:600 30px/1.2 Inter,system-ui;letter-spacing:-.025em;color:#231F20">Paramètres</div>
+        <div style="position:absolute;left:31px;top:132px;width:328px;height:266px">
+          <svg width="328" height="266" viewBox="0 0 328 266" style="position:absolute;inset:0" fill="none"><rect x="1.4" y="1.4" width="325.2" height="263.2" rx="4" stroke="#231F20" stroke-width="2.6" stroke-dasharray="176 16 96 16 250 16 140 16" stroke-linecap="round"></rect></svg>
+          <div style="position:absolute;left:20px;right:20px;top:14px">
+            <div role="button" tabindex="0" onClick="{{ goLangue }}" style="display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid #B8B248;cursor:pointer">
+              <span style="font:400 16px/1 Inter,system-ui;letter-spacing:.03em;color:#77732F">LANGUE</span>
+              <span style="display:flex;align-items:center;gap:9px;font:500 16px/1 Inter,system-ui;color:#231F20">{{ langLabel }}<svg width="8" height="13" viewBox="0 0 9 15" fill="none" stroke="#231F20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid #B8B248">
+              <span style="font:400 16px/1 Inter,system-ui;letter-spacing:.03em;color:#77732F">PARCOURS</span>
+              <span style="display:flex;align-items:center;gap:9px;font:500 16px/1 Inter,system-ui;color:#231F20">Parcours adulte<svg width="8" height="13" viewBox="0 0 9 15" fill="none" stroke="#231F20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg></span>
+            </div>
+            <div role="button" tabindex="0" onClick="{{ goTransport }}" style="display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid #B8B248;cursor:pointer">
+              <span style="font:400 16px/1 Inter,system-ui;letter-spacing:.03em;color:#77732F">TRANSPORT</span>
+              <span style="display:flex;align-items:center;gap:9px;font:500 16px/1 Inter,system-ui;color:#231F20">{{ transportLabel }}<svg width="8" height="13" viewBox="0 0 9 15" fill="none" stroke="#231F20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 0">
+              <span style="font:400 16px/1 Inter,system-ui;letter-spacing:.03em;color:#77732F">TAILLE DU TEXTE</span>
+              <span style="display:flex;align-items:center;gap:9px;font:500 16px/1 Inter,system-ui;color:#231F20">Normale<svg width="8" height="13" viewBox="0 0 9 15" fill="none" stroke="#231F20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg></span>
+            </div>
+          </div>
+          <div style="position:absolute;right:-6px;top:72px;font:700 13px/1 Inter,system-ui;color:#E42127"><svg width="8" height="14" viewBox="0 0 8 14" fill="#E42127" style="display:block"><path d="M4 0l4 7-4 7-4-7z"></path></svg></div>
+          <div style="position:absolute;left:-2px;top:140px;font:700 11px/1 Inter,system-ui;color:#E42127"><svg width="10" height="9" viewBox="0 0 10 9" fill="#E42127" style="display:block"><path d="M0 0h10L5 9z"></path></svg></div>
+        </div>
+        <div role="button" tabindex="0" onClick="{{ goExperience }}" style="position:absolute;left:31px;top:430px;width:328px;height:56px;border-radius:8px;background:#EAE7BF;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;cursor:pointer;transition:background .18s" style-hover="background:#DFDBA9">
+          <span style="font:500 15px/1 Inter,system-ui;color:#5E5A22">Type d’expérience · {{ expLabel }}</span>
+          <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="#5E5A22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.4 1.4 7.6 7.5l-6.2 6.1"></path></svg>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+  <div style="width:100%;max-width:980px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="13">
+      <div role="button" tabindex="0" onClick="{{ n.go }}" style="height:32px;padding:0 15px;border-radius:999px;background:{{ n.bg }};color:{{ n.fg }};font:500 12.5px/32px Inter,system-ui;cursor:pointer;transition:background .18s,color .18s;user-select:none">{{ n.label }}</div>
+    </sc-for>
+  </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1040,&quot;height&quot;:1040},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;accueil&quot;,&quot;connexion&quot;,&quot;oubli&quot;,&quot;inscription&quot;,&quot;langue&quot;,&quot;permissions&quot;,&quot;lignes&quot;,&quot;ligne&quot;,&quot;transport&quot;,&quot;experience&quot;,&quot;pret&quot;,&quot;map&quot;,&quot;poi&quot;,&quot;player&quot;,&quot;reward&quot;,&quot;fin&quot;,&quot;cachets&quot;,&quot;avantages&quot;,&quot;profil&quot;,&quot;parametres&quot;],&quot;default&quot;:&quot;accueil&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;lineState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;nouvelle&quot;,&quot;en-cours&quot;,&quot;terminee&quot;],&quot;default&quot;:&quot;en-cours&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;guest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;offline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;autoPlay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;showNav&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;bare&quot;:{&quot;editor&quot;:null,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;startSheet&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;string&quot;}}">
+const LIGNES = [
+  { id: "L87", name: "Bassilly - Renaix", sub: "18km - 11 arrêts - pierre & porphyre", img: "llds/img/gare-l87.jpg", top: 265, suggested: true, stroke: "#77732F", code: "#231F20", meta: "#231F20", dash: "150 12 58 12 190 12 70 12", dashOffset: 0, mark: "»", markX: 96 },
+  { id: "L86", name: "Moustier - Basècles", sub: "16,5km - 4 arrêts", img: "llds/img/gare-l86.jpg", top: 373, suggested: false, stroke: "#231F20", code: "#231F20", meta: "#231F20", dash: "210 14 46 14 120 14 180 14", dashOffset: -60, mark: "▸▸", markX: 150 },
+  { id: "L98", name: "Mons - Quievrain", sub: "38km - 6 arrêts", img: "llds/img/gare-l98.jpg", top: 465, suggested: false, stroke: "#231F20", code: "#231F20", meta: "#231F20", dash: "60 14 250 14 120 14 90 14", dashOffset: -30, mark: "»", markX: -4 },
+  { id: "L142", name: "Jodoigne - Namur", sub: "31,5km - 7 arrêts", img: "llds/img/gare-l142.jpg", top: 557, suggested: false, stroke: "#231F20", code: "#231F20", meta: "#231F20", dash: "240 14 100 14 70 14 160 14", dashOffset: -120, mark: "▸▸", markX: 230 },
+  { id: "L613", name: "Houffalize - Bastogne", sub: "21km - 5 arrêts", img: "llds/img/gare-l613.jpg", top: 649, suggested: false, stroke: "#8D8D80", code: "#8D8D80", meta: "#8D8D80", dash: "170 14 120 14 190 14 80 14", dashOffset: -200, mark: "»", markX: 120 }
+];
+
+const SCREENS = [
+  ["accueil", "Accueil"], ["connexion", "Connexion"], ["oubli", "Mot de passe"], ["inscription", "Inscription"], ["langue", "Langue"], ["permissions", "Autorisations"],
+  ["lignes", "Lignes"], ["ligne", "Détail ligne"], ["transport", "Transport"], ["experience", "Expérience"], ["pret", "Prêt"],
+  ["map", "Carte"], ["arrivee", "Arrivée"], ["poi", "Fiche POI"], ["hors-ligne", "Hors ligne"],
+  ["player", "Lecteur"], ["reward", "Récompense"], ["fin", "Fin de ligne"], ["cachets", "Cachets"], ["avantages", "Avantages"], ["profil", "Carnet"], ["parametres", "Paramètres"]
+];
+
+const SVC = [
+  ["coffee", "llds/svg/coffee.svg", 22.9, 19.7],
+  ["parking", "llds/svg/svc-parking.svg", 22.6, 22.6],
+  ["info", "llds/svg/svc-info.svg", 22, 10],
+  ["resto", "llds/svg/svc-resto.svg", 21.7, 21.7],
+  ["gare", "llds/svg/svc-beer.svg", 22.8, 33.8],
+  ["patrimoine", "llds/svg/svc-gare.svg", 23, 26],
+  ["remise", "llds/svg/svc-remise.svg", 23, 23]
+];
+
+const POIS = [
+  { id: "bassilly", x: 65, y: 719, name: "Gare de Bassilly", dist: "Arrêt 1 · visité", enabled: true, cta: "Revivre l’expérience",
+    on: ["parking", "patrimoine", "info"],
+    desc: "La gare de Bassilly est mise en service en 1866 pour les Chemins de fer de l’État belge et ferme en 1985 au profit de la nouvelle gare de Silly sur un nouveau tracé." },
+  { id: "lessines", x: 230, y: 524, name: "Gare de Lessines", dist: "à 150 m", enabled: true, cta: "Vivre l’expérience",
+    on: ["coffee", "parking", "info", "resto", "gare", "patrimoine"],
+    desc: "La gare de Lessines ouvre en 1868 et dessert les carrières de porphyre de la vallée de la Dendre ; le trafic voyageurs s’y éteint en 1963, celui de la pierre en 1984." },
+  { id: "flobecq", x: 284, y: 326, name: "Gare de Flobecq", dist: "à 5 km", enabled: false, cta: "Vivre l’expérience",
+    on: ["coffee", "info", "patrimoine"],
+    desc: "La gare de Flobecq ouvre en 1882 au pied du Pottelberg. Fermée aux voyageurs en 1959, elle sert encore au transport du bois jusqu’en 1984." },
+  { id: "ellezelles", x: 290, y: 198, name: "Gare d’Ellezelles", dist: "à 12 km", enabled: false, cta: "Vivre l’expérience", voucher: true,
+    on: ["parking", "remise"],
+    desc: "La gare d’Ellezelles est mise en service le 1er septembre 1882, lors de l’ouverture de l’exploitation, au service des voyageurs et des marchandises, de la section de Flobecq à Ellezelles." },
+  { id: "renaix", x: 283, y: 47, name: "Gare de Renaix", dist: "à 18 km", enabled: false, cta: "Vivre l’expérience",
+    on: ["parking", "info", "resto", "gare", "patrimoine"],
+    desc: "Terminus de la L87 côté flamand, la gare de Renaix raccorde la ligne au réseau de Flandre-Orientale dès 1863 et reste en service voyageurs aujourd’hui." }
+];
+
+const CAPTIONS = [
+  "La gare de Bassilly est mise en service en 1866 pour les Chemins de fer de...",
+  "...la ligne relie alors Bassilly à Tournai en desservant Renaix et Flobecq.",
+  "Fermée aux voyageurs en 1963, elle devient un RAVeL en 1998."
+];
+
+class Component extends DCLogic {
+  state = {
+    screen: this.props.startScreen === "poi" ? "map" : (this.props.startScreen || "accueil"), sheet: this.props.startSheet || null, lang: "fr", ligne: "L87", transport: "pied", exp: "complete",
+    playing: false, t: 5, slider: 50,
+    authFrom: "accueil", loggedIn: false, pwVisible: false, busy: false, error: "", tried: false,
+    email: "", pw: "", name: "", consent: false,
+    guest: false, previewEnded: false, arrival: false, dir: "a",
+    permStep: 0, osDialog: false, permLoc: null, permNotif: null,
+    resetSent: false, resent: false, dl: "none", dlPct: 0, offline: false, voucherFrom: null
+  };
+
+  permChoose = (v) => {
+    const granted = v !== "no";
+    const step = this.state.permStep;
+    this.setState(step === 0 ? { osDialog: false, permLoc: granted } : { osDialog: false, permNotif: granted });
+    setTimeout(() => { if (step === 0) this.setState({ permStep: 1 }); else this.go("lignes"); }, 300);
+  };
+
+  startDl = () => {
+    clearInterval(this.dlT);
+    this.setState({ dl: "loading", dlPct: 0 });
+    this.dlT = setInterval(() => this.setState(p => {
+      const n = Math.min(100, p.dlPct + 3 + Math.round(Math.random() * 6));
+      if (n >= 100) { clearInterval(this.dlT); return { dlPct: 100, dl: "done" }; }
+      return { dlPct: n };
+    }), 140);
+  };
+
+  submitAuth = (mode) => {
+    const s = this.state;
+    const emailOk = /.+@.+\..+/.test(s.email);
+    let error = "";
+    if (mode === "inscription" && !s.name.trim()) error = "Indiquez votre prénom.";
+    else if (!emailOk) error = "Cette adresse e-mail ne semble pas valide.";
+    else if (mode === "inscription" && s.pw.length < 8) error = "Le mot de passe doit contenir au moins 8 caractères.";
+    else if (!s.pw) error = "Saisissez votre mot de passe.";
+    else if (mode === "inscription" && !s.consent) error = "Acceptez les conditions pour créer votre compte.";
+    if (error) { this.setState({ error, tried: true }); return; }
+    this.setState({ busy: true, error: "" });
+    setTimeout(() => this.setState({ busy: false, loggedIn: true, guest: false, previewEnded: false, playing: s.authFrom === "player", screen: (s.authFrom === "profil" || s.authFrom === "player") ? s.authFrom : "langue" }), 900);
+  };
+
+  componentDidMount() {
+    this.tick = setInterval(() => {
+      if (!this.state.playing) return;
+      this.setState(s => {
+        const guest = this.props.guest || s.guest;
+        if (guest && s.screen === "player" && s.t >= 12) return { playing: false, t: 12, previewEnded: true };
+        return s.t >= 24 ? { playing: false, t: 24 } : { t: s.t + 1 };
+      });
+    }, 600);
+  }
+  componentWillUnmount() { clearInterval(this.tick); clearTimeout(this.arrivalT); clearInterval(this.dlT); }
+
+  go = (screen) => {
+    if (screen === "hors-ligne") { this.setState({ screen: "map", sheet: "poi:lessines", offline: true, arrival: false }); return; }
+    if (screen === "permissions") { this.setState({ screen, sheet: null, permStep: 0, osDialog: false, arrival: false, offline: false }); return; }
+    if (screen === "oubli") { this.setState({ screen, sheet: null, resetSent: false, resent: false, error: "", tried: false, busy: false, offline: false }); return; }
+    if (screen === "poi") { this.setState({ screen: "map", sheet: "poi:lessines" }); return; }
+    if (screen === "poi-ellezelles") { this.setState({ screen: "map", sheet: "poi:ellezelles" }); return; }
+    if (screen === "arrivee") { clearTimeout(this.arrivalT); this.arrivedOnce = true; this.setState({ screen: "map", sheet: null, arrival: true }); return; }
+    this.setState({ screen, sheet: null, arrival: false, offline: false, voucherFrom: null });
+    if (screen === "map" && !this.arrivedOnce && !this.props.bare) {
+      this.arrivedOnce = true;
+      clearTimeout(this.arrivalT);
+      this.arrivalT = setTimeout(() => { if (this.state.screen === "map" && !this.state.sheet) this.setState({ arrival: true }); }, 2600);
+    }
+  };
+
+  openPoiCard = (id) => this.setState({ screen: "map", sheet: "poi:" + id, arrival: false });
+
+  lineDetail(s) {
+    const l = LIGNES.filter(x => x.id === s.ligne)[0] || LIGNES[0];
+    const n = parseInt((l.sub.match(/(\d+) arrêts/) || [0, 5])[1], 10);
+    const km = parseFloat((l.sub.match(/([\d,]+)km/) || [0, "10"])[1].replace(",", "."));
+    const ends = l.name.split(" - ");
+    const rev = s.dir === "b";
+    const state = l.id === "L87" ? (this.props.lineState || "en-cours") : "nouvelle";
+    const visited = state === "nouvelle" ? 0 : state === "terminee" ? n : 4;
+    const cachets = l.id === "L87" ? 5 : 3;
+    const walkH = Math.round(km / 4.5 * 2) / 2, bikeM = Math.round(km / 15 * 60 / 5) * 5;
+    const fmtH = (h) => (Math.floor(h) + " h" + (h % 1 ? " 30" : ""));
+    const fmtM = (m) => (m >= 60 ? Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0") : m + " min");
+    const W = 328, pad = 7.5;
+    const xs = Array.from({ length: n }, (_, i) => pad + i * (W - 2 * pad) / (n - 1));
+    const order = rev ? xs.slice().reverse() : xs;
+    const dots = order.map((x, i) => ({ x, bg: i < visited ? "#E42127" : "#FFFDF2", ring: i < visited ? 0 : 3 }));
+    const cur = state === "en-cours" ? order[visited] : null;
+    const go = (sc) => () => this.go(sc);
+    const base = {
+      id: l.id, name: l.name, img: l.img,
+      sub: l.sub.replace(/ - /g, " · "),
+      dirA: ends[0] + " → " + ends[1], dirB: ends[1] + " → " + ends[0],
+      aBg: rev ? "transparent" : "#77732F", aFg: rev ? "#77732F" : "#FFFDF2",
+      bBg: rev ? "#77732F" : "transparent", bFg: rev ? "#FFFDF2" : "#77732F",
+      dots, fromLabel: (rev ? ends[1] : ends[0]).toUpperCase(), toLabel: (rev ? ends[0] : ends[1]).toUpperCase(),
+      showCurrent: cur != null && cur > 70 && cur < W - 70, currentX: cur || 0, currentLabel: rev ? "FLOBECQ" : "LESSINES"
+    };
+    if (state === "en-cours") return Object.assign(base, {
+      stampOp: 1, statusTitle: "En cours · " + visited + "/" + n + " arrêts",
+      statusSub: "120 points · 1/" + cachets + " cachet · prochain : gare de " + (rev ? "Flobecq" : "Lessines"),
+      ctaLabel: "REPRENDRE À " + (rev ? "FLOBECQ" : "LESSINES"), cta: go("map"),
+      hasLink: true, linkLabel: "Recommencer la ligne", link: go("transport")
+    });
+    if (state === "terminee") return Object.assign(base, {
+      stampOp: 1, statusTitle: "Ligne terminée · " + n + "/" + n + " arrêts",
+      statusSub: "560 points · " + cachets + "/" + cachets + " cachets obtenus",
+      ctaLabel: "REVOIR LA LIGNE", cta: go("map"),
+      hasLink: true, linkLabel: "Voir le bilan de la ligne", link: go("fin")
+    });
+    return Object.assign(base, {
+      stampOp: .35, statusTitle: cachets + " cachets à récolter",
+      statusSub: "≈ " + fmtH(walkH) + " à pied · " + fmtM(bikeM) + " à vélo",
+      ctaLabel: "CHOISIR CETTE LIGNE", cta: go("transport"),
+      hasLink: false, linkLabel: "", link: go("lignes")
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const LABEL_LANG = { fr: "Français", nl: "Nederlands", en: "English" };
+    const LABEL_TR = { pied: "À pied", velo: "À vélo", auto: "En voiture" };
+    const LABEL_EXP = { complete: "Complète", audio: "Audio seul" };
+    const mm = Math.floor(s.t / 60), ss = String(s.t % 60).padStart(2, "0");
+    const poiId = (s.sheet || "").indexOf("poi:") === 0 ? s.sheet.slice(4) : null;
+    const poi = poiId ? POIS.filter(p => p.id === poiId)[0] : null;
+    const guest = !!(this.props.guest || s.guest);
+    const offline = !!(this.props.offline || s.offline);
+    const locStep = s.permStep === 0;
+
+    return {
+      isAccueil: s.screen === "accueil", isConnexion: s.screen === "connexion", isInscription: s.screen === "inscription", isLangue: s.screen === "langue", isLignes: s.screen === "lignes", isLigne: s.screen === "ligne",
+      isTransport: s.screen === "transport", isExperience: s.screen === "experience", isPret: s.screen === "pret",
+      isMap: s.screen === "map", isPlayer: s.screen === "player",
+      isOubli: s.screen === "oubli", isPermissions: s.screen === "permissions", isFin: s.screen === "fin", isAvantages: s.screen === "avantages",
+      isReward: s.screen === "reward", isCachets: s.screen === "cachets", isProfil: s.screen === "profil",
+      isParametres: s.screen === "parametres",
+
+      goAccueil: () => this.go("accueil"), goLangue: () => this.go("langue"), goLignes: () => this.go("lignes"),
+      goTransport: () => this.go("transport"), goExperience: () => this.go("experience"), goPret: () => this.go("pret"),
+      goMap: () => this.go("map"),
+      goConnexion: () => this.setState(p => ({ screen: "connexion", sheet: null, error: "", tried: false, authFrom: p.screen === "inscription" ? p.authFrom : p.screen })),
+      goInscription: () => this.setState(p => ({ screen: "inscription", sheet: null, error: "", tried: false, authFrom: p.screen === "connexion" ? p.authFrom : p.screen })),
+      goBackAuth: () => this.go((s.authFrom === "profil" || s.authFrom === "player") ? s.authFrom : "accueil"),
+      goOubli: () => this.go("oubli"),
+      resetForm: !s.resetSent, resetSent: s.resetSent,
+      submitReset: () => {
+        if (!/.+@.+\..+/.test(s.email)) { this.setState({ error: "Cette adresse e-mail ne semble pas valide.", tried: true }); return; }
+        this.setState({ busy: true, error: "" });
+        setTimeout(() => this.setState({ busy: false, resetSent: true }), 900);
+      },
+      resendReset: () => this.setState({ resent: true }),
+      resendLabel: s.resent ? "E-mail renvoyé ✓" : "Renvoyer l’e-mail",
+
+      goPermissions: () => this.go("permissions"),
+      permLocStep: locStep, permNotifStep: !locStep, permStepN: s.permStep + 1,
+      permBar2: locStep ? "#F6D3D5" : "#E42127",
+      permCta: locStep ? "Autoriser la localisation" : "Autoriser les notifications",
+      permAllow: () => this.setState({ osDialog: true }),
+      permLater: () => { if (locStep) this.setState({ permStep: 1, permLoc: false }); else { this.setState({ permNotif: false }); this.go("lignes"); } },
+      osDialog: s.osDialog,
+      osTitle: locStep ? "Autoriser « Les lignes du souvenir » à utiliser votre position ?" : "« Les lignes du souvenir » souhaite vous envoyer des notifications",
+      osBody: locStep ? "Pour vous alerter à l’approche d’un arrêt de la ligne." : "Alertes, sons et pastilles. Modifiable dans les Réglages.",
+      osOptions: (locStep
+        ? [["Lors de l’utilisation de l’app", "use"], ["Toujours autoriser", "always"], ["Ne pas autoriser", "no"]]
+        : [["Autoriser", "yes"], ["Ne pas autoriser", "no"]]
+      ).map(([label, v]) => ({ label, weight: v === "no" ? 400 : 600, pick: () => this.permChoose(v) })),
+      locOn: s.permLoc !== false, locOff: s.permLoc === false,
+
+      dlNone: s.dl === "none", dlLoading: s.dl === "loading", dlDone: s.dl === "done",
+      dlPct: s.dlPct, dlMo: Math.round(s.dlPct * 1.8),
+      startDl: this.startDl,
+      cancelDl: () => { clearInterval(this.dlT); this.setState({ dl: "none", dlPct: 0 }); },
+      mapOffline: offline,
+      offlineNote: s.dl === "done" ? "ligne téléchargée" : "contenus non téléchargés",
+
+      goFin: () => this.go("fin"),
+      goAvantages: () => this.go("avantages"),
+      openAvantage: () => this.setState({ screen: "map", sheet: "voucher", voucherFrom: "avantages", arrival: false }),
+      finStamps: [
+        { name: "Bière locale", hasImg: true, noImg: false, delay: ".55s" },
+        { name: "Porphyre", hasImg: false, noImg: true, delay: ".7s" },
+        { name: "Macrale", hasImg: false, noImg: true, delay: ".85s" },
+        { name: "Textile", hasImg: false, noImg: true, delay: "1s" },
+        { name: "Marcheur", hasImg: false, noImg: true, delay: "1.15s" }
+      ],
+
+      skipAuth: () => { this.setState({ guest: true }); this.go("langue"); },
+      goLigne: () => this.go("ligne"),
+      ld: this.lineDetail(s),
+      setDirA: () => this.setState({ dir: "a" }), setDirB: () => this.setState({ dir: "b" }),
+      guest: guest, notGuest: !guest,
+      previewEnded: s.screen === "player" && s.previewEnded,
+      previewPct: 50, progressTop: guest ? 640 : 664,
+      arrivalShown: s.arrival && s.screen === "map" && !s.sheet,
+      openArrival: () => this.openPoiCard("lessines"),
+      dismissArrival: () => this.setState({ arrival: false }),
+      submitConnexion: () => this.submitAuth("connexion"),
+      submitInscription: () => this.submitAuth("inscription"),
+      togglePw: () => this.setState(p => ({ pwVisible: !p.pwVisible })),
+      toggleConsent: () => this.setState(p => ({ consent: !p.consent })),
+      on_email: (e) => this.setState({ email: e.target.value, error: "" }),
+      on_pw: (e) => this.setState({ pw: e.target.value, error: "" }),
+      on_name: (e) => this.setState({ name: e.target.value, error: "" }),
+      pwType: s.pwVisible ? "text" : "password",
+      consentBg: s.consent ? "#77732F" : "#FFFDF2",
+      consentRing: s.consent ? "#77732F" : (s.tried && !s.consent ? "#E42127" : "#B8B248"),
+      form: {
+        email: s.email, pw: s.pw, name: s.name, consent: s.consent,
+        emailRing: s.tried && !/.+@.+\..+/.test(s.email) ? "#E42127" : "#B8B248",
+        pwRing: s.tried && (!s.pw || (s.screen === "inscription" && s.pw.length < 8)) ? "#E42127" : "#B8B248",
+        nameRing: s.tried && !s.name.trim() ? "#E42127" : "#B8B248",
+        hasError: !!s.error, error: s.error,
+        busy: s.busy ? "Un instant…" : (s.screen === "inscription" ? "Créer mon compte" : s.screen === "oubli" ? "Envoyer le lien" : "Se connecter")
+      },
+      goPlayer: () => this.setState({ screen: "player", sheet: null, previewEnded: false, arrival: false, playing: this.props.autoPlay !== false, t: 5 }),
+      showNav: this.props.showNav !== false && !this.props.bare,
+      showChrome: !this.props.bare,
+      wrapMinH: this.props.bare ? "0" : "100vh",
+      wrapPad: this.props.bare ? "0" : "26px 20px 40px",
+      wrapBg: this.props.bare ? "transparent" : "#EDE7D6",
+      goReward: () => { this.setState({ screen: "reward", playing: false, sheet: null }); },
+      goCachets: () => this.go("cachets"), goProfil: () => this.go("profil"), goParametres: () => this.go("parametres"),
+
+      pickFR: () => this.setState({ lang: "fr" }, () => setTimeout(() => this.go("permissions"), 380)),
+      pickNL: () => this.setState({ lang: "nl" }, () => setTimeout(() => this.go("permissions"), 380)),
+      pickEN: () => this.setState({ lang: "en" }, () => setTimeout(() => this.go("permissions"), 380)),
+      frPicked: s.lang === "fr", nlPicked: s.lang === "nl", enPicked: s.lang === "en",
+
+      pickPied: () => this.setState({ transport: "pied" }, () => setTimeout(() => this.go("experience"), 380)),
+      pickVelo: () => this.setState({ transport: "velo" }, () => setTimeout(() => this.go("experience"), 380)),
+      pickAuto: () => this.setState({ transport: "auto" }, () => setTimeout(() => this.go("experience"), 380)),
+      piedPicked: s.transport === "pied", veloPicked: s.transport === "velo", autoPicked: s.transport === "auto",
+
+      pickExpComplete: () => this.setState({ exp: "complete" }, () => setTimeout(() => this.go("pret"), 380)),
+      pickExpAudio: () => this.setState({ exp: "audio" }, () => setTimeout(() => this.go("pret"), 380)),
+      expCompletePicked: s.exp === "complete", expAudioPicked: s.exp === "audio",
+
+      lignes: LIGNES.map(l => Object.assign({}, l, { h: l.suggested ? 90 : 74, rectH: (l.suggested ? 90 : 74) - 2.8, textRight: "14px", pick: () => this.setState({ ligne: l.id }, () => setTimeout(() => this.go("ligne"), 260)) })),
+
+      langLabel: LABEL_LANG[s.lang], transportLabel: LABEL_TR[s.transport], expLabel: LABEL_EXP[s.exp],
+      ligneLabel: (LIGNES.find(l => l.id === s.ligne) || LIGNES[0]).id + " " + (LIGNES.find(l => l.id === s.ligne) || LIGNES[0]).name,
+
+      openLigne: () => this.setState({ sheet: "ligne" }),
+      openVoucher: () => this.setState({ sheet: "voucher" }),
+      openLessines: () => this.openPoiCard("lessines"),
+      openEllezellesFromCachets: () => this.setState({ screen: "map", sheet: "voucher" }),
+      closeSheets: () => { if (s.sheet === "voucher" && s.voucherFrom) this.go(s.voucherFrom); else this.setState({ sheet: null }); },
+      ligneOpen: s.sheet === "ligne", voucherOpen: s.sheet === "voucher",
+      noSheet: !s.sheet, poiCardOpen: !!poi,
+      poi: poi ? Object.assign({}, poi, {
+        locked: !poi.enabled,
+        cta: poi.enabled && guest ? "Aperçu gratuit" : poi.cta,
+        guestNote: poi.enabled && guest && !(offline && s.dl !== "done"),
+        missing: poi.enabled && offline && s.dl !== "done",
+        playable: poi.enabled && !(offline && s.dl !== "done"),
+        icons: SVC.map(([key, src, h, w]) => ({ src, h, w, op: poi.on.indexOf(key) >= 0 ? 1 : 0.2 }))
+      }) : { icons: [] },
+      stops: POIS.map(p => ({ name: p.name, hitX: p.x - 22, hitY: p.y - 22, open: () => this.openPoiCard(p.id) })),
+
+      playing: s.playing, paused: !s.playing,
+      togglePlay: () => this.setState(p => ({ playing: !p.playing })),
+      toggleST: () => {}, toggleMute: () => {},
+      progressPct: Math.round((s.t / 24) * 100),
+      elapsed: mm + ":" + ss,
+      caption: CAPTIONS[Math.min(2, Math.floor(s.t / 9))],
+
+      sliderPct: s.slider,
+      onSlide: (e) => this.setState({ slider: Number(e.target.value) }),
+
+      nav: SCREENS.map(([key, label]) => {
+        const on = key === "poi" ? !!poi : (s.screen === key && !poi);
+        return { label, go: () => this.go(key), bg: on ? "#E42127" : "#FFFDF2", fg: on ? "#FFFFFF" : "#77732F" };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

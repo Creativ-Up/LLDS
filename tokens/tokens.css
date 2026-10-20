@@ -1,0 +1,11 @@
+:root {
+  --llds-cream: #FFFDF2; --llds-ink: #231F20;
+  --llds-red: #E42127; --llds-red-deep: #8C191C; --llds-red-tint: #FBE9E9;
+  --llds-rose: #F6A1A7; --llds-rose-light: #F6D3D5;
+  --llds-olive: #77732F; --llds-olive-dark: #635F26; --llds-olive-text: #5E5A22;
+  --llds-tilleul: #B8B248; --llds-tilleul-light: #EAE7BF;
+  --llds-sepia: #563A29; --llds-grey: #585858; --llds-grey-disabled: #8D8D80;
+  --llds-font: Inter, system-ui, sans-serif;
+  --llds-radius-field: 8px; --llds-radius-button: 10px; --llds-radius-ticket: 13px; --llds-radius-pill: 999px;
+  --llds-ease: cubic-bezier(.2,.7,.2,1);
+}

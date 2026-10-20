@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+@import '@llds/shared/tokens.css';
+@import '@llds/shared/tailwind-theme.css';
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    background: var(--llds-admin-page);
+    color: var(--llds-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+}

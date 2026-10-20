@@ -1,0 +1,281 @@
+{
+  "_note": "Données FICTIVES de démonstration pour le développement. Coordonnées approximatives, textes de remplissage non vérifiés historiquement. Le contenu réel (nombre d'arrêts, médias, cachets, partenaires) est saisi dans le back-office.",
+  "admin": {
+    "email": "admin@llds.local",
+    "password": "change-me-admin",
+    "first_name": "Admin"
+  },
+  "app_settings": {
+    "default_geofence_radius_m": 80,
+    "walk_kmh": 4.5,
+    "bike_kmh": 15,
+    "car_kmh": 30,
+    "default_guest_preview_s": 12
+  },
+  "stamps": [
+    {
+      "key": "biere",
+      "name": {
+        "fr": "Bière locale",
+        "nl": "Lokaal bier",
+        "en": "Local beer"
+      },
+      "image": "assets/stamps/cachet-biere-locale.png",
+      "rule": "stop_completed"
+    },
+    {
+      "key": "porphyre",
+      "name": {
+        "fr": "Porphyre",
+        "nl": "Porfier",
+        "en": "Porphyry"
+      },
+      "image": null,
+      "rule": "stop_completed"
+    },
+    {
+      "key": "macrale",
+      "name": {
+        "fr": "Macrale",
+        "nl": "Macrale",
+        "en": "Macrale"
+      },
+      "image": null,
+      "rule": "stop_completed"
+    },
+    {
+      "key": "marcheur",
+      "name": {
+        "fr": "Marcheur",
+        "nl": "Wandelaar",
+        "en": "Walker"
+      },
+      "image": null,
+      "rule": "line_completed",
+      "line": "L87"
+    },
+    {
+      "key": "expert",
+      "name": {
+        "fr": "Expert",
+        "nl": "Expert",
+        "en": "Expert"
+      },
+      "image": null,
+      "rule": "points_threshold",
+      "points_threshold": 480
+    }
+  ],
+  "partners": [
+    {
+      "key": "chaudron",
+      "name": "Au Chaudron des Légendes",
+      "address": "Guinaumont 75, 7890 Ellezelles",
+      "opening_hours": {
+        "fr": "Du jeudi au dimanche de 11h à 22h"
+      },
+      "photo": "assets/demo/partenaire-chaudron-photo.jpg",
+      "logo": "assets/demo/partenaire-chaudron-logo.png"
+    }
+  ],
+  "offers": [
+    {
+      "partner": "chaudron",
+      "title": {
+        "fr": "15% de remise sur votre addition"
+      },
+      "description": {
+        "fr": "Profitez d'une remise de 15% sur votre addition sur présentation du cachet « Bière locale » validé dans l'application."
+      },
+      "conditions": {
+        "fr": "Uniquement valable le jeudi et le vendredi hors jours fériés — montant de la remise plafonné à 25,00 €."
+      },
+      "required_stamp": "biere",
+      "visible_from_stop": "ellezelles"
+    }
+  ],
+  "lines": [
+    {
+      "code": "L87",
+      "name": {
+        "fr": "Bassilly - Renaix"
+      },
+      "tagline": {
+        "fr": "pierre & porphyre"
+      },
+      "cover": "assets/demo/ligne-L87.jpg",
+      "status": "published",
+      "track": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            3.928,
+            50.667
+          ],
+          [
+            3.836,
+            50.712
+          ],
+          [
+            3.738,
+            50.737
+          ],
+          [
+            3.68,
+            50.735
+          ],
+          [
+            3.6,
+            50.745
+          ]
+        ]
+      },
+      "stops": [
+        {
+          "key": "bassilly",
+          "name": {
+            "fr": "Gare de Bassilly"
+          },
+          "year": 1905,
+          "lat": 50.667,
+          "lng": 3.928,
+          "services": [
+            "parking",
+            "info",
+            "patrimoine"
+          ],
+          "points": 50,
+          "archive": "assets/demo/arret-bassilly-1905.jpg",
+          "stamp": null,
+          "description": {
+            "fr": "Texte de démonstration."
+          }
+        },
+        {
+          "key": "lessines",
+          "name": {
+            "fr": "Gare de Lessines"
+          },
+          "year": 1910,
+          "lat": 50.712,
+          "lng": 3.836,
+          "services": [
+            "cafe",
+            "parking",
+            "info",
+            "restaurant",
+            "gare",
+            "patrimoine"
+          ],
+          "points": 50,
+          "archive": null,
+          "stamp": "porphyre",
+          "description": {
+            "fr": "Texte de démonstration."
+          }
+        },
+        {
+          "key": "flobecq",
+          "name": {
+            "fr": "Gare de Flobecq"
+          },
+          "year": 1908,
+          "lat": 50.737,
+          "lng": 3.738,
+          "services": [
+            "cafe",
+            "info",
+            "patrimoine"
+          ],
+          "points": 50,
+          "archive": null,
+          "stamp": "macrale",
+          "description": {
+            "fr": "Texte de démonstration."
+          }
+        },
+        {
+          "key": "ellezelles",
+          "name": {
+            "fr": "Gare d'Ellezelles"
+          },
+          "year": 1906,
+          "lat": 50.735,
+          "lng": 3.68,
+          "services": [
+            "parking",
+            "remise"
+          ],
+          "points": 50,
+          "archive": null,
+          "stamp": "biere",
+          "description": {
+            "fr": "Texte de démonstration."
+          }
+        },
+        {
+          "key": "renaix",
+          "name": {
+            "fr": "Gare de Renaix"
+          },
+          "year": 1912,
+          "lat": 50.745,
+          "lng": 3.6,
+          "services": [
+            "parking",
+            "info",
+            "restaurant",
+            "gare",
+            "patrimoine"
+          ],
+          "points": 50,
+          "archive": null,
+          "stamp": null,
+          "description": {
+            "fr": "Texte de démonstration."
+          }
+        }
+      ]
+    },
+    {
+      "code": "L86",
+      "name": {
+        "fr": "Moustier - Basècles"
+      },
+      "cover": "assets/demo/ligne-L86.jpg",
+      "status": "draft",
+      "track": null,
+      "stops": []
+    },
+    {
+      "code": "L98",
+      "name": {
+        "fr": "Mons - Quiévrain"
+      },
+      "cover": "assets/demo/ligne-L98.jpg",
+      "status": "draft",
+      "track": null,
+      "stops": []
+    },
+    {
+      "code": "L142",
+      "name": {
+        "fr": "Jodoigne - Namur"
+      },
+      "cover": "assets/demo/ligne-L142.jpg",
+      "status": "draft",
+      "track": null,
+      "stops": []
+    },
+    {
+      "code": "L613",
+      "name": {
+        "fr": "Houffalize - Bastogne"
+      },
+      "cover": "assets/demo/ligne-L613.jpg",
+      "status": "coming_soon",
+      "track": null,
+      "stops": []
+    }
+  ]
+}

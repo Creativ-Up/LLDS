@@ -1,0 +1,29 @@
+{
+  "name": "@llds/shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Types, schémas zod, tokens de design et traductions partagés (app mobile, admin, Edge Functions).",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens": "./src/tokens/index.ts",
+    "./tokens.css": "./src/tokens/tokens.css",
+    "./tailwind-theme.css": "./src/tokens/tailwind-theme.css",
+    "./i18n": "./src/i18n/index.ts",
+    "./schemas": "./src/schemas/index.ts",
+    "./database": "./src/database.types.ts"
+  },
+  "scripts": {
+    "tokens": "tsx scripts/build-tokens.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3"
+  }
+}

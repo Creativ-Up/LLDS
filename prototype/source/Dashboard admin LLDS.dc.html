@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..600&display=swap">
+<style>
+  body{margin:0;background:#F3F0DD;color:#231F20;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#77732F}
+  a:hover{color:#5E5A22}
+  ::selection{background:rgba(228,33,39,.16)}
+  input,textarea,select,button{font-family:inherit}
+  @keyframes admIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes admDrawer{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+  @keyframes admPop{0%{opacity:0;transform:translate(-50%,10px) scale(.96)}100%{opacity:1;transform:translate(-50%,0) scale(1)}}
+  @keyframes admFade{from{opacity:0}to{opacity:1}}
+  @keyframes admBar{from{width:0}}
+</style>
+</helmet>
+
+<!-- ══════════ CONNEXION ══════════ -->
+<sc-if value="{{ isLogin }}">
+  <div data-screen-label="A0 Connexion admin" style="min-height:100vh;display:grid;place-items:center;padding:40px 20px;box-sizing:border-box;background:#F3F0DD">
+    <div style="position:relative;width:100%;max-width:420px;padding:44px 40px 40px;box-sizing:border-box;background:#FFFDF2;border-radius:14px;box-shadow:0 1px 0 #DDD9B8,0 18px 50px rgba(35,31,32,.08);display:flex;flex-direction:column;gap:22px;animation:admIn .35s cubic-bezier(.2,.7,.2,1) both">
+      <img src="llds/img/logo-llds.png" alt="Les lignes du souvenir" style="width:220px;height:auto;display:block">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <h1 style="margin:0;font:600 24px/1.2 Inter,system-ui;letter-spacing:-.02em">Administration</h1>
+        <p style="margin:0;font:400 14px/1.45 Inter,system-ui;color:#585858">Accès réservé à l’équipe éditoriale.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">E-MAIL</label>
+        <input type="email" value="admin@llds.local" style="height:42px;padding:0 14px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">MOT DE PASSE</label>
+        <input type="password" value="motdepasse" style="height:42px;padding:0 14px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+      </div>
+      <div role="button" tabindex="0" onClick="{{ login }}" style="height:44px;border-radius:8px;background:#77732F;color:#FFFDF2;font:500 15px/44px Inter,system-ui;text-align:center;cursor:pointer;transition:background .15s" style-hover="background:#635F26">Se connecter</div>
+      <span style="font:400 13px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer;align-self:center">Mot de passe oublié&nbsp;?</span>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ══════════ APPLICATION ══════════ -->
+<sc-if value="{{ isApp }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;display:flex;background:#F3F0DD">
+
+  <!-- Barre latérale -->
+  <aside style="position:sticky;top:0;align-self:flex-start;height:100vh;flex:none;width:236px;box-sizing:border-box;padding:22px 14px 18px;background:#FFFDF2;border-right:1px solid #DDD9B8;display:flex;flex-direction:column;gap:24px">
+    <div style="padding:0 8px;display:flex;flex-direction:column;gap:8px">
+      <img src="llds/img/logo-llds.png" alt="Les lignes du souvenir" style="width:168px;height:auto;display:block">
+      <span style="font:500 11px/1 Inter,system-ui;letter-spacing:.12em;color:#77732F">ADMINISTRATION</span>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <div role="button" tabindex="0" onClick="{{ nav.dashboard.go }}" style="height:40px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font:500 14px/1 Inter,system-ui;background:{{ nav.dashboard.bg }};color:{{ nav.dashboard.fg }}" style-hover="background:#F1EED6">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="1.5" y="1.5" width="6" height="6" rx="1.5"></rect><rect x="10.5" y="1.5" width="6" height="6" rx="1.5"></rect><rect x="1.5" y="10.5" width="6" height="6" rx="1.5"></rect><rect x="10.5" y="10.5" width="6" height="6" rx="1.5"></rect></svg>Tableau de bord
+      </div>
+      <div role="button" tabindex="0" onClick="{{ nav.lines.go }}" style="height:40px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font:500 14px/1 Inter,system-ui;background:{{ nav.lines.bg }};color:{{ nav.lines.fg }}" style-hover="background:#F1EED6">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 15c3-1 3-5 6-6s4-5 8-6"></path><circle cx="2.5" cy="14.8" r="1.6" fill="currentColor"></circle><circle cx="8.6" cy="8.8" r="1.6" fill="currentColor"></circle><circle cx="15.5" cy="3.2" r="1.6" fill="currentColor"></circle></svg>Lignes
+      </div>
+      <div role="button" tabindex="0" onClick="{{ nav.stamps.go }}" style="height:40px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font:500 14px/1 Inter,system-ui;background:{{ nav.stamps.bg }};color:{{ nav.stamps.fg }}" style-hover="background:#F1EED6">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="9" r="7.4"></circle><circle cx="9" cy="9" r="4.2" stroke-dasharray="2.4 1.8"></circle></svg>Cachets
+      </div>
+      <div role="button" tabindex="0" onClick="{{ nav.partners.go }}" style="height:40px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font:500 14px/1 Inter,system-ui;background:{{ nav.partners.bg }};color:{{ nav.partners.fg }}" style-hover="background:#F1EED6">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M1.6 6.2h14.8v3a1.8 1.8 0 0 0 0 3.6v3H1.6v-3a1.8 1.8 0 0 0 0-3.6Z"></path><path d="M11.5 6.4v9.2" stroke-dasharray="1.6 1.6"></path></svg>Partenaires &amp; avantages
+      </div>
+      <div role="button" tabindex="0" onClick="{{ nav.media.go }}" style="height:40px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font:500 14px/1 Inter,system-ui;background:{{ nav.media.bg }};color:{{ nav.media.fg }}" style-hover="background:#F1EED6">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="1.5" y="2.5" width="15" height="13" rx="2"></rect><circle cx="6" cy="7" r="1.6"></circle><path d="M2 13.5l4.4-4 3.4 3 2.4-2 3.8 3.4"></path></svg>Médiathèque
+      </div>
+      <div role="button" tabindex="0" onClick="{{ nav.users.go }}" style="height:40px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font:500 14px/1 Inter,system-ui;background:{{ nav.users.bg }};color:{{ nav.users.fg }}" style-hover="background:#F1EED6">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="6" r="3.2"></circle><path d="M1.5 16c0-3.2 2.4-5.2 5.5-5.2s5.5 2 5.5 5.2"></path><path d="M12.2 3.2a3 3 0 0 1 0 5.6M14 10.9c1.6.6 2.6 2.2 2.6 4.6" stroke-linecap="round"></path></svg>Utilisateurs
+      </div>
+      <div role="button" tabindex="0" onClick="{{ nav.settings.go }}" style="height:40px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;font:500 14px/1 Inter,system-ui;background:{{ nav.settings.bg }};color:{{ nav.settings.fg }}" style-hover="background:#F1EED6">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10" cy="10" r="3"></circle><path d="M10 1.4v2.2M10 16.4v2.2M18.6 10h-2.2M3.6 10H1.4M16.1 3.9l-1.6 1.6M5.5 14.5l-1.6 1.6M16.1 16.1l-1.6-1.6M5.5 5.5 3.9 3.9" stroke-linecap="round"></path></svg>Réglages
+      </div>
+    </nav>
+    <div style="margin-top:auto;padding:14px 10px 0;border-top:1px solid #E6E2C4;display:flex;align-items:center;gap:10px">
+      <div style="flex:none;width:34px;height:34px;border-radius:50%;background:#EAE7BF;display:grid;place-items:center;font:600 13px/1 Inter,system-ui;color:#5E5A22">AD</div>
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+        <span style="font:500 13px/1.2 Inter,system-ui;color:#231F20">Admin</span>
+        <span style="font:400 12px/1.2 Inter,system-ui;color:#585858;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">admin@llds.local</span>
+      </div>
+      <div role="button" tabindex="0" onClick="{{ logout }}" aria-label="Se déconnecter" title="Se déconnecter" style="flex:none;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:#77732F" style-hover="background:#F1EED6">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5H3.5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1H6"></path><path d="M10.5 11 13.5 8l-3-3M13.3 8H6.5"></path></svg>
+      </div>
+    </div>
+  </aside>
+
+  <main style="flex:1;min-width:0;padding:30px 40px 60px;box-sizing:border-box">
+
+    <!-- ══════════ TABLEAU DE BORD ══════════ -->
+    <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="A1 Tableau de bord" style="max-width:1180px;display:flex;flex-direction:column;gap:28px;animation:admIn .3s both">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:600 28px/1.15 Inter,system-ui;letter-spacing:-.02em">Bonjour Admin</h1>
+            <p style="margin:0;font:400 14px/1.4 Inter,system-ui;color:#585858">Voici l’état des contenus de l’application.</p>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ newLine }}" style="height:40px;padding:0 18px;border-radius:8px;background:#77732F;color:#FFFDF2;display:flex;align-items:center;gap:8px;font:500 14px/1 Inter,system-ui;cursor:pointer" style-hover="background:#635F26">
+            <svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1.5v11M1.5 7h11"></path></svg>Nouvelle ligne
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+          <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+            <div role="button" tabindex="0" onClick="{{ st.go }}" style="padding:20px 22px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:box-shadow .15s" style-hover="box-shadow:inset 0 0 0 1.5px #B8B248">
+              <span style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">{{ st.label }}</span>
+              <span style="font:600 34px/1 Inter,system-ui;letter-spacing:-.02em;color:#231F20">{{ st.value }}</span>
+              <span style="font:400 13px/1.3 Inter,system-ui;color:#585858">{{ st.sub }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+          <section style="flex:2 1 520px;min-width:0;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8">
+            <div style="padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #E6E2C4">
+              <h2 style="margin:0;font:600 16px/1.2 Inter,system-ui">Contenus à compléter</h2>
+              <span style="height:24px;padding:0 10px;border-radius:999px;background:#FBE9E9;color:#8C191C;font:500 12px/24px Inter,system-ui">{{ todoCount }}</span>
+            </div>
+            <sc-for list="{{ todos }}" as="t" hint-placeholder-count="4">
+              <div style="padding:14px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid #EFEBD3">
+                <span style="flex:none;width:8px;height:8px;border-radius:50%;background:#E42127;display:block"></span>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+                  <span style="font:500 14px/1.3 Inter,system-ui;color:#231F20">{{ t.title }}</span>
+                  <span style="font:400 13px/1.3 Inter,system-ui;color:#585858">{{ t.detail }}</span>
+                </div>
+                <div role="button" tabindex="0" onClick="{{ t.go }}" style="flex:none;height:32px;padding:0 14px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #77732F;color:#77732F;font:500 13px/32px Inter,system-ui;cursor:pointer" style-hover="background:#F1EED6">Compléter</div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noTodos }}">
+              <div style="padding:26px 22px;font:400 14px/1.4 Inter,system-ui;color:#585858">Tous les contenus publiés sont complets.</div>
+            </sc-if>
+          </section>
+          <section style="flex:1 1 300px;min-width:0;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8">
+            <div style="padding:18px 22px;border-bottom:1px solid #E6E2C4"><h2 style="margin:0;font:600 16px/1.2 Inter,system-ui">Dernières modifications</h2></div>
+            <sc-for list="{{ activity }}" as="a" hint-placeholder-count="4">
+              <div style="padding:13px 22px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid #EFEBD3">
+                <span style="font:400 14px/1.35 Inter,system-ui;color:#231F20">{{ a.text }}</span>
+                <span style="font:400 12px/1 Inter,system-ui;color:#585858">{{ a.when }}</span>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ LIGNES ══════════ -->
+    <sc-if value="{{ isLines }}">
+      <div data-screen-label="A2 Lignes" style="max-width:1180px;display:flex;flex-direction:column;gap:22px;animation:admIn .3s both">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:600 28px/1.15 Inter,system-ui;letter-spacing:-.02em">Lignes</h1>
+            <p style="margin:0;font:400 14px/1.4 Inter,system-ui;color:#585858">L’ordre ci-dessous est celui de l’écran « Votre ligne&nbsp;? » dans l’application.</p>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ newLine }}" style="height:40px;padding:0 18px;border-radius:8px;background:#77732F;color:#FFFDF2;display:flex;align-items:center;gap:8px;font:500 14px/1 Inter,system-ui;cursor:pointer" style-hover="background:#635F26">
+            <svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1.5v11M1.5 7h11"></path></svg>Nouvelle ligne
+          </div>
+        </div>
+        <div style="border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;overflow-x:auto">
+          <div style="min-width:820px">
+            <div style="display:grid;grid-template-columns:40px 84px minmax(220px,2fr) 150px 90px 100px 150px;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid #E6E2C4;font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">
+              <span></span><span></span><span>LIGNE</span><span>STATUT</span><span>ARRÊTS</span><span>LONGUEUR</span><span>PUBLICATION</span>
+            </div>
+            <sc-for list="{{ linesRows }}" as="l" hint-placeholder-count="5">
+              <div role="button" tabindex="0" onClick="{{ l.open }}" style="display:grid;grid-template-columns:40px 84px minmax(220px,2fr) 150px 90px 100px 150px;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid #EFEBD3;cursor:pointer;transition:background .12s" style-hover="background:#F7F4E2">
+                <svg width="14" height="20" viewBox="0 0 14 20" fill="#B8B248"><circle cx="4" cy="4" r="1.6"></circle><circle cx="10" cy="4" r="1.6"></circle><circle cx="4" cy="10" r="1.6"></circle><circle cx="10" cy="10" r="1.6"></circle><circle cx="4" cy="16" r="1.6"></circle><circle cx="10" cy="16" r="1.6"></circle></svg>
+                <div style="width:84px;height:54px;border-radius:4px;border:1.5px solid #B8B248;box-sizing:border-box;background-size:cover;background-position:center;filter:grayscale(1) sepia(.22);background-image:url({{ l.img }})"></div>
+                <div style="min-width:0;display:flex;align-items:baseline;gap:10px">
+                  <span style="font:700 16px/1 Inter,system-ui;color:#231F20">{{ l.code }}</span>
+                  <span style="font:500 italic 14px/1.2 Inter,system-ui;color:#231F20;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.name }}</span>
+                </div>
+                <span style="justify-self:start;height:26px;padding:0 11px;border-radius:999px;font:500 12px/26px Inter,system-ui;background:{{ l.statusBg }};color:{{ l.statusFg }}">{{ l.status }}</span>
+                <span style="font:400 14px/1 Inter,system-ui;color:#231F20">{{ l.stops }}</span>
+                <span style="font:400 14px/1 Inter,system-ui;color:#231F20">{{ l.length }}</span>
+                <span style="font:400 13px/1.3 Inter,system-ui;color:#585858">{{ l.published }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ ÉDITEUR DE LIGNE ══════════ -->
+    <sc-if value="{{ isLine }}">
+      <div data-screen-label="A3 Éditeur de ligne" style="max-width:1320px;display:flex;flex-direction:column;gap:20px;animation:admIn .3s both">
+        <div style="display:flex;align-items:center;gap:8px;font:400 13px/1 Inter,system-ui;color:#585858">
+          <span role="button" tabindex="0" onClick="{{ nav.lines.go }}" style="color:#77732F;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Lignes</span><span>/</span><span>{{ line.code }}</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+            <h1 style="margin:0;font:700 28px/1.1 Inter,system-ui;letter-spacing:-.02em">{{ line.code }}</h1>
+            <span style="font:500 italic 22px/1.1 Inter,system-ui">{{ line.name }}</span>
+            <span style="height:26px;padding:0 11px;border-radius:999px;font:500 12px/26px Inter,system-ui;background:{{ line.statusBg }};color:{{ line.statusFg }}">{{ line.status }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font:400 13px/1 Inter,system-ui;color:#585858">{{ line.version }}</span>
+            <div role="button" tabindex="0" onClick="{{ saveDraft }}" style="height:40px;padding:0 16px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #77732F;color:#77732F;font:500 14px/40px Inter,system-ui;cursor:pointer" style-hover="background:#F1EED6">Enregistrer</div>
+            <div role="button" tabindex="0" onClick="{{ publish }}" aria-disabled="{{ cantPublish }}" style="height:40px;padding:0 18px;border-radius:8px;font:500 14px/40px Inter,system-ui;background:{{ publishBg }};color:{{ publishFg }};cursor:{{ publishCursor }}">Publier</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+          <!-- Colonne formulaire -->
+          <div style="flex:1 1 360px;max-width:460px;min-width:0;display:flex;flex-direction:column;gap:16px">
+            <section style="padding:20px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <h2 style="margin:0;font:600 15px/1.2 Inter,system-ui">Informations</h2>
+                <div style="display:flex;gap:2px;padding:3px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #DDD9B8">
+                  <sc-for list="{{ langTabs }}" as="lt" hint-placeholder-count="3">
+                    <div role="button" tabindex="0" onClick="{{ lt.pick }}" style="height:26px;padding:0 11px;border-radius:6px;font:600 12px/26px Inter,system-ui;cursor:pointer;background:{{ lt.bg }};color:{{ lt.fg }}">{{ lt.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px">
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">CODE</label>
+                  <input value="{{ line.code }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:600 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">NOM · {{ langUpper }}</label>
+                  <input value="{{ line.nameLang }}" placeholder="{{ line.namePh }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">ACCROCHE · {{ langUpper }}</label>
+                <input value="{{ line.taglineLang }}" placeholder="ex. pierre &amp; porphyre" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+              </div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="flex:none;width:96px;height:62px;border-radius:4px;border:1.5px solid #B8B248;box-sizing:border-box;background-size:cover;background-position:center;filter:grayscale(1) sepia(.22);background-image:url({{ line.img }})"></div>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                  <span style="font:500 13px/1.2 Inter,system-ui">Carte postale de couverture</span>
+                  <span style="font:400 12px/1.3 Inter,system-ui;color:#585858">Affichée dans la liste des lignes</span>
+                </div>
+                <span style="font:500 13px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Remplacer</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">STATUT</label>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:3px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #DDD9B8">
+                  <sc-for list="{{ statusOpts }}" as="so" hint-placeholder-count="3">
+                    <div role="button" tabindex="0" onClick="{{ so.pick }}" style="height:30px;border-radius:6px;display:grid;place-items:center;font:500 12.5px/1 Inter,system-ui;cursor:pointer;background:{{ so.bg }};color:{{ so.fg }}">{{ so.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </section>
+
+            <section style="padding:20px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;display:flex;flex-direction:column;gap:12px">
+              <h2 style="margin:0;font:600 15px/1.2 Inter,system-ui">Tracé</h2>
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:8px;background:#F7F4E2">
+                <svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="#77732F" stroke-width="1.7" stroke-linecap="round"><path d="M2 15c3-1 3-5 6-6s4-5 8-6"></path></svg>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+                  <span style="font:500 13px/1.2 Inter,system-ui">l87-bassilly-renaix.gpx</span>
+                  <span style="font:400 12px/1.2 Inter,system-ui;color:#585858">{{ line.length }} · calculée depuis le tracé</span>
+                </div>
+                <span style="font:500 13px/1 Inter,system-ui;color:#77732F;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Remplacer</span>
+              </div>
+              <span style="font:400 12px/1.4 Inter,system-ui;color:#585858">Formats acceptés : GPX, GeoJSON, KML.</span>
+            </section>
+
+            <section style="border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8">
+              <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #E6E2C4">
+                <h2 style="margin:0;font:600 15px/1.2 Inter,system-ui">Arrêts <span style="font-weight:400;color:#585858">· {{ stopCount }}</span></h2>
+                <div role="button" tabindex="0" onClick="{{ toggleAdd }}" style="height:32px;padding:0 12px;border-radius:8px;display:flex;align-items:center;gap:7px;font:500 13px/1 Inter,system-ui;cursor:pointer;background:{{ addBtnBg }};color:{{ addBtnFg }};box-shadow:inset 0 0 0 1.5px #77732F">
+                  <svg width="12" height="12" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 1.5v11M1.5 7h11"></path></svg>{{ addBtnLabel }}
+                </div>
+              </div>
+              <sc-for list="{{ stopRows }}" as="s" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 14px 10px 16px;border-bottom:1px solid #EFEBD3;background:{{ s.rowBg }}">
+                  <span style="flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:600 12px/1 Inter,system-ui;background:{{ s.dotBg }};color:#FFFDF2">{{ s.n }}</span>
+                  <div role="button" tabindex="0" onClick="{{ s.open }}" style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;cursor:pointer">
+                    <span style="font:500 14px/1.25 Inter,system-ui;color:#231F20;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}</span>
+                    <span style="font:400 12px/1.25 Inter,system-ui;color:{{ s.stateFg }}">{{ s.state }}</span>
+                  </div>
+                  <div style="flex:none;display:flex;gap:2px">
+                    <div role="button" tabindex="0" onClick="{{ s.up }}" aria-label="Monter" style="width:28px;height:28px;border-radius:6px;display:grid;place-items:center;cursor:pointer;opacity:{{ s.upOp }}" style-hover="background:#EAE7BF"><svg width="10" height="7" viewBox="0 0 10 7" fill="none" stroke="#77732F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l4-4.5L9 6"></path></svg></div>
+                    <div role="button" tabindex="0" onClick="{{ s.down }}" aria-label="Descendre" style="width:28px;height:28px;border-radius:6px;display:grid;place-items:center;cursor:pointer;opacity:{{ s.downOp }}" style-hover="background:#EAE7BF"><svg width="10" height="7" viewBox="0 0 10 7" fill="none" stroke="#77732F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4.5L9 1"></path></svg></div>
+                  </div>
+                </div>
+              </sc-for>
+            </section>
+          </div>
+
+          <!-- Colonne carte -->
+          <div style="flex:2 1 520px;min-width:0;display:flex;flex-direction:column;gap:16px">
+            <section style="position:relative;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;overflow:hidden">
+              <div onClick="{{ mapClick }}" style="position:relative;width:100%;aspect-ratio:640/420;cursor:{{ mapCursor }}">
+                <svg viewBox="0 0 640 420" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
+                  <defs><pattern id="admgrid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#E6E2C4" stroke-width="1"></path></pattern></defs>
+                  <rect width="640" height="420" fill="#FBF9EC"></rect>
+                  <rect width="640" height="420" fill="url(#admgrid)"></rect>
+                  <path d="M0 300 C 120 280 160 330 260 320 S 420 360 640 330" fill="none" stroke="#CFE0E6" stroke-width="10" stroke-linecap="round" opacity=".7"></path>
+                  <g font-family="Inter" font-size="11" fill="#A9A67C" letter-spacing="1"><text x="84" y="372">SILLY</text><text x="250" y="296">LESSINES</text><text x="300" y="150">FLOBECQ</text><text x="500" y="182">ELLEZELLES</text><text x="520" y="52">RONSE</text></g>
+                  <path d="{{ trackD }}" fill="none" stroke="#231F20" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <sc-if value="{{ hasSel }}">
+                  <div style="position:absolute;border-radius:50%;background:rgba(119,115,47,.12);box-shadow:inset 0 0 0 1.5px #77732F;transform:translate(-50%,-50%);pointer-events:none;left:{{ sel.px }}%;top:{{ sel.py }}%;width:{{ sel.ring }}px;height:{{ sel.ring }}px"></div>
+                </sc-if>
+                <sc-for list="{{ markers }}" as="m" hint-placeholder-count="5">
+                  <div role="button" tabindex="0" onClick="{{ m.open }}" title="{{ m.name }}" style="position:absolute;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:600 12px/1 Inter,system-ui;color:#FFFDF2;cursor:pointer;box-shadow:0 0 0 3px #FFFDF2,0 3px 8px rgba(35,31,32,.25);left:{{ m.px }}%;top:{{ m.py }}%;background:{{ m.bg }}">{{ m.n }}
+                    <sc-if value="{{ m.warn }}"><span style="position:absolute;right:-3px;top:-3px;width:10px;height:10px;border-radius:50%;background:#E42127;box-shadow:0 0 0 2px #FFFDF2;display:block"></span></sc-if>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ addMode }}">
+                  <div style="position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:9px 14px;border-radius:999px;background:#231F20;color:#FFFDF2;font:500 13px/1 Inter,system-ui;white-space:nowrap;pointer-events:none;animation:admFade .2s both">Cliquez sur la carte pour placer l’arrêt — il sera aimanté au tracé</div>
+                </sc-if>
+                <div style="position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;overflow:hidden">
+                  <span style="width:34px;height:32px;display:grid;place-items:center;font:500 18px/1 Inter,system-ui;color:#231F20;border-bottom:1px solid #DDD9B8">+</span>
+                  <span style="width:34px;height:32px;display:grid;place-items:center;font:500 18px/1 Inter,system-ui;color:#231F20">−</span>
+                </div>
+                <div style="position:absolute;left:14px;bottom:12px;display:flex;align-items:center;gap:8px;font:500 11px/1 Inter,system-ui;color:#585858"><span style="width:60px;height:5px;border:1.5px solid #585858;border-top:0;display:block"></span>2 km</div>
+              </div>
+            </section>
+
+            <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+              <section style="flex:1 1 300px;min-width:0;padding:18px 20px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;display:flex;flex-direction:column;gap:12px">
+                <h2 style="margin:0;font:600 15px/1.2 Inter,system-ui">Contrôle avant publication</h2>
+                <sc-for list="{{ checks }}" as="c" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:flex-start;gap:10px">
+                    <span style="flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-top:1px;background:{{ c.bg }}">
+                      <sc-if value="{{ c.ok }}"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="#FFFDF2" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4.2 3.7 6.8 9 1.2"></path></svg></sc-if>
+                      <sc-if value="{{ c.ko }}"><svg width="8" height="8" viewBox="0 0 8 8" stroke="#FFFDF2" stroke-width="1.9" stroke-linecap="round"><path d="M1 1l6 6M7 1 1 7"></path></svg></sc-if>
+                    </span>
+                    <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                      <span style="font:500 13.5px/1.35 Inter,system-ui;color:#231F20">{{ c.label }}</span>
+                      <span style="font:400 12.5px/1.35 Inter,system-ui;color:#585858">{{ c.detail }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </section>
+              <section style="flex:1 1 240px;min-width:0;padding:18px 20px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;display:flex;flex-direction:column;gap:12px">
+                <h2 style="margin:0;font:600 15px/1.2 Inter,system-ui">Téléchargement dans l’app</h2>
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid #EFEBD3">
+                  <span style="font:400 13.5px/1.3 Inter,system-ui">Expérience complète</span><span style="font:600 15px/1 Inter,system-ui">{{ dlFull }}</span>
+                </div>
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+                  <span style="font:400 13.5px/1.3 Inter,system-ui">Audio uniquement</span><span style="font:600 15px/1 Inter,system-ui">{{ dlAudio }}</span>
+                </div>
+                <span style="font:400 12px/1.4 Inter,system-ui;color:#585858">Calculé à partir des médias FR. Affiché sur l’écran « Prêt pour le départ ».</span>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ CACHETS ══════════ -->
+    <sc-if value="{{ isStamps }}">
+      <div data-screen-label="A5 Cachets" style="max-width:1180px;display:flex;flex-direction:column;gap:22px;animation:admIn .3s both">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:600 28px/1.15 Inter,system-ui;letter-spacing:-.02em">Cachets</h1>
+            <p style="margin:0;font:400 14px/1.4 Inter,system-ui;color:#585858">Sans image, un cachet générique est affiché dans l’application.</p>
+          </div>
+          <div role="button" tabindex="0" onClick="{{ openStampModal }}" style="height:40px;padding:0 18px;border-radius:8px;background:#77732F;color:#FFFDF2;display:flex;align-items:center;gap:8px;font:500 14px/1 Inter,system-ui;cursor:pointer" style-hover="background:#635F26">
+            <svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1.5v11M1.5 7h11"></path></svg>Nouveau cachet
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px">
+          <sc-for list="{{ stamps }}" as="st" hint-placeholder-count="5">
+            <div style="padding:22px 18px 18px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+              <sc-if value="{{ st.hasImg }}"><div style="width:96px;height:96px;background-size:contain;background-repeat:no-repeat;background-position:center;background-image:url({{ st.img }})"></div></sc-if>
+              <sc-if value="{{ st.noImg }}">
+                <div style="width:96px;height:96px;border-radius:50%;box-shadow:inset 0 0 0 2.5px #563A29;display:grid;place-items:center">
+                  <div style="width:72px;height:72px;border-radius:50%;border:1.6px dashed #563A29;box-sizing:border-box;display:grid;place-items:center;font:600 10px/1.2 Inter,system-ui;letter-spacing:.08em;color:#563A29">{{ st.initials }}</div>
+                </div>
+              </sc-if>
+              <span style="font:600 15px/1.2 Inter,system-ui;color:#231F20">{{ st.name }}</span>
+              <span style="font:400 12.5px/1.35 Inter,system-ui;color:#585858">{{ st.rule }}</span>
+              <span style="height:24px;padding:0 10px;border-radius:999px;font:500 11.5px/24px Inter,system-ui;background:{{ st.tagBg }};color:{{ st.tagFg }}">{{ st.tag }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ PARTENAIRES & AVANTAGES ══════════ -->
+    <sc-if value="{{ isPartners }}">
+      <div data-screen-label="A6 Partenaires et avantages" style="max-width:1180px;display:flex;flex-direction:column;gap:22px;animation:admIn .3s both">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:600 28px/1.15 Inter,system-ui;letter-spacing:-.02em">Partenaires &amp; avantages</h1>
+            <p style="margin:0;font:400 14px/1.4 Inter,system-ui;color:#585858">Un avantage devient visible dans l’app quand le visiteur atteint l’arrêt choisi.</p>
+          </div>
+          <div style="display:flex;gap:10px">
+            <div role="button" tabindex="0" style="height:40px;padding:0 16px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #77732F;color:#77732F;font:500 14px/40px Inter,system-ui;cursor:pointer" style-hover="background:#F1EED6">Nouveau partenaire</div>
+            <div role="button" tabindex="0" onClick="{{ openOffer }}" style="height:40px;padding:0 18px;border-radius:8px;background:#77732F;color:#FFFDF2;display:flex;align-items:center;gap:8px;font:500 14px/1 Inter,system-ui;cursor:pointer" style-hover="background:#635F26">
+              <svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1.5v11M1.5 7h11"></path></svg>Nouvel avantage
+            </div>
+          </div>
+        </div>
+
+        <section style="border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;overflow-x:auto">
+          <div style="min-width:860px">
+            <div style="padding:16px 20px;border-bottom:1px solid #E6E2C4"><h2 style="margin:0;font:600 15px/1.2 Inter,system-ui">Avantages</h2></div>
+            <div style="display:grid;grid-template-columns:minmax(240px,2fr) 150px 150px 150px 90px;align-items:center;gap:14px;padding:11px 20px;border-bottom:1px solid #E6E2C4;font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">
+              <span>AVANTAGE</span><span>CACHET REQUIS</span><span>VISIBLE À</span><span>VALIDITÉ</span><span>ACTIF</span>
+            </div>
+            <sc-for list="{{ offers }}" as="o" hint-placeholder-count="2">
+              <div style="display:grid;grid-template-columns:minmax(240px,2fr) 150px 150px 150px 90px;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #EFEBD3">
+                <div role="button" tabindex="0" onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;min-width:0;cursor:pointer">
+                  <div style="flex:none;width:48px;height:48px;border-radius:6px;background-size:cover;background-position:center;background-color:#EAE7BF;background-image:url({{ o.img }})"></div>
+                  <div style="min-width:0;display:flex;flex-direction:column;gap:3px">
+                    <span style="font:500 14px/1.25 Inter,system-ui;color:#231F20">{{ o.partner }}</span>
+                    <span style="font:400 13px/1.25 Inter,system-ui;color:#585858;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.title }}</span>
+                  </div>
+                </div>
+                <span style="font:400 13.5px/1.3 Inter,system-ui">{{ o.stamp }}</span>
+                <span style="font:400 13.5px/1.3 Inter,system-ui">{{ o.stop }}</span>
+                <span style="font:400 13px/1.3 Inter,system-ui;color:#585858">{{ o.validity }}</span>
+                <div role="button" tabindex="0" onClick="{{ o.toggle }}" aria-label="Actif" style="width:40px;height:24px;border-radius:999px;position:relative;cursor:pointer;transition:background .15s;background:{{ o.swBg }}">
+                  <span style="position:absolute;top:3px;width:18px;height:18px;border-radius:50%;background:#FFFDF2;box-shadow:0 1px 3px rgba(35,31,32,.25);transition:left .15s;left:{{ o.swX }}px;display:block"></span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font:600 15px/1.2 Inter,system-ui">Partenaires</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">
+            <div style="display:flex;gap:14px;padding:14px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8">
+              <div style="flex:none;width:86px;height:86px;border-radius:8px;background:url(llds/img/voucher-chaudron.jpg) center/cover no-repeat"></div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+                <span style="font:600 14.5px/1.25 Inter,system-ui">Au Chaudron des Légendes</span>
+                <span style="font:400 13px/1.35 Inter,system-ui;color:#585858">Guinaumont 75, 7890 Ellezelles</span>
+                <span style="font:400 13px/1.35 Inter,system-ui;color:#585858">Jeu – dim · 11h – 22h</span>
+                <span style="font:500 12.5px/1 Inter,system-ui;color:#77732F;margin-top:2px">1 avantage</span>
+              </div>
+            </div>
+            <div role="button" tabindex="0" style="min-height:114px;border-radius:10px;border:1.5px dashed #B8B248;display:grid;place-items:center;font:500 13.5px/1 Inter,system-ui;color:#77732F;cursor:pointer" style-hover="background:#F7F4E2">+ Ajouter un partenaire</div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ MÉDIATHÈQUE ══════════ -->
+    <sc-if value="{{ isMedia }}">
+      <div data-screen-label="A7 Médiathèque" style="max-width:1180px;display:flex;flex-direction:column;gap:20px;animation:admIn .3s both">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <h1 style="margin:0;font:600 28px/1.15 Inter,system-ui;letter-spacing:-.02em">Médiathèque</h1>
+          <p style="margin:0;font:400 14px/1.4 Inter,system-ui;color:#585858">{{ mediaSummary }}</p>
+        </div>
+        <div role="button" tabindex="0" onClick="{{ simulateUpload }}" style="padding:26px;border-radius:10px;border:1.5px dashed #B8B248;background:#FFFDF2;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;text-align:center" style-hover="background:#F7F4E2">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#77732F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"></path><path d="M7 8.5 12 3.5l5 5"></path><path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"></path></svg>
+          <span style="font:500 14px/1.3 Inter,system-ui">Glissez vos fichiers ici ou <u>parcourez</u></span>
+          <span style="font:400 12.5px/1.4 Inter,system-ui;color:#585858">JPG, PNG, WebP · MP4 (H.264 + AAC) · M4A, MP3 · VTT — avertissement au-delà de 200 Mo par vidéo</span>
+        </div>
+        <sc-if value="{{ uploading }}">
+          <div style="padding:14px 18px;border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;display:flex;flex-direction:column;gap:9px;animation:admIn .25s both">
+            <div style="display:flex;justify-content:space-between;gap:10px;font:500 13px/1 Inter,system-ui"><span>renaix-video-fr.mp4</span><span style="color:#585858">{{ uploadPct }} %</span></div>
+            <div style="height:6px;border-radius:999px;background:#EAE7BF;overflow:hidden"><div style="height:100%;border-radius:999px;background:#77732F;transition:width .15s linear;width:{{ uploadPct }}%"></div></div>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:4px;padding:3px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #DDD9B8;align-self:flex-start;background:#FFFDF2">
+          <sc-for list="{{ mediaFilters }}" as="mf" hint-placeholder-count="5">
+            <div role="button" tabindex="0" onClick="{{ mf.pick }}" style="height:30px;padding:0 13px;border-radius:6px;font:500 12.5px/30px Inter,system-ui;cursor:pointer;background:{{ mf.bg }};color:{{ mf.fg }}">{{ mf.label }}</div>
+          </sc-for>
+        </div>
+        <div style="border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;overflow-x:auto">
+          <div style="min-width:820px">
+            <div style="display:grid;grid-template-columns:56px minmax(220px,2fr) 90px 90px 80px minmax(160px,1.4fr) minmax(140px,1fr);align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid #E6E2C4;font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">
+              <span></span><span>FICHIER</span><span>TYPE</span><span>TAILLE</span><span>DURÉE</span><span>UTILISÉ DANS</span><span>CRÉDIT</span>
+            </div>
+            <sc-for list="{{ mediaRows }}" as="md" hint-placeholder-count="8">
+              <div style="display:grid;grid-template-columns:56px minmax(220px,2fr) 90px 90px 80px minmax(160px,1.4fr) minmax(140px,1fr);align-items:center;gap:14px;padding:10px 18px;border-bottom:1px solid #EFEBD3">
+                <div style="width:56px;height:40px;border-radius:5px;background-color:#EAE7BF;background-size:cover;background-position:center;display:grid;place-items:center;font:700 10px/1 Inter,system-ui;letter-spacing:.06em;color:#5E5A22;background-image:url({{ md.thumb }})">{{ md.badge }}</div>
+                <span style="font:500 13.5px/1.3 Inter,system-ui;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ md.name }}</span>
+                <span style="font:400 13px/1 Inter,system-ui;color:#585858">{{ md.kind }}</span>
+                <span style="font:400 13px/1 Inter,system-ui">{{ md.size }}</span>
+                <span style="font:400 13px/1 Inter,system-ui;color:#585858">{{ md.dur }}</span>
+                <span style="font:400 13px/1.3 Inter,system-ui">{{ md.used }}</span>
+                <span style="font:400 12.5px/1.3 Inter,system-ui;color:{{ md.creditFg }}">{{ md.credit }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ UTILISATEURS ══════════ -->
+    <sc-if value="{{ isUsers }}">
+      <div data-screen-label="A8 Utilisateurs" style="max-width:1180px;display:flex;flex-direction:column;gap:20px;animation:admIn .3s both">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h1 style="margin:0;font:600 28px/1.15 Inter,system-ui;letter-spacing:-.02em">Utilisateurs</h1>
+            <p style="margin:0;font:400 14px/1.4 Inter,system-ui;color:#585858">Comptes inscrits — consultation uniquement. Les invités ne sont pas enregistrés.</p>
+          </div>
+          <div style="position:relative;width:280px;max-width:100%">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#77732F" stroke-width="1.8" style="position:absolute;left:12px;top:13px"><circle cx="7" cy="7" r="5.4"></circle><path d="m11 11 4 4" stroke-linecap="round"></path></svg>
+            <input value="{{ userQuery }}" onInput="{{ onUserQuery }}" placeholder="Rechercher un nom ou un e-mail" style="width:100%;height:40px;box-sizing:border-box;padding:0 12px 0 36px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+          </div>
+        </div>
+        <div style="border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8;overflow-x:auto">
+          <div style="min-width:860px">
+            <div style="display:grid;grid-template-columns:minmax(220px,2fr) 120px minmax(160px,1.4fr) 80px 80px 110px;align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid #E6E2C4;font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">
+              <span>UTILISATEUR</span><span>INSCRIPTION</span><span>LIGNES</span><span>POINTS</span><span>CACHETS</span><span></span>
+            </div>
+            <sc-for list="{{ userRows }}" as="u" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:minmax(220px,2fr) 120px minmax(160px,1.4fr) 80px 80px 110px;align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid #EFEBD3">
+                <div style="display:flex;align-items:center;gap:12px;min-width:0">
+                  <div style="flex:none;width:34px;height:34px;border-radius:50%;background:#EAE7BF;display:grid;place-items:center;font:600 12px/1 Inter,system-ui;color:#5E5A22">{{ u.initials }}</div>
+                  <div style="min-width:0;display:flex;flex-direction:column;gap:3px">
+                    <span style="font:500 14px/1.2 Inter,system-ui">{{ u.name }}</span>
+                    <span style="font:400 12.5px/1.2 Inter,system-ui;color:#585858;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ u.email }}</span>
+                  </div>
+                </div>
+                <span style="font:400 13px/1 Inter,system-ui;color:#585858">{{ u.since }}</span>
+                <span style="font:400 13px/1.3 Inter,system-ui">{{ u.lines }}</span>
+                <span style="font:500 13.5px/1 Inter,system-ui">{{ u.points }}</span>
+                <span style="font:500 13.5px/1 Inter,system-ui">{{ u.stamps }}</span>
+                <span role="button" tabindex="0" onClick="{{ u.del }}" style="justify-self:end;font:500 13px/1 Inter,system-ui;color:#E42127;cursor:pointer;padding:8px 4px" style-hover="color:#8C191C">Supprimer</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noUsers }}"><div style="padding:24px 18px;font:400 14px/1.4 Inter,system-ui;color:#585858">Aucun utilisateur ne correspond à « {{ userQuery }} ».</div></sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══════════ RÉGLAGES ══════════ -->
+    <sc-if value="{{ isSettings }}">
+      <div data-screen-label="A9 Réglages" style="max-width:760px;display:flex;flex-direction:column;gap:20px;animation:admIn .3s both">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <h1 style="margin:0;font:600 28px/1.15 Inter,system-ui;letter-spacing:-.02em">Réglages</h1>
+          <p style="margin:0;font:400 14px/1.4 Inter,system-ui;color:#585858">Valeurs par défaut appliquées aux nouveaux arrêts et aux calculs de l’application.</p>
+        </div>
+        <section style="border-radius:10px;background:#FFFDF2;box-shadow:inset 0 0 0 1px #DDD9B8">
+          <sc-for list="{{ settings }}" as="sg" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 20px;border-bottom:1px solid #EFEBD3;flex-wrap:wrap">
+              <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:4px">
+                <span style="font:500 14px/1.3 Inter,system-ui">{{ sg.label }}</span>
+                <span style="font:400 12.5px/1.4 Inter,system-ui;color:#585858">{{ sg.help }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input type="number" value="{{ sg.value }}" onInput="{{ sg.set }}" style="width:90px;height:38px;padding:0 10px;box-sizing:border-box;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:500 14px/1 Inter,system-ui;color:#231F20;outline:none;text-align:right" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+                <span style="width:46px;font:400 13px/1 Inter,system-ui;color:#585858">{{ sg.unit }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </section>
+        <div style="display:flex;justify-content:flex-end">
+          <div role="button" tabindex="0" onClick="{{ saveSettings }}" style="height:40px;padding:0 18px;border-radius:8px;background:#77732F;color:#FFFDF2;font:500 14px/40px Inter,system-ui;cursor:pointer" style-hover="background:#635F26">Enregistrer</div>
+        </div>
+      </div>
+    </sc-if>
+
+  </main>
+</div>
+
+<!-- ══════════ PANNEAU ARRÊT ══════════ -->
+<sc-if value="{{ stopDrawer }}">
+  <div role="button" tabindex="0" onClick="{{ closeDrawer }}" aria-label="Fermer" style="position:fixed;inset:0;background:rgba(35,31,32,.28);animation:admFade .2s both;z-index:20"></div>
+  <aside data-screen-label="A4 Éditeur d’arrêt" style="position:fixed;top:0;right:0;bottom:0;width:min(940px,100vw);background:#FFFDF2;box-shadow:-20px 0 50px rgba(35,31,32,.14);z-index:21;display:flex;flex-direction:column;animation:admDrawer .3s cubic-bezier(.2,.7,.2,1) both">
+    <div style="padding:20px 26px 0;display:flex;flex-direction:column;gap:16px;border-bottom:1px solid #E6E2C4">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <span style="flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 13px/1 Inter,system-ui;color:#FFFDF2;background:#E42127">{{ stop.n }}</span>
+          <h2 style="margin:0;font:600 22px/1.2 Inter,system-ui;letter-spacing:-.015em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ stop.name }}</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span role="button" tabindex="0" onClick="{{ deleteStop }}" style="font:500 13px/1 Inter,system-ui;color:#E42127;cursor:pointer;padding:10px 8px">Supprimer</span>
+          <div role="button" tabindex="0" onClick="{{ closeDrawer }}" style="height:36px;padding:0 16px;border-radius:8px;background:#77732F;color:#FFFDF2;font:500 14px/36px Inter,system-ui;cursor:pointer" style-hover="background:#635F26">Terminé</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:22px">
+        <sc-for list="{{ drawerTabs }}" as="dt" hint-placeholder-count="4">
+          <div role="button" tabindex="0" onClick="{{ dt.pick }}" style="padding:4px 0 12px;font:500 14px/1 Inter,system-ui;cursor:pointer;display:flex;align-items:center;gap:7px;color:{{ dt.fg }};box-shadow:inset 0 -2px 0 {{ dt.line }}">{{ dt.label }}<sc-if value="{{ dt.warn }}"><span style="width:7px;height:7px;border-radius:50%;background:#E42127;display:block"></span></sc-if></div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex:1;min-height:0;display:flex;overflow:hidden">
+      <div style="flex:1;min-width:0;overflow-y:auto;padding:22px 26px 40px;box-sizing:border-box">
+
+        <sc-if value="{{ tabInfos }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:18px;animation:admIn .2s both">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <span style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">LANGUE DU CONTENU</span>
+              <div style="display:flex;gap:2px;padding:3px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #DDD9B8">
+                <sc-for list="{{ langTabs }}" as="lt" hint-placeholder-count="3">
+                  <div role="button" tabindex="0" onClick="{{ lt.pick }}" style="height:26px;padding:0 11px;border-radius:6px;font:600 12px/26px Inter,system-ui;cursor:pointer;background:{{ lt.bg }};color:{{ lt.fg }}">{{ lt.label }}</div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:12px">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">NOM · {{ langUpper }}</label>
+                <input value="{{ stop.nameLang }}" onInput="{{ onStopName }}" placeholder="{{ stop.namePh }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">ANNÉE</label>
+                <input value="{{ stop.year }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">DESCRIPTION · {{ langUpper }}</label>
+              <textarea rows="5" value="{{ stop.descLang }}" onInput="{{ onStopDesc }}" placeholder="Texte affiché sur la fiche de l’arrêt" style="padding:11px 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1.5 Inter,system-ui;color:#231F20;outline:none;resize:vertical;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F"></textarea>
+              <span style="font:400 12px/1 Inter,system-ui;color:#585858">{{ stop.descCount }} caractères · environ 300 conseillés pour tenir sur la fiche</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">LATITUDE</label>
+                <input value="{{ stop.lat }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#F7F4E2;box-shadow:inset 0 0 0 1.5px #DDD9B8;font:400 14px/1 Inter,system-ui;color:#585858;outline:none;width:100%;box-sizing:border-box">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">LONGITUDE</label>
+                <input value="{{ stop.lng }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#F7F4E2;box-shadow:inset 0 0 0 1.5px #DDD9B8;font:400 14px/1 Inter,system-ui;color:#585858;outline:none;width:100%;box-sizing:border-box">
+              </div>
+            </div>
+            <span style="font:400 12px/1.4 Inter,system-ui;color:#585858;margin-top:-8px">Déplacez le marqueur sur la carte de la ligne pour changer la position.</span>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">RAYON DE DÉCLENCHEMENT</label>
+                <span style="font:600 14px/1 Inter,system-ui">{{ stop.radius }} m</span>
+              </div>
+              <input type="range" min="30" max="300" step="10" value="{{ stop.radius }}" onInput="{{ onRadius }}" style="width:100%;accent-color:#77732F">
+              <span style="font:400 12px/1.4 Inter,system-ui;color:#585858">La notification « Vous arrivez à… » se déclenche à cette distance de l’arrêt.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:140px minmax(0,1fr);gap:16px;align-items:end">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">POINTS</label>
+                <input type="number" value="{{ stop.points }}" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+              </div>
+              <div role="button" tabindex="0" onClick="{{ toggleOnSite }}" style="display:flex;align-items:center;gap:12px;min-height:40px;cursor:pointer">
+                <div style="flex:none;width:40px;height:24px;border-radius:999px;position:relative;transition:background .15s;background:{{ stop.onSiteBg }}"><span style="position:absolute;top:3px;width:18px;height:18px;border-radius:50%;background:#FFFDF2;box-shadow:0 1px 3px rgba(35,31,32,.25);transition:left .15s;left:{{ stop.onSiteX }}px;display:block"></span></div>
+                <span style="font:400 13.5px/1.35 Inter,system-ui">Expérience disponible uniquement sur place</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabMedia }}">
+          <div style="display:flex;flex-direction:column;gap:20px;animation:admIn .2s both">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">CARTE POSTALE D’ARCHIVE <span style="color:#E42127">*</span></span>
+                <sc-if value="{{ stop.hasArchive }}"><div style="position:relative;aspect-ratio:3/2;border-radius:8px;border:1.5px solid #B8B248;box-sizing:border-box;background-size:cover;background-position:center;filter:grayscale(1) sepia(.22);background-image:url({{ stop.archiveImg }})"></div></sc-if>
+                <sc-if value="{{ stop.noArchive }}">
+                  <div role="button" tabindex="0" onClick="{{ uploadArchive }}" style="aspect-ratio:3/2;border-radius:8px;border:1.5px dashed #E42127;background:#FFF8F4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;text-align:center;padding:10px;box-sizing:border-box" style-hover="background:#FBE9E9">
+                    <span style="font:500 13px/1.3 Inter,system-ui;color:#8C191C">Téléverser la carte postale</span>
+                    <span style="font:400 12px/1.3 Inter,system-ui;color:#585858">Obligatoire pour publier</span>
+                  </div>
+                </sc-if>
+                <input value="{{ stop.credit }}" placeholder="Crédit / source (ex. collection, Delcampe…)" style="height:36px;padding:0 10px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #DDD9B8;font:400 13px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">PHOTO ACTUELLE</span>
+                <div role="button" tabindex="0" style="aspect-ratio:3/2;border-radius:8px;border:1.5px dashed #B8B248;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;text-align:center;padding:10px;box-sizing:border-box" style-hover="background:#F7F4E2">
+                  <span style="font:500 13px/1.3 Inter,system-ui;color:#77732F">Téléverser une photo</span>
+                  <span style="font:400 12px/1.3 Inter,system-ui;color:#585858">Optionnelle — active le comparateur « Hier &amp; aujourd’hui »</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">NARRATION PAR LANGUE</span>
+              <span style="font:400 12.5px/1.4 Inter,system-ui;color:#585858;margin-top:-4px">Il faut au moins une vidéo ou un audio en français pour publier. Les autres langues se replient sur le français.</span>
+              <div style="border-radius:10px;box-shadow:inset 0 0 0 1px #DDD9B8;overflow:hidden">
+                <sc-for list="{{ mediaGrid }}" as="mg" hint-placeholder-count="3">
+                  <div style="display:grid;grid-template-columns:56px repeat(3,minmax(0,1fr));align-items:stretch;border-bottom:1px solid #EFEBD3">
+                    <span style="display:grid;place-items:center;font:700 13px/1 Inter,system-ui;color:#231F20;background:#F7F4E2">{{ mg.lang }}</span>
+                    <sc-for list="{{ mg.cells }}" as="cell" hint-placeholder-count="3">
+                      <div style="padding:11px 12px;display:flex;flex-direction:column;gap:5px;min-width:0;border-left:1px solid #EFEBD3">
+                        <span style="font:500 11.5px/1 Inter,system-ui;letter-spacing:.06em;color:#77732F">{{ cell.kind }}</span>
+                        <sc-if value="{{ cell.has }}">
+                          <span style="font:500 13px/1.25 Inter,system-ui;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ cell.file }}</span>
+                          <span style="font:400 12px/1 Inter,system-ui;color:#585858">{{ cell.meta }}</span>
+                        </sc-if>
+                        <sc-if value="{{ cell.none }}">
+                          <span role="button" tabindex="0" onClick="{{ cell.upload }}" style="align-self:flex-start;font:500 13px/1 Inter,system-ui;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:3px 0;color:{{ cell.ctaFg }}">{{ cell.cta }}</span>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-radius:10px;background:#F7F4E2;flex-wrap:wrap">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="font:500 13.5px/1.3 Inter,system-ui">Aperçu gratuit pour les invités</span>
+                <span style="font:400 12.5px/1.35 Inter,system-ui;color:#585858">Au-delà, l’invité est invité à créer un compte.</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input type="number" value="{{ stop.preview }}" style="width:70px;height:36px;padding:0 10px;box-sizing:border-box;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:500 14px/1 Inter,system-ui;color:#231F20;outline:none;text-align:right">
+                <span style="font:400 13px/1 Inter,system-ui;color:#585858">secondes</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabServices }}">
+          <div style="display:flex;flex-direction:column;gap:14px;animation:admIn .2s both">
+            <span style="font:400 13.5px/1.45 Inter,system-ui;color:#585858">Services disponibles sur place. L’ordre d’affichage dans l’app est fixe ; les services absents y apparaissent estompés.</span>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
+              <sc-for list="{{ svcTiles }}" as="sv" hint-placeholder-count="7">
+                <div role="button" tabindex="0" onClick="{{ sv.toggle }}" style="height:96px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:background .15s,box-shadow .15s;background:{{ sv.bg }};box-shadow:inset 0 0 0 {{ sv.ringW }}px {{ sv.ring }}">
+                  <div style="height:24px;width:36px;background-size:contain;background-repeat:no-repeat;background-position:center;opacity:{{ sv.op }};background-image:url({{ sv.src }})"></div>
+                  <span style="font:500 13px/1 Inter,system-ui;color:{{ sv.fg }}">{{ sv.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabReward }}">
+          <div style="display:flex;flex-direction:column;gap:14px;animation:admIn .2s both">
+            <span style="font:400 13.5px/1.45 Inter,system-ui;color:#585858">Cachet obtenu quand le visiteur termine l’expérience de cet arrêt (optionnel).</span>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ stampChoices }}" as="sc" hint-placeholder-count="4">
+                <div role="button" tabindex="0" onClick="{{ sc.pick }}" style="display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:10px;cursor:pointer;background:{{ sc.bg }};box-shadow:inset 0 0 0 {{ sc.ringW }}px {{ sc.ring }}">
+                  <span style="flex:none;width:18px;height:18px;border-radius:50%;box-sizing:border-box;border:{{ sc.radio }}"></span>
+                  <sc-if value="{{ sc.hasImg }}"><div style="flex:none;width:40px;height:40px;background-size:contain;background-repeat:no-repeat;background-position:center;background-image:url({{ sc.img }})"></div></sc-if>
+                  <sc-if value="{{ sc.noImg }}"><div style="flex:none;width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 2px {{ sc.ringColor }}"></div></sc-if>
+                  <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                    <span style="font:500 14px/1.2 Inter,system-ui">{{ sc.name }}</span>
+                    <span style="font:400 12.5px/1.2 Inter,system-ui;color:#585858">{{ sc.note }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- Aperçu app -->
+      <div style="flex:none;width:300px;padding:22px 24px;box-sizing:border-box;background:#F3F0DD;border-left:1px solid #E6E2C4;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">APERÇU DANS L’APP</span>
+        <div style="position:relative;width:252px;height:300px;border-radius:24px 24px 30px 30px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #B8B248,0 10px 30px rgba(35,31,32,.1);overflow:hidden">
+          <div style="position:absolute;left:104px;top:10px;width:44px;height:4px;border-radius:10px;background:#77732F"></div>
+          <div style="position:absolute;left:20px;right:18px;top:26px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span style="font:400 10px/1 Inter,system-ui;color:#231F20">à 150 m</span>
+            <sc-if value="{{ stop.hasVoucher }}"><span style="height:18px;padding:0 8px;border-radius:999px;background:#E42127;color:#FFFFFF;font:600 7.5px/18px Inter,system-ui;letter-spacing:.06em">VOIR VOUCHER</span></sc-if>
+          </div>
+          <div style="position:absolute;left:20px;right:18px;top:42px;font:500 19px/1.2 Inter,system-ui;color:#231F20;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ stop.nameLangOrFr }}</div>
+          <div style="position:absolute;left:20px;right:18px;top:76px;display:flex;align-items:center;gap:10px;height:16px">
+            <sc-for list="{{ svcPreview }}" as="sp" hint-placeholder-count="7">
+              <div style="flex:none;height:15px;background-size:contain;background-repeat:no-repeat;background-position:center;width:{{ sp.w }}px;opacity:{{ sp.op }};background-image:url({{ sp.src }})"></div>
+            </sc-for>
+          </div>
+          <p style="position:absolute;left:20px;right:18px;top:104px;bottom:100px;margin:0;overflow:hidden;font:400 9px/1.4 Inter,system-ui;color:#231F20">{{ stop.descLangOrFr }}</p>
+          <div style="position:absolute;left:20px;right:20px;bottom:40px;height:46px;border-radius:5px;display:flex;align-items:center;justify-content:center;gap:8px;background:{{ stop.ctaBg }};box-shadow:inset 0 0 0 {{ stop.ctaRingW }}px #DCD8A8">
+            <svg width="10" height="11" viewBox="0 0 11 12" fill="{{ stop.ctaFg }}"><path d="M1 .5l9.5 5.5L1 11.5z"></path></svg>
+            <span style="font:400 13px/1 Inter,system-ui;color:{{ stop.ctaFg }}">Vivre l’expérience</span>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:22px;text-align:center;font:400 8.5px/1 Inter,system-ui;color:{{ stop.ctaNoteFg }}">{{ stop.ctaNote }}</div>
+        </div>
+        <span style="font:400 12px/1.45 Inter,system-ui;color:#585858">Fiche affichée quand le visiteur touche l’arrêt sur la carte. Aperçu à l’échelle 65 %.</span>
+      </div>
+    </div>
+  </aside>
+</sc-if>
+
+<!-- ══════════ PANNEAU AVANTAGE ══════════ -->
+<sc-if value="{{ offerDrawer }}">
+  <div role="button" tabindex="0" onClick="{{ closeOffer }}" aria-label="Fermer" style="position:fixed;inset:0;background:rgba(35,31,32,.28);animation:admFade .2s both;z-index:20"></div>
+  <aside data-screen-label="A6b Éditeur d’avantage" style="position:fixed;top:0;right:0;bottom:0;width:min(820px,100vw);background:#FFFDF2;box-shadow:-20px 0 50px rgba(35,31,32,.14);z-index:21;display:flex;flex-direction:column;animation:admDrawer .3s cubic-bezier(.2,.7,.2,1) both">
+    <div style="padding:20px 26px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #E6E2C4">
+      <h2 style="margin:0;font:600 22px/1.2 Inter,system-ui;letter-spacing:-.015em">Avantage · Au Chaudron des Légendes</h2>
+      <div role="button" tabindex="0" onClick="{{ closeOffer }}" style="height:36px;padding:0 16px;border-radius:8px;background:#77732F;color:#FFFDF2;font:500 14px/36px Inter,system-ui;cursor:pointer" style-hover="background:#635F26">Enregistrer</div>
+    </div>
+    <div style="flex:1;min-height:0;display:flex;overflow:hidden">
+      <div style="flex:1;min-width:0;overflow-y:auto;padding:22px 26px 40px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">PARTENAIRE</label>
+          <div style="height:40px;padding:0 12px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #B8B248;display:flex;align-items:center;justify-content:space-between;font:400 14px/1 Inter,system-ui">Au Chaudron des Légendes<svg width="10" height="7" viewBox="0 0 10 7" fill="none" stroke="#77732F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4.5L9 1"></path></svg></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">TITRE · FR</label>
+          <input value="15% de remise sur votre addition" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">CONDITIONS · FR</label>
+          <textarea rows="3" style="padding:11px 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1.5 Inter,system-ui;color:#231F20;outline:none;resize:vertical;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">Uniquement valable le jeudi et le vendredi hors jours fériés — montant de la remise plafonné à 25,00 €.</textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">CACHET REQUIS</label>
+            <div style="height:40px;padding:0 12px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #B8B248;display:flex;align-items:center;justify-content:space-between;font:400 14px/1 Inter,system-ui">Bière locale<svg width="10" height="7" viewBox="0 0 10 7" fill="none" stroke="#77732F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4.5L9 1"></path></svg></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">VISIBLE À PARTIR DE</label>
+            <div style="height:40px;padding:0 12px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #B8B248;display:flex;align-items:center;justify-content:space-between;font:400 14px/1 Inter,system-ui">L87 · Gare d’Ellezelles<svg width="10" height="7" viewBox="0 0 10 7" fill="none" stroke="#77732F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4.5L9 1"></path></svg></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">DU</label>
+            <input type="date" value="2026-04-01" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">AU</label>
+            <input type="date" value="2026-10-31" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box">
+          </div>
+        </div>
+      </div>
+      <div style="flex:none;width:300px;padding:22px 24px;box-sizing:border-box;background:#F3F0DD;border-left:1px solid #E6E2C4;display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">APERÇU DU BON</span>
+        <div style="position:relative;width:252px;height:420px;border-radius:18px;background:#FFFDF2;box-shadow:inset 0 0 0 2px #77732F,0 10px 30px rgba(35,31,32,.1);overflow:hidden">
+          <img src="llds/img/voucher-chaudron.jpg" alt="" style="width:100%;height:140px;object-fit:cover;display:block">
+          <div style="padding:14px 18px 0;display:flex;flex-direction:column;gap:8px">
+            <span style="font:700 italic 14px/1.2 Inter,system-ui">Au Chaudron des Légendes</span>
+            <span style="font:400 9.5px/1.4 Inter,system-ui"><i style="font-weight:600">Guinaumont 75, 7890 Ellezelles</i><br>ouverture du jeudi au dimanche de 11h à 22h</span>
+            <span style="font:400 9.5px/1.4 Inter,system-ui">Profitez d’une remise de <b>15%</b> sur votre addition sur présentation du <i style="font-weight:600">cachet « Bière locale »</i> validé dans l’application.</span>
+            <span style="font:400 8.5px/1.45 Inter,system-ui;color:#585858">*Conditions : uniquement valable le jeudi et le vendredi hors jours fériés — montant de la remise plafonné à 25,00&nbsp;€.</span>
+          </div>
+          <div style="position:absolute;left:16px;bottom:14px;width:50px;height:50px;background:url(llds/img/cachet-biere.png) center/contain no-repeat;opacity:.28"></div>
+          <img src="llds/img/logo-chaudron.png" alt="" style="position:absolute;right:14px;bottom:12px;height:54px;width:auto">
+        </div>
+      </div>
+    </div>
+  </aside>
+</sc-if>
+
+<!-- ══════════ MODALES ══════════ -->
+<sc-if value="{{ stampModal }}">
+  <div style="position:fixed;inset:0;background:rgba(35,31,32,.32);z-index:30;display:grid;place-items:center;padding:20px;animation:admFade .2s both">
+    <div data-screen-label="A5b Nouveau cachet" style="width:100%;max-width:520px;padding:26px;box-sizing:border-box;border-radius:14px;background:#FFFDF2;box-shadow:0 24px 60px rgba(35,31,32,.22);display:flex;flex-direction:column;gap:16px;animation:admIn .25s both">
+      <h2 style="margin:0;font:600 20px/1.2 Inter,system-ui">Nouveau cachet</h2>
+      <div style="display:flex;gap:16px;align-items:center">
+        <div role="button" tabindex="0" style="flex:none;width:96px;height:96px;border-radius:50%;border:1.5px dashed #B8B248;display:grid;place-items:center;text-align:center;font:500 11.5px/1.3 Inter,system-ui;color:#77732F;cursor:pointer;padding:10px;box-sizing:border-box">Image PNG transparente</div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:7px">
+          <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">NOM · FR</label>
+          <input placeholder="ex. Porphyre" style="height:40px;padding:0 12px;border:0;border-radius:8px;background:#FFFDF2;box-shadow:inset 0 0 0 1.5px #B8B248;font:400 14px/1 Inter,system-ui;color:#231F20;outline:none;width:100%;box-sizing:border-box" style-focus="box-shadow:inset 0 0 0 2px #77732F">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="font:500 12px/1 Inter,system-ui;letter-spacing:.07em;color:#77732F">ATTRIBUTION</label>
+        <sc-for list="{{ ruleOpts }}" as="ro" hint-placeholder-count="3">
+          <div role="button" tabindex="0" onClick="{{ ro.pick }}" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:8px;cursor:pointer;box-shadow:inset 0 0 0 {{ ro.ringW }}px {{ ro.ring }};background:{{ ro.bg }}">
+            <span style="flex:none;width:18px;height:18px;border-radius:50%;box-sizing:border-box;border:{{ ro.radio }}"></span>
+            <span style="font:400 14px/1.3 Inter,system-ui">{{ ro.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:4px">
+        <div role="button" tabindex="0" onClick="{{ closeModal }}" style="height:40px;padding:0 16px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #77732F;color:#77732F;font:500 14px/40px Inter,system-ui;cursor:pointer">Annuler</div>
+        <div role="button" tabindex="0" onClick="{{ createStamp }}" style="height:40px;padding:0 18px;border-radius:8px;background:#77732F;color:#FFFDF2;font:500 14px/40px Inter,system-ui;cursor:pointer" style-hover="background:#635F26">Créer le cachet</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ deleteModal }}">
+  <div style="position:fixed;inset:0;background:rgba(35,31,32,.32);z-index:30;display:grid;place-items:center;padding:20px;animation:admFade .2s both">
+    <div style="width:100%;max-width:440px;padding:26px;box-sizing:border-box;border-radius:14px;background:#FFFDF2;box-shadow:0 24px 60px rgba(35,31,32,.22);display:flex;flex-direction:column;gap:14px;animation:admIn .25s both">
+      <h2 style="margin:0;font:600 20px/1.2 Inter,system-ui">Supprimer le compte de {{ deleteName }} ?</h2>
+      <p style="margin:0;font:400 14px/1.5 Inter,system-ui;color:#585858">Le compte, la progression, les points et les cachets seront définitivement effacés. Cette action est irréversible.</p>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:6px">
+        <div role="button" tabindex="0" onClick="{{ closeModal }}" style="height:40px;padding:0 16px;border-radius:8px;box-shadow:inset 0 0 0 1.5px #77732F;color:#77732F;font:500 14px/40px Inter,system-ui;cursor:pointer">Annuler</div>
+        <div role="button" tabindex="0" onClick="{{ confirmDelete }}" style="height:40px;padding:0 18px;border-radius:8px;background:#E42127;color:#FFFFFF;font:500 14px/40px Inter,system-ui;cursor:pointer" style-hover="background:#8C191C">Supprimer définitivement</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}">
+  <div style="position:fixed;left:50%;bottom:28px;z-index:40;padding:12px 18px;border-radius:10px;background:#231F20;color:#FFFDF2;font:500 14px/1.3 Inter,system-ui;display:flex;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(35,31,32,.25);animation:admPop .25s both;transform:translateX(-50%)">
+    <svg width="16" height="16" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="15" fill="#B8B248"></circle><path d="M8.6 15.4l4.2 4.2 8.6-8.6" stroke="#231F20" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ toast }}
+  </div>
+</sc-if>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startPage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;dashboard&quot;,&quot;lines&quot;,&quot;line&quot;,&quot;stop&quot;,&quot;stamps&quot;,&quot;partners&quot;,&quot;media&quot;,&quot;users&quot;,&quot;settings&quot;],&quot;default&quot;:&quot;dashboard&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Maquette&quot;}}">
+const TRACK = [[60,360],[110,326],[165,292],[220,262],[290,226],[360,190],[415,162],[470,138],[535,102],[600,60]];
+const SVC = [
+  ["cafe", "Café", "llds/svg/coffee.svg", 19.7],
+  ["parking", "Parking", "llds/svg/svc-parking.svg", 22.6],
+  ["info", "Info", "llds/svg/svc-info.svg", 10],
+  ["restaurant", "Restaurant", "llds/svg/svc-resto.svg", 21.7],
+  ["gare", "Gare", "llds/svg/svc-beer.svg", 33.8],
+  ["patrimoine", "Patrimoine", "llds/svg/svc-gare.svg", 26],
+  ["remise", "Remise", "llds/svg/svc-remise.svg", 23]
+];
+const LANGS = ["fr", "nl", "en"];
+const f = (name, mo, dur) => ({ name, mo, dur });
+
+const STOPS0 = [
+  { id: "bassilly", x: 60, y: 360, year: "1905", lat: "50.6672", lng: "3.9281", radius: 80, points: 50, onSite: true, preview: 12, stamp: null,
+    name: { fr: "Gare de Bassilly", nl: "Station Bassilly", en: "Bassilly station" },
+    desc: { fr: "La gare de Bassilly est mise en service en 1866 pour les Chemins de fer de l’État belge. Texte de démonstration à remplacer.", nl: "", en: "" },
+    services: ["parking", "info", "patrimoine"], archive: "llds/img/bassilly-gare.jpg", credit: "Collection privée",
+    media: { fr: { video: f("bassilly-video-fr.mp4", 38, "0:24"), audio: f("bassilly-audio-fr.m4a", 4, "0:24"), subs: f("bassilly-fr.vtt", 0.01) }, nl: { video: null, audio: f("bassilly-audio-nl.m4a", 4, "0:26"), subs: f("bassilly-nl.vtt", 0.01) }, en: {} } },
+  { id: "lessines", x: 220, y: 262, year: "1910", lat: "50.7124", lng: "3.8360", radius: 80, points: 50, onSite: true, preview: 12, stamp: "porphyre",
+    name: { fr: "Gare de Lessines", nl: "Station Lessen", en: "" },
+    desc: { fr: "Texte de démonstration à remplacer par le récit de l’arrêt.", nl: "", en: "" },
+    services: ["cafe", "parking", "info", "restaurant", "gare", "patrimoine"], archive: "llds/img/gare-l87.jpg", credit: "",
+    media: { fr: { video: f("lessines-video-fr.mp4", 41, "0:27"), audio: f("lessines-audio-fr.m4a", 4, "0:27"), subs: null }, nl: {}, en: {} } },
+  { id: "flobecq", x: 360, y: 190, year: "1908", lat: "50.7370", lng: "3.7380", radius: 80, points: 50, onSite: true, preview: 12, stamp: "macrale",
+    name: { fr: "Gare de Flobecq", nl: "Station Vloesberg", en: "" },
+    desc: { fr: "", nl: "", en: "" },
+    services: ["cafe", "info", "patrimoine"], archive: null, credit: "",
+    media: { fr: { video: f("flobecq-video-fr.mp4", 36, "0:22"), audio: null, subs: null }, nl: {}, en: {} } },
+  { id: "ellezelles", x: 470, y: 138, year: "1906", lat: "50.7350", lng: "3.6800", radius: 100, points: 50, onSite: true, preview: 12, stamp: "biere",
+    name: { fr: "Gare d’Ellezelles", nl: "Station Elzele", en: "Ellezelles station" },
+    desc: { fr: "Texte de démonstration à remplacer par le récit de l’arrêt.", nl: "", en: "" },
+    services: ["parking", "remise"], archive: "llds/img/gare-l98.jpg", credit: "Archives communales",
+    media: { fr: { video: null, audio: f("ellezelles-audio-fr.m4a", 5, "0:31"), subs: f("ellezelles-fr.vtt", 0.01) }, nl: {}, en: {} } },
+  { id: "renaix", x: 600, y: 60, year: "1912", lat: "50.7450", lng: "3.6000", radius: 80, points: 50, onSite: true, preview: 12, stamp: null,
+    name: { fr: "Gare de Renaix", nl: "Station Ronse", en: "" },
+    desc: { fr: "", nl: "", en: "" },
+    services: ["parking", "info", "restaurant", "gare", "patrimoine"], archive: null, credit: "",
+    media: { fr: {}, nl: {}, en: {} } }
+];
+
+const STAMPS0 = [
+  { id: "biere", name: "Bière locale", img: "llds/img/cachet-biere.png", rule: "Arrêt terminé · Gare d’Ellezelles", tag: "Utilisé par 1 avantage" },
+  { id: "porphyre", name: "Porphyre", img: null, rule: "Arrêt terminé · Gare de Lessines", tag: "Sans image" },
+  { id: "macrale", name: "Macrale", img: null, rule: "Arrêt terminé · Gare de Flobecq", tag: "Sans image" },
+  { id: "marcheur", name: "Marcheur", img: null, rule: "Ligne terminée · L87", tag: "Sans image" },
+  { id: "expert", name: "Expert", img: null, rule: "Seuil de points · 480 pts", tag: "Sans image" }
+];
+
+const LINES = [
+  { id: "L87", code: "L87", name: "Bassilly - Renaix", img: "llds/img/gare-l87.jpg", status: "published", published: "12 oct. 2026 · v3" },
+  { id: "L86", code: "L86", name: "Moustier - Basècles", img: "llds/img/gare-l86.jpg", status: "draft", published: "Jamais publiée", stops: 0, length: "—" },
+  { id: "L98", code: "L98", name: "Mons - Quiévrain", img: "llds/img/gare-l98.jpg", status: "draft", published: "Jamais publiée", stops: 0, length: "—" },
+  { id: "L142", code: "L142", name: "Jodoigne - Namur", img: "llds/img/gare-l142.jpg", status: "draft", published: "Jamais publiée", stops: 0, length: "—" },
+  { id: "L613", code: "L613", name: "Houffalize - Bastogne", img: "llds/img/gare-l613.jpg", status: "soon", published: "Annoncée", stops: 0, length: "—" }
+];
+const STATUS = {
+  published: { label: "Publiée", bg: "#77732F", fg: "#FFFDF2" },
+  draft: { label: "Brouillon", bg: "#EAE7BF", fg: "#5E5A22" },
+  soon: { label: "Bientôt disponible", bg: "#FFFDF2", fg: "#77732F", ring: true }
+};
+
+const USERS0 = [
+  { id: 1, name: "Camille Dubois", email: "camille.dubois@exemple.be", since: "02/09/2026", lines: "L87 · en cours 4/5", points: 200, stamps: 2 },
+  { id: 2, name: "Thomas Leroy", email: "t.leroy@exemple.be", since: "14/09/2026", lines: "L87 · terminée", points: 250, stamps: 4 },
+  { id: 3, name: "Lotte Peeters", email: "lotte.peeters@exemple.be", since: "21/09/2026", lines: "L87 · en cours 2/5", points: 100, stamps: 1 },
+  { id: 4, name: "Marc Janssens", email: "marc.j@exemple.be", since: "03/10/2026", lines: "—", points: 0, stamps: 0 },
+  { id: 5, name: "Sophie Lambert", email: "sophie.lambert@exemple.be", since: "09/10/2026", lines: "L87 · en cours 1/5", points: 50, stamps: 0 },
+  { id: 6, name: "Emma Wilson", email: "emma.w@exemple.com", since: "15/10/2026", lines: "L87 · en cours 3/5", points: 150, stamps: 1 }
+];
+
+const stopComplete = (s) => {
+  const fr = s.media.fr || {};
+  const miss = [];
+  if (!s.name.fr) miss.push("nom FR");
+  if (!s.archive) miss.push("carte postale");
+  if (!fr.video && !fr.audio) miss.push("vidéo ou audio FR");
+  return miss;
+};
+
+function snap(px, py) {
+  let best = null;
+  let acc = 0;
+  for (let i = 0; i < TRACK.length - 1; i++) {
+    const [ax, ay] = TRACK[i], [bx, by] = TRACK[i + 1];
+    const dx = bx - ax, dy = by - ay, L2 = dx * dx + dy * dy, L = Math.sqrt(L2);
+    let t = ((px - ax) * dx + (py - ay) * dy) / L2;
+    t = Math.max(0, Math.min(1, t));
+    const x = ax + t * dx, y = ay + t * dy, d = Math.hypot(px - x, py - y);
+    if (!best || d < best.d) best = { x, y, d, along: acc + t * L };
+    acc += L;
+  }
+  return best;
+}
+const alongOf = (s) => snap(s.x, s.y).along;
+
+class Component extends DCLogic {
+  state = {
+    page: this.props.startPage || "dashboard", lang: "fr", stops: STOPS0, sel: null, drawerTab: "infos",
+    addMode: false, lineStatus: "published", version: 3, toast: "", stamps: STAMPS0, modal: null, rule: "stop",
+    users: USERS0, userQuery: "", delId: null, offerDrawer: false, offerActive: [true], uploadPct: 0, uploading: false,
+    mediaFilter: "all", settings: { radius: 80, walk: 4.5, bike: 15, car: 30, preview: 12 }, newCount: 0
+  };
+
+  componentDidMount() {
+    if (this.props.startPage === "stop") this.setState({ page: "line", sel: "lessines" });
+  }
+  componentWillUnmount() { clearTimeout(this.toastT); clearInterval(this.upT); }
+
+  flash(msg) { clearTimeout(this.toastT); this.setState({ toast: msg }); this.toastT = setTimeout(() => this.setState({ toast: "" }), 2600); }
+  go = (page) => this.setState({ page, sel: null, addMode: false, offerDrawer: false, modal: null });
+  updStop(id, fn) { this.setState(p => ({ stops: p.stops.map(s => s.id === id ? fn(Object.assign({}, s)) : s) })); }
+
+  renderVals() {
+    const s = this.state;
+    const stops = s.stops;
+    const lang = s.lang;
+    const nav = {};
+    ["dashboard", "lines", "stamps", "partners", "media", "users", "settings"].forEach(k => {
+      const on = s.page === k || (k === "lines" && s.page === "line");
+      nav[k] = { go: () => this.go(k), bg: on ? "#EAE7BF" : "transparent", fg: on ? "#231F20" : "#4A4243" };
+    });
+
+    const incomplete = stops.map((st, i) => ({ st, i, miss: stopComplete(st) })).filter(x => x.miss.length);
+    const translationsMissing = stops.filter(st => !st.name.nl || !st.name.en).length;
+    const lengthKm = (TRACK.reduce((a, p, i) => i ? a + Math.hypot(p[0] - TRACK[i - 1][0], p[1] - TRACK[i - 1][1]) : 0, 0) / 34.1).toFixed(1).replace(".", ",");
+    const sumMo = (kinds) => stops.reduce((a, st) => {
+      const fr = st.media.fr || {};
+      return a + kinds.reduce((b, k) => b + (fr[k] ? fr[k].mo : 0), 0) + (st.archive ? 0.6 : 0);
+    }, 0);
+    const fullMo = Math.round(sumMo(["video", "subs"]) + 2), audioMo = Math.round(sumMo(["audio", "subs"]) + 2);
+
+    const selStop = stops.find(x => x.id === s.sel);
+    const selIdx = selStop ? stops.indexOf(selStop) : -1;
+
+    const statusMeta = STATUS[s.lineStatus];
+    const canPublish = incomplete.length === 0;
+
+    // map markers
+    const markers = stops.map((st, i) => ({
+      n: i + 1, name: st.name.fr || "Nouvel arrêt", px: st.x / 6.4, py: st.y / 4.2,
+      bg: st.id === s.sel ? "#E42127" : "#231F20", warn: stopComplete(st).length > 0,
+      open: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ sel: st.id, addMode: false, drawerTab: "infos" }); }
+    }));
+
+    const drawerTabs = [
+      ["infos", "Infos", !selStop || !selStop.name.fr],
+      ["media", "Médias", selStop ? (!selStop.archive || (!selStop.media.fr.video && !selStop.media.fr.audio)) : false],
+      ["services", "Services", false],
+      ["reward", "Récompense", false]
+    ].map(([k, label, warn]) => ({ label, warn, pick: () => this.setState({ drawerTab: k }), fg: s.drawerTab === k ? "#231F20" : "#585858", line: s.drawerTab === k ? "#77732F" : "transparent" }));
+
+    const stopView = selStop ? (() => {
+      const st = selStop;
+      const playableOk = st.archive && (st.media.fr.video || st.media.fr.audio);
+      const desc = st.desc[lang] || "";
+      return {
+        n: selIdx + 1, name: st.name.fr || "Nouvel arrêt", nameLang: st.name[lang] || "", namePh: lang === "fr" ? "ex. Gare de Lessines" : (st.name.fr || ""),
+        nameLangOrFr: st.name[lang] || st.name.fr || "Nouvel arrêt",
+        year: st.year, lat: st.lat, lng: st.lng, radius: st.radius, points: st.points, preview: st.preview,
+        descLang: desc, descCount: desc.length, descLangOrFr: st.desc[lang] || st.desc.fr || "Aucune description pour l’instant.",
+        onSiteBg: st.onSite ? "#77732F" : "#DDD9B8", onSiteX: st.onSite ? 19 : 3,
+        hasArchive: !!st.archive, noArchive: !st.archive, archiveImg: st.archive || "", credit: st.credit,
+        hasVoucher: st.id === "ellezelles",
+        ctaBg: playableOk ? "#77732F" : "#EDEACB", ctaFg: playableOk ? "#FFFDF2" : "#A9A67C", ctaRingW: playableOk ? 0 : 1.5,
+        ctaNote: playableOk ? (st.onSite ? "Actif à moins de " + st.radius + " m de l’arrêt" : "Disponible partout") : "Incomplet : non publiable",
+        ctaNoteFg: playableOk ? "#77732F" : "#E42127"
+      };
+    })() : {};
+
+    const mediaGrid = selStop ? LANGS.map(L => ({
+      lang: L.toUpperCase(),
+      cells: [["video", "VIDÉO"], ["audio", "AUDIO SEUL"], ["subs", "SOUS-TITRES"]].map(([k, label]) => {
+        const file = (selStop.media[L] || {})[k];
+        const required = L === "fr" && k !== "subs" && !selStop.media.fr.video && !selStop.media.fr.audio;
+        return {
+          kind: label, has: !!file, none: !file,
+          file: file ? file.name : "", meta: file ? (k === "subs" ? "WebVTT" : file.mo + " Mo · " + file.dur) : "",
+          cta: required ? "Téléverser — requis" : "Téléverser", ctaFg: required ? "#E42127" : "#77732F",
+          upload: () => this.updStop(selStop.id, x => {
+            const m = Object.assign({}, x.media); m[L] = Object.assign({}, m[L]);
+            m[L][k] = k === "video" ? f(x.id + "-video-" + L + ".mp4", 35 + Math.round(Math.random() * 8), "0:25") : k === "audio" ? f(x.id + "-audio-" + L + ".m4a", 4, "0:25") : f(x.id + "-" + L + ".vtt", 0.01);
+            x.media = m; return x;
+          })
+        };
+      })
+    })) : [];
+
+    const svcTiles = SVC.map(([k, label, src]) => {
+      const on = selStop ? selStop.services.indexOf(k) >= 0 : false;
+      return {
+        label, src, op: on ? 1 : 0.25, bg: on ? "#FFFDF2" : "#F7F4E2", ring: on ? "#77732F" : "#DDD9B8", ringW: on ? 2 : 1, fg: on ? "#231F20" : "#585858",
+        toggle: () => selStop && this.updStop(selStop.id, x => { x.services = on ? x.services.filter(v => v !== k) : x.services.concat([k]); return x; })
+      };
+    });
+    const svcPreview = SVC.map(([k, , src, w]) => ({ src, w: Math.round(w * 0.66), op: selStop && selStop.services.indexOf(k) >= 0 ? 1 : 0.2 }));
+
+    const stampChoices = [{ id: null, name: "Aucun cachet", img: null }].concat(s.stamps).map(stp => {
+      const on = selStop ? selStop.stamp === stp.id : false;
+      const usedBy = stops.find(x => x.stamp === stp.id && stp.id && x !== selStop);
+      return {
+        name: stp.name, hasImg: !!stp.img, noImg: !stp.img, img: stp.img || "", ringColor: stp.id ? "#563A29" : "#DDD9B8",
+        note: stp.id ? (usedBy ? "Déjà attribué à " + usedBy.name.fr : (stp.img ? "Image fournie" : "Cachet générique (sans image)")) : "L’arrêt ne donne que des points",
+        bg: on ? "#FFFDF2" : "#F7F4E2", ring: on ? "#77732F" : "#E6E2C4", ringW: on ? 2 : 1,
+        radio: on ? "5px solid #77732F" : "1.5px solid #B8B248",
+        pick: () => selStop && this.updStop(selStop.id, x => { x.stamp = stp.id; return x; })
+      };
+    });
+
+    const checks = [
+      { label: "Tracé importé", detail: "l87-bassilly-renaix.gpx · " + lengthKm + " km", ok: true },
+      { label: stops.length + " arrêt" + (stops.length > 1 ? "s" : ""), detail: "Au moins un arrêt est requis", ok: stops.length > 0 },
+      { label: incomplete.length ? incomplete.length + " arrêt" + (incomplete.length > 1 ? "s" : "") + " incomplet" + (incomplete.length > 1 ? "s" : "") : "Tous les arrêts sont complets",
+        detail: incomplete.length ? incomplete.map(x => (x.st.name.fr || "Nouvel arrêt") + " : " + x.miss.join(", ")).join(" · ") : "Nom FR, carte postale et narration FR présents", ok: !incomplete.length },
+      { label: translationsMissing ? "Traductions partielles (non bloquant)" : "Traductions complètes", detail: translationsMissing ? translationsMissing + " arrêt(s) sans nom NL ou EN — repli sur le français" : "FR, NL et EN", ok: !translationsMissing, warnOnly: true }
+    ].map(c => Object.assign(c, { ko: !c.ok, bg: c.ok ? "#77732F" : (c.warnOnly ? "#B8B248" : "#E42127") }));
+
+    const users = s.users.filter(u => !s.userQuery || (u.name + " " + u.email).toLowerCase().indexOf(s.userQuery.toLowerCase()) >= 0);
+    const delUser = s.users.find(u => u.id === s.delId);
+
+    const mediaAll = [];
+    stops.forEach(st => {
+      if (st.archive) mediaAll.push({ name: st.id + "-carte-postale.jpg", kind: "Image", type: "image", size: "0,6 Mo", dur: "—", used: st.name.fr, credit: st.credit || "Crédit manquant", thumb: st.archive, badge: "" });
+      LANGS.forEach(L => ["video", "audio", "subs"].forEach(k => {
+        const fl = (st.media[L] || {})[k];
+        if (fl) mediaAll.push({ name: fl.name, kind: k === "video" ? "Vidéo" : k === "audio" ? "Audio" : "Sous-titres", type: k, size: k === "subs" ? "2 Ko" : String(fl.mo).replace(".", ",") + " Mo", dur: fl.dur || "—", used: st.name.fr + " · " + L.toUpperCase(), credit: "—", thumb: "", badge: k === "video" ? "MP4" : k === "audio" ? "M4A" : "VTT" });
+      }));
+    });
+    mediaAll.push({ name: "cachet-biere-locale.png", kind: "Image", type: "image", size: "0,9 Mo", dur: "—", used: "Cachet Bière locale", credit: "LLDS", thumb: "llds/img/cachet-biere.png", badge: "" });
+    const mediaRows = mediaAll.filter(m => s.mediaFilter === "all" || m.type === s.mediaFilter).map(m => Object.assign(m, { creditFg: m.credit === "Crédit manquant" ? "#E42127" : "#585858" }));
+    const totalMo = Math.round(sumMo(["video", "audio", "subs"]) + 3);
+
+    return {
+      isLogin: s.page === "login", isApp: s.page !== "login",
+      login: () => this.go("dashboard"), logout: () => this.go("login"),
+      nav,
+      isDashboard: s.page === "dashboard", isLines: s.page === "lines", isLine: s.page === "line", isStamps: s.page === "stamps",
+      isPartners: s.page === "partners", isMedia: s.page === "media", isUsers: s.page === "users", isSettings: s.page === "settings",
+      newLine: () => this.flash("Brouillon « Nouvelle ligne » créé"),
+
+      stats: [
+        { label: "LIGNES PUBLIÉES", value: s.lineStatus === "published" ? 1 : 0, sub: "sur " + LINES.length + " lignes", go: () => this.go("lines") },
+        { label: "ARRÊTS", value: stops.length, sub: incomplete.length + " incomplet" + (incomplete.length > 1 ? "s" : ""), go: () => this.setState({ page: "line", sel: null }) },
+        { label: "CACHETS", value: s.stamps.length, sub: s.stamps.filter(x => !x.img).length + " sans image", go: () => this.go("stamps") },
+        { label: "UTILISATEURS", value: s.users.length, sub: "comptes inscrits", go: () => this.go("users") }
+      ],
+      todos: incomplete.map(x => ({ title: "L87 · " + (x.st.name.fr || "Nouvel arrêt"), detail: "Manque : " + x.miss.join(", "), go: () => this.setState({ page: "line", sel: x.st.id, drawerTab: "media" }) }))
+        .concat(s.stamps.filter(x => !x.img).slice(0, 1).map(x => ({ title: "Cachets sans image", detail: s.stamps.filter(y => !y.img).length + " cachets utilisent le visuel générique", go: () => this.go("stamps") }))),
+      todoCount: incomplete.length + (s.stamps.some(x => !x.img) ? 1 : 0), noTodos: incomplete.length === 0 && !s.stamps.some(x => !x.img),
+      activity: [
+        { text: "Vidéo FR ajoutée à Gare de Lessines", when: "Aujourd’hui · 10:42" },
+        { text: "L87 publiée (version 3)", when: "12 oct. 2026" },
+        { text: "Avantage « Au Chaudron des Légendes » activé", when: "10 oct. 2026" },
+        { text: "Cachet « Expert » créé", when: "8 oct. 2026" }
+      ],
+
+      linesRows: LINES.map(l => {
+        const st = STATUS[l.id === "L87" ? s.lineStatus : l.status];
+        return {
+          code: l.code, name: l.name, img: l.img, status: st.label, statusBg: st.bg, statusFg: st.fg,
+          stops: l.id === "L87" ? stops.length : 0, length: l.id === "L87" ? lengthKm + " km" : "—",
+          published: l.id === "L87" ? "v" + s.version + " · " + (s.version > 3 ? "aujourd’hui" : "12 oct. 2026") : l.published,
+          open: () => l.id === "L87" ? this.setState({ page: "line", sel: null, addMode: false }) : this.flash("Ligne de démonstration : seule la L87 est éditable dans cette maquette")
+        };
+      }),
+
+      line: { code: "L87", name: "Bassilly - Renaix", img: "llds/img/gare-l87.jpg", status: statusMeta.label, statusBg: statusMeta.bg, statusFg: statusMeta.fg,
+        version: "Version " + s.version + " en ligne", length: lengthKm + " km",
+        nameLang: { fr: "Bassilly - Renaix", nl: "Bassilly - Ronse", en: "" }[lang], namePh: "Bassilly - Renaix",
+        taglineLang: { fr: "pierre & porphyre", nl: "steen & porfier", en: "" }[lang] },
+      langTabs: LANGS.map(L => ({ label: L.toUpperCase(), pick: () => this.setState({ lang: L }), bg: lang === L ? "#77732F" : "transparent", fg: lang === L ? "#FFFDF2" : "#77732F" })),
+      langUpper: lang.toUpperCase(),
+      statusOpts: [["draft", "Brouillon"], ["soon", "Bientôt"], ["published", "Publiée"]].map(([k, label]) => ({ label, pick: () => this.setState({ lineStatus: k }), bg: s.lineStatus === k ? "#EAE7BF" : "transparent", fg: s.lineStatus === k ? "#231F20" : "#585858" })),
+      saveDraft: () => this.flash("Modifications enregistrées"),
+      publish: () => { if (!canPublish) { this.flash("Complétez les arrêts signalés avant de publier"); return; } this.setState(p => ({ version: p.version + 1, lineStatus: "published" })); this.flash("L87 publiée — version " + (s.version + 1) + " disponible dans l’app"); },
+      cantPublish: !canPublish, publishBg: canPublish ? "#77732F" : "#DDD9B8", publishFg: canPublish ? "#FFFDF2" : "#8D8D80", publishCursor: canPublish ? "pointer" : "not-allowed",
+
+      stopCount: stops.length,
+      stopRows: stops.map((st, i) => {
+        const miss = stopComplete(st);
+        return {
+          n: i + 1, name: st.name.fr || "Nouvel arrêt", state: miss.length ? "Manque : " + miss.join(", ") : "Complet · " + st.services.length + " services" + (st.stamp ? " · cachet" : ""),
+          stateFg: miss.length ? "#E42127" : "#585858", dotBg: st.id === s.sel ? "#E42127" : "#231F20", rowBg: st.id === s.sel ? "#F7F4E2" : "transparent",
+          open: () => this.setState({ sel: st.id, addMode: false, drawerTab: "infos" }),
+          upOp: i === 0 ? 0.25 : 1, downOp: i === stops.length - 1 ? 0.25 : 1,
+          up: () => i > 0 && this.setState(p => { const a = p.stops.slice(); [a[i - 1], a[i]] = [a[i], a[i - 1]]; return { stops: a }; }),
+          down: () => i < stops.length - 1 && this.setState(p => { const a = p.stops.slice(); [a[i + 1], a[i]] = [a[i], a[i + 1]]; return { stops: a }; })
+        };
+      }),
+      toggleAdd: () => this.setState(p => ({ addMode: !p.addMode, sel: null })),
+      addMode: s.addMode, addBtnLabel: s.addMode ? "Annuler" : "Ajouter un arrêt", addBtnBg: s.addMode ? "#77732F" : "transparent", addBtnFg: s.addMode ? "#FFFDF2" : "#77732F",
+      mapCursor: s.addMode ? "crosshair" : "default",
+      mapClick: (e) => {
+        if (!this.state.addMode) return;
+        const r = e.currentTarget.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width * 640, py = (e.clientY - r.top) / r.height * 420;
+        const sn = snap(px, py);
+        const id = "new" + (this.state.newCount + 1);
+        const ns = { id, x: Math.round(sn.x), y: Math.round(sn.y), year: "", lat: (50.66 + (420 - sn.y) / 4200).toFixed(4), lng: (3.93 - sn.x / 1900).toFixed(4), radius: this.state.settings.radius, points: 50, onSite: true, preview: this.state.settings.preview, stamp: null,
+          name: { fr: "", nl: "", en: "" }, desc: { fr: "", nl: "", en: "" }, services: [], archive: null, credit: "", media: { fr: {}, nl: {}, en: {} } };
+        this.setState(p => {
+          const a = p.stops.concat([ns]).sort((u, v) => alongOf(u) - alongOf(v));
+          return { stops: a, addMode: false, sel: id, drawerTab: "infos", newCount: p.newCount + 1 };
+        });
+      },
+      trackD: "M" + TRACK.map(p => p.join(" ")).join(" L"),
+      markers,
+      hasSel: !!selStop, sel: selStop ? { px: selStop.x / 6.4, py: selStop.y / 4.2, ring: Math.round(selStop.radius * 0.34) + 28 } : {},
+      checks,
+      dlFull: fullMo + " Mo", dlAudio: audioMo + " Mo",
+
+      stopDrawer: !!selStop && s.page === "line",
+      closeDrawer: () => this.setState({ sel: null }),
+      deleteStop: () => { const nm = selStop ? (selStop.name.fr || "Nouvel arrêt") : ""; this.setState(p => ({ stops: p.stops.filter(x => x.id !== p.sel), sel: null })); this.flash("Arrêt « " + nm + " » supprimé"); },
+      drawerTabs, tabInfos: s.drawerTab === "infos", tabMedia: s.drawerTab === "media", tabServices: s.drawerTab === "services", tabReward: s.drawerTab === "reward",
+      stop: stopView,
+      onStopName: (e) => { const v = e.target.value; selStop && this.updStop(selStop.id, x => { x.name = Object.assign({}, x.name); x.name[lang] = v; return x; }); },
+      onStopDesc: (e) => { const v = e.target.value; selStop && this.updStop(selStop.id, x => { x.desc = Object.assign({}, x.desc); x.desc[lang] = v; return x; }); },
+      onRadius: (e) => { const v = Number(e.target.value); selStop && this.updStop(selStop.id, x => { x.radius = v; return x; }); },
+      toggleOnSite: () => selStop && this.updStop(selStop.id, x => { x.onSite = !x.onSite; return x; }),
+      uploadArchive: () => selStop && this.updStop(selStop.id, x => { x.archive = "llds/img/gare-l142.jpg"; return x; }),
+      mediaGrid, svcTiles, svcPreview, stampChoices,
+
+      stamps: s.stamps.map(x => ({ name: x.name, rule: x.rule, hasImg: !!x.img, noImg: !x.img, img: x.img || "", initials: x.name.toUpperCase().slice(0, 8),
+        tag: x.tag, tagBg: x.img ? "#EAE7BF" : "#FBE9E9", tagFg: x.img ? "#5E5A22" : "#8C191C" })),
+      openStampModal: () => this.setState({ modal: "stamp", rule: "stop" }),
+      stampModal: s.modal === "stamp",
+      ruleOpts: [["stop", "Quand un arrêt est terminé"], ["line", "Quand une ligne est terminée"], ["points", "À partir d’un seuil de points"]].map(([k, label]) => ({
+        label, pick: () => this.setState({ rule: k }), bg: s.rule === k ? "#FFFDF2" : "#F7F4E2", ring: s.rule === k ? "#77732F" : "#E6E2C4", ringW: s.rule === k ? 2 : 1, radio: s.rule === k ? "5px solid #77732F" : "1.5px solid #B8B248" })),
+      createStamp: () => { this.setState(p => ({ modal: null, stamps: p.stamps.concat([{ id: "n" + p.stamps.length, name: "Nouveau cachet", img: null, rule: { stop: "Arrêt terminé · à associer", line: "Ligne terminée · à choisir", points: "Seuil de points · à définir" }[p.rule], tag: "Sans image" }]) })); this.flash("Cachet créé"); },
+      closeModal: () => this.setState({ modal: null, delId: null }),
+
+      offers: [{ partner: "Au Chaudron des Légendes", title: "15% de remise sur votre addition", stamp: "Bière locale", stop: "Gare d’Ellezelles", validity: "01/04 → 31/10/2026", img: "llds/img/voucher-chaudron.jpg" }].map((o, i) => Object.assign(o, {
+        open: () => this.setState({ offerDrawer: true }),
+        swBg: s.offerActive[i] ? "#77732F" : "#DDD9B8", swX: s.offerActive[i] ? 19 : 3,
+        toggle: () => this.setState(p => { const a = p.offerActive.slice(); a[i] = !a[i]; return { offerActive: a }; })
+      })),
+      openOffer: () => this.setState({ offerDrawer: true }), closeOffer: () => { this.setState({ offerDrawer: false }); this.flash("Avantage enregistré"); },
+      offerDrawer: s.offerDrawer,
+
+      mediaSummary: mediaAll.length + " fichiers · " + totalMo + " Mo au total",
+      mediaFilters: [["all", "Tous"], ["image", "Images"], ["video", "Vidéos"], ["audio", "Audio"], ["subs", "Sous-titres"]].map(([k, label]) => ({ label, pick: () => this.setState({ mediaFilter: k }), bg: s.mediaFilter === k ? "#77732F" : "transparent", fg: s.mediaFilter === k ? "#FFFDF2" : "#77732F" })),
+      mediaRows,
+      uploading: s.uploading, uploadPct: s.uploadPct,
+      simulateUpload: () => {
+        clearInterval(this.upT);
+        this.setState({ uploading: true, uploadPct: 0 });
+        this.upT = setInterval(() => this.setState(p => {
+          const n = Math.min(100, p.uploadPct + 4 + Math.round(Math.random() * 7));
+          if (n >= 100) { clearInterval(this.upT); setTimeout(() => { this.setState({ uploading: false }); this.flash("renaix-video-fr.mp4 téléversé"); }, 300); }
+          return { uploadPct: n };
+        }), 120);
+      },
+
+      userQuery: s.userQuery, onUserQuery: (e) => this.setState({ userQuery: e.target.value }),
+      userRows: users.map(u => ({ initials: u.name.split(" ").map(w => w[0]).join(""), name: u.name, email: u.email, since: u.since, lines: u.lines, points: u.points, stamps: u.stamps,
+        del: () => this.setState({ modal: "delete", delId: u.id }) })),
+      noUsers: users.length === 0,
+      deleteModal: s.modal === "delete", deleteName: delUser ? delUser.name : "",
+      confirmDelete: () => { const nm = delUser ? delUser.name : ""; this.setState(p => ({ users: p.users.filter(u => u.id !== p.delId), modal: null, delId: null })); this.flash("Compte de " + nm + " supprimé"); },
+
+      settings: [
+        ["radius", "Rayon de déclenchement par défaut", "Appliqué aux nouveaux arrêts ; modifiable arrêt par arrêt.", "m"],
+        ["walk", "Vitesse à pied", "Sert à estimer la durée affichée sur « Détail de ligne » et « Prêt ».", "km/h"],
+        ["bike", "Vitesse à vélo", "Idem, pour le mode vélo.", "km/h"],
+        ["car", "Vitesse en voiture", "Idem, pour le mode voiture.", "km/h"],
+        ["preview", "Aperçu invité par défaut", "Durée de lecture gratuite avant l’invitation à créer un compte.", "s"]
+      ].map(([k, label, help, unit]) => ({ label, help, unit, value: s.settings[k], set: (e) => { const v = e.target.value; this.setState(p => ({ settings: Object.assign({}, p.settings, { [k]: v }) })); } })),
+      saveSettings: () => this.flash("Réglages enregistrés"),
+
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
