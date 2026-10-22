@@ -52,9 +52,18 @@ Sur un téléphone physique, l'app remplace automatiquement `127.0.0.1` par l'ad
 - `apps/admin` : Next.js 16 (App Router, Cache Components, Tailwind v4 avec le thème `@llds/shared/tailwind-theme.css`).
 - `apps/mobile` : Expo SDK 58, Expo Router (`src/app/`), polices Inter, i18n `react-i18next`.
 
+## Back-office (admin)
+
+- Routes : `/connexion`, `/` (tableau de bord), `/lignes`, `/lignes/{id}` (panneau d'arrêt : `?arret={id}&onglet=infos|media|services|reward`), `/cachets`, `/partenaires`, `/mediatheque`, `/utilisateurs`, `/reglages`.
+- Accès : le proxy Next (`src/proxy.ts`) redirige vers la connexion et refuse les comptes non admin ; la RLS reste l'autorité.
+- Les règles métier sont en base (`supabase/migrations/20261020100000_admin.sql`) : contrôle avant publication (`line_publication_issues`, publication refusée par trigger s'il reste un point bloquant), placement aimanté au tracé et ordonné le long de la ligne (`add_stop`, `move_stop`), réordonnancement, import du tracé, journal des modifications, liste et suppression RGPD des comptes.
+- Fond de carte de l'éditeur : tuiles OpenFreeMap (en ligne, sans clé), configurable via `NEXT_PUBLIC_MAP_STYLE_URL` (vide = fond uni sans tuiles). Le worker MapLibre est copié dans `public/vendor/` au lancement (non versionné).
+- Médias : téléversés depuis le navigateur dans Storage (barre de progression), métadonnées mesurées (taille, dimensions, durée, SHA-256). Bucket `media-public` pour couvertures, cachets et visuels partenaires ; `media` (URLs signées) pour le reste.
+- `pnpm db:check` rejoue le critère d'acceptation M1 côté base (ligne de 3 arrêts créée de zéro, publiée, visible par l'app).
+
 ## Règles à garder en tête
 
 - Nouvelle migration → `pnpm db:reset` puis `pnpm db:types` (le typecheck échoue si une énumération TS diverge de Postgres).
 - Couleurs, rayons, traits, durées : uniquement via les tokens (`tokens/tokens.json` → `pnpm tokens`). Le thème Tailwind de l'admin n'expose **que** les couleurs LLDS.
-- Textes d'interface : uniquement via les clés i18n de `packages/shared/src/i18n/locales/` ; NL et EN doivent avoir exactement les clés du FR (vérifié à la compilation).
+- Textes d'interface : uniquement via les clés i18n de `packages/shared/src/i18n/locales/` ; NL et EN doivent avoir exactement les clés du FR (vérifié à la compilation). Le back-office est en français seulement (`admin.fr.ts`).
 - La clé service role ne sort jamais des scripts locaux et des Edge Functions.

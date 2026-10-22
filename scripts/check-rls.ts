@@ -14,6 +14,9 @@ const status = localSupabaseStatus();
 const seed = seedFileSchema.parse(JSON.parse(readFileSync(resolve(repoRoot, 'seed/demo-seed.json'), 'utf8')));
 const authOptions = { auth: { persistSession: false, autoRefreshToken: false } };
 const client = () => createClient<Database>(status.API_URL, status.ANON_KEY, authOptions);
+// Clé service role locale : uniquement pour retirer du journal les événements créés par les tests.
+const service = createClient<Database>(status.API_URL, status.SERVICE_ROLE_KEY, authOptions);
+const { data: lastEvent } = await service.from('admin_events').select('id').order('id', { ascending: false }).limit(1).maybeSingle();
 
 let failures = 0;
 function check(label: string, ok: boolean, detail = ''): void {
@@ -93,10 +96,84 @@ check('admin voit toutes les lignes', (allLines ?? []).length === seed.lines.len
 const { data: profiles } = await admin.from('profiles').select('id');
 check('admin lit les profils', (profiles ?? []).length >= 2);
 
-// Nettoyage : suppression de l'utilisateur de test (clé service role locale).
-const service = createClient<Database>(status.API_URL, status.SERVICE_ROLE_KEY, authOptions);
-if (userId) await service.auth.admin.deleteUser(userId);
+// Fonctions d'administration (jalon M1) : refus pour un visiteur.
+const { error: userPublish } = await user.rpc('publish_line', { p_line_id: stop?.id ?? '' });
+check('un utilisateur ne peut pas publier', userPublish !== null, userPublish?.message ?? '');
+
+// Parcours d'acceptation M1 côté base : ligne de 3 arrêts créée de zéro, publiée, visible par l'app.
+const code = `TEST${Date.now() % 100000}`;
+const { data: created, error: createError } = await admin.from('lines').insert({ code, name: { fr: 'Test' } }).select('id').single();
+check('admin crée une ligne brouillon', createError === null && Boolean(created), createError?.message ?? '');
+const lineId = created?.id ?? '';
+
+const { error: earlyPublish } = await admin.rpc('publish_line', { p_line_id: lineId });
+check('publication refusée sans tracé ni arrêt', earlyPublish?.message === 'line_not_publishable', earlyPublish?.message ?? '');
+
+const { data: lengthM, error: trackError } = await admin.rpc('set_line_track', {
+  p_line_id: lineId,
+  p_geojson: { type: 'LineString', coordinates: [[4.0, 50.5, 120], [4.1, 50.5, 130], [4.2, 50.5, 125]] },
+  p_source_name: 'test.gpx',
+});
+check('import du tracé (3D aplati) et longueur calculée', trackError === null && (lengthM ?? 0) > 10000, `${Math.round(lengthM ?? 0)} m`);
+
+// Clics hors du tracé, dans le désordre : chaque arrêt doit être aimanté et rangé le long de la ligne.
+const clicks: [number, number][] = [[4.15, 50.51], [4.02, 50.49], [4.09, 50.52]];
+const stopIds: string[] = [];
+for (const [lng, lat] of clicks) {
+  const { data: id, error } = await admin.rpc('add_stop', { p_line_id: lineId, p_lng: lng, p_lat: lat });
+  if (error || !id) check('ajout d’arrêt', false, error?.message ?? '');
+  else stopIds.push(id);
+}
+const { data: placed } = await admin.from('stop_overview').select('id,position,lat,lng').eq('line_id', lineId).order('position');
+const orderedLngs = (placed ?? []).map((s) => s.lng ?? 0);
+check(
+  'arrêts aimantés au tracé et ordonnés le long de la ligne',
+  (placed ?? []).length === 3 &&
+    (placed ?? []).every((s) => Math.abs((s.lat ?? 0) - 50.5) < 1e-9) &&
+    orderedLngs.every((lng, i) => i === 0 || lng > (orderedLngs[i - 1] ?? 0)),
+  orderedLngs.map((l) => l.toFixed(2)).join(' → '),
+);
+
+const { data: archive } = await admin.from('media').select('id').eq('bucket', 'media').like('mime', 'image/%').limit(1).single();
+const { data: narration } = await admin.from('media').select('id').like('mime', 'audio/%').limit(1).single();
+for (const [index, id] of (placed ?? []).map((s) => s.id ?? '').entries()) {
+  await admin.from('stops').update({ name: { fr: `Arrêt ${index + 1}` }, archive_media_id: archive?.id ?? null }).eq('id', id);
+  await admin.from('stop_media').insert({ stop_id: id, lang: 'fr', kind: 'audio', media_id: narration?.id ?? '' });
+}
+
+const { error: directPublish } = await admin.from('lines').update({ status: 'published' }).eq('id', lineId);
+const { data: version, error: publishError } = await admin.rpc('publish_line', { p_line_id: lineId });
+check('publication de la ligne complète', directPublish === null && publishError === null, publishError?.message ?? '');
+const { data: republished } = await admin.rpc('publish_line', { p_line_id: lineId });
+check('republication : nouvelle version de contenu', (republished ?? 0) === (version ?? 0) + 1, `v${republished ?? '?'}`);
+
+const { data: anonLine } = await anon.from('line_overview').select('code,stop_count,status').eq('id', lineId).single();
+check('la ligne publiée est visible par l’app', anonLine?.status === 'published' && anonLine.stop_count === 3);
+
+const reversed = [...stopIds].reverse();
+const { error: reorderError } = await admin.rpc('reorder_stops', { p_line_id: lineId, p_stop_ids: reversed });
+check('réordonnancement des arrêts', reorderError === null, reorderError?.message ?? '');
+
+const { data: incomplete } = await admin.rpc('line_publication_issues', { p_line_id: lineId });
+check('contrôle avant publication sans point bloquant', (incomplete ?? []).every((i) => !i.blocking));
+
+await admin.from('lines').delete().eq('id', lineId);
+
+// Utilisateurs : liste (avec e-mail) et suppression RGPD par l'admin.
+const { data: listed } = await admin.rpc('admin_list_users');
+check('admin liste les comptes visiteurs', (listed ?? []).some((u) => u.id === userId));
+const { error: userList } = await user.rpc('admin_list_users');
+check('un visiteur ne peut pas lister les comptes', userList !== null);
+const { error: deleteError } = await admin.rpc('admin_delete_user', { p_user_id: userId });
+const { data: afterDelete } = await admin.rpc('admin_list_users');
+check(
+  'suppression d’un compte par l’admin',
+  deleteError === null && !(afterDelete ?? []).some((u) => u.id === userId),
+  deleteError?.message ?? '',
+);
+
 await Promise.all([user.auth.signOut(), admin.auth.signOut()]);
+await service.from('admin_events').delete().gt('id', lastEvent?.id ?? 0);
 
 if (failures > 0) {
   console.error(`\n${failures} vérification(s) en échec.`);

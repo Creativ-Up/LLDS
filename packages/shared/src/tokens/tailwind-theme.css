@@ -43,7 +43,18 @@
   --color-admin-divider-strong: #E6E2C4;
   --color-admin-nav-active: #EAE7BF;
   --color-admin-nav-hover: #F1EED6;
+  --color-admin-nav-text: #4A4243;
+  --color-admin-map-bg: #FBF9EC;
+  --color-admin-missing-bg: #FFF8F4;
   --color-admin-scrim: rgba(35,31,32,0.28);
+  --color-admin-scrim-modal: rgba(35,31,32,0.32);
+  --color-admin-shadow-soft: rgba(35,31,32,0.08);
+  --color-admin-shadow-card: rgba(35,31,32,0.1);
+  --color-admin-shadow-drawer: rgba(35,31,32,0.14);
+  --color-admin-shadow-modal: rgba(35,31,32,0.22);
+  --color-admin-shadow-strong: rgba(35,31,32,0.25);
+  --color-admin-selection: rgba(228,33,39,0.16);
+  --color-admin-radius-fill: rgba(119,115,47,0.12);
   --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
   --radius-field: 8px;
   --radius-cta: 8px;

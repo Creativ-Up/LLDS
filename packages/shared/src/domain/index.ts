@@ -1,5 +1,5 @@
 import { i18nTextSchema, type AppSettings, type I18nText } from '../schemas/content';
-import { DEFAULT_LANG, LANGS, type Lang, type TransportMode } from '../schemas/enums';
+import { DEFAULT_LANG, LANGS, type ExperienceType, type Lang, type StopMediaKind, type TransportMode } from '../schemas/enums';
 
 /** Texte d'un contenu dans la langue demandée, avec repli sur le français. */
 export function pickText(text: I18nText, lang: Lang): string {
@@ -32,4 +32,27 @@ export function speedKmh(settings: AppSettings, mode: TransportMode): number {
 /** Durée estimée en minutes : longueur du tracé / vitesse du mode. */
 export function estimateDurationMin(lengthM: number, kmh: number): number {
   return Math.round((lengthM / 1000 / kmh) * 60);
+}
+
+/** Tailles (octets) des médias d'un arrêt dans une langue, pour estimer le téléchargement. */
+export interface StopDownloadSizes {
+  archiveBytes: number;
+  presentBytes: number;
+  narration: Partial<Record<StopMediaKind, number>>;
+}
+
+/**
+ * Taille du téléchargement hors ligne d'une ligne : couverture + cartes postales + photos actuelles
+ * + narration (vidéo pour l'expérience complète, audio seul sinon, avec repli sur l'autre format) + sous-titres.
+ */
+export function downloadSizeBytes(
+  coverBytes: number,
+  stops: StopDownloadSizes[],
+  experience: ExperienceType,
+): number {
+  return stops.reduce((total, stop) => {
+    const { video, audio, subtitles } = stop.narration;
+    const narration = experience === 'complete' ? (video ?? audio ?? 0) : (audio ?? video ?? 0);
+    return total + stop.archiveBytes + stop.presentBytes + narration + (subtitles ?? 0);
+  }, coverBytes);
 }

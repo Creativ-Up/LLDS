@@ -2,16 +2,116 @@
 @import '@llds/shared/tokens.css';
 @import '@llds/shared/tailwind-theme.css';
 
+/* Variables sémantiques attendues par les composants shadcn/ui, rattachées aux tokens LLDS. */
+@theme inline {
+  --color-background: var(--color-admin-page);
+  --color-foreground: var(--color-ink);
+  --color-card: var(--color-admin-surface);
+  --color-card-foreground: var(--color-ink);
+  --color-popover: var(--color-admin-surface);
+  --color-popover-foreground: var(--color-ink);
+  --color-primary: var(--color-olive);
+  --color-primary-foreground: var(--color-cream);
+  --color-muted: var(--color-admin-surface-alt);
+  --color-muted-foreground: var(--color-grey);
+  --color-accent: var(--color-admin-nav-hover);
+  --color-accent-foreground: var(--color-ink);
+  --color-destructive: var(--color-red);
+  --color-border: var(--color-admin-border);
+  --color-input: var(--color-tilleul);
+  --color-ring: var(--color-olive);
+}
+
+/* Animations de la maquette (admIn, admDrawer, admPop, admFade). */
+@theme {
+  --animate-adm-in: adm-in 0.3s var(--llds-ease) both;
+  --animate-adm-drawer: adm-drawer 0.3s var(--llds-ease) both;
+  --animate-adm-pop: adm-pop 0.25s both;
+  --animate-adm-fade: adm-fade 0.2s both;
+
+  @keyframes adm-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes adm-drawer {
+    from {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes adm-pop {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 10px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+  }
+  @keyframes adm-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
 @layer base {
   html {
     color-scheme: light;
   }
 
   body {
-    background: var(--llds-admin-page);
-    color: var(--llds-ink);
+    margin: 0;
+    background: var(--color-admin-page);
+    color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 14px;
     -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--color-olive);
+  }
+
+  a:hover {
+    color: var(--color-olive-text);
+  }
+
+  ::selection {
+    background: var(--color-admin-selection);
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

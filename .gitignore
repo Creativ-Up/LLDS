@@ -34,3 +34,6 @@ supabase/seed.sql
 .DS_Store
 Thumbs.db
 *.log
+
+# Admin : worker MapLibre copié au lancement
+apps/admin/public/vendor/

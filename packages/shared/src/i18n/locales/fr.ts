@@ -29,24 +29,4 @@ export const fr = {
       noTrack: 'Tracé non importé',
     },
   },
-  admin: {
-    meta: {
-      title: 'Administration · Les lignes du souvenir',
-    },
-    brand: 'Administration',
-    socle: {
-      title: 'Socle technique',
-      subtitle: 'Lignes visibles dans l’application, lues depuis Supabase.',
-      error: 'Connexion à Supabase impossible : {{message}}',
-      loading: 'Chargement…',
-      noValue: '—',
-      empty: 'Aucune ligne visible.',
-      columns: {
-        line: 'LIGNE',
-        status: 'STATUT',
-        stops: 'ARRÊTS',
-        length: 'LONGUEUR',
-      },
-    },
-  },
 };

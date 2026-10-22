@@ -30,24 +30,4 @@ export const en: TranslationResources = {
       noTrack: 'Track not imported',
     },
   },
-  admin: {
-    meta: {
-      title: 'Administration · Les lignes du souvenir',
-    },
-    brand: 'Administration',
-    socle: {
-      title: 'Technical foundation',
-      subtitle: 'Lines visible in the app, read from Supabase.',
-      error: 'Could not reach Supabase: {{message}}',
-      loading: 'Loading…',
-      noValue: '—',
-      empty: 'No visible line.',
-      columns: {
-        line: 'LINE',
-        status: 'STATUS',
-        stops: 'STOPS',
-        length: 'LENGTH',
-      },
-    },
-  },
 };

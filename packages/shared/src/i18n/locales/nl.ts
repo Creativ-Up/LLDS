@@ -30,24 +30,4 @@ export const nl: TranslationResources = {
       noTrack: 'Tracé niet geïmporteerd',
     },
   },
-  admin: {
-    meta: {
-      title: 'Beheer · Les lignes du souvenir',
-    },
-    brand: 'Beheer',
-    socle: {
-      title: 'Technische basis',
-      subtitle: 'Lijnen zichtbaar in de app, gelezen uit Supabase.',
-      error: 'Verbinding met Supabase mislukt: {{message}}',
-      loading: 'Laden…',
-      noValue: '—',
-      empty: 'Geen zichtbare lijn.',
-      columns: {
-        line: 'LIJN',
-        status: 'STATUS',
-        stops: 'HALTES',
-        length: 'LENGTE',
-      },
-    },
-  },
 };

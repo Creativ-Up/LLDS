@@ -349,7 +349,8 @@ async function main(): Promise<void> {
       tagline: sqlRaw(sqlJson(line.tagline ?? {})),
       cover_media_id: coverId,
       track: sqlRaw(line.track ? geographyLine(line.track.coordinates) : 'null'),
-      status: line.status,
+      // La publication est contrôlée en base : la ligne est publiée après l'insertion de ses arrêts.
+      status: line.status === 'published' ? 'draft' : line.status,
       sort_order: index,
     });
   }
@@ -436,6 +437,13 @@ async function main(): Promise<void> {
     active: true,
   }));
 
+  const publishedIds = seed.lines
+    .filter((line) => line.status === 'published')
+    .map((line) => sqlString(requireId(lineIdByCode, line.code, 'Ligne')));
+  const publishSql = publishedIds.length
+    ? `-- Publication (refusée par la base si un arrêt est incomplet).\nupdate public.lines set status = 'published' where id in (${publishedIds.join(', ')});\n`
+    : '';
+
   const settings = seed.app_settings;
   const sql = [
     '-- Généré par scripts/seed/build-seed.ts depuis seed/demo-seed.json — ne pas modifier.',
@@ -459,6 +467,7 @@ where id;
     insert('stop_media', stopMediaRows),
     insert('partners', partnerRows),
     insert('offers', offerRows),
+    hasFfmpeg ? publishSql : '-- Sans ffmpeg, les arrêts n’ont pas de narration : aucune ligne n’est publiée.\n',
   ].join('\n');
 
   writeFileSync(outSql, sql, 'utf8');

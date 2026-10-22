@@ -41,7 +41,18 @@
   --llds-admin-divider-strong: #E6E2C4;
   --llds-admin-nav-active: #EAE7BF;
   --llds-admin-nav-hover: #F1EED6;
+  --llds-admin-nav-text: #4A4243;
+  --llds-admin-map-bg: #FBF9EC;
+  --llds-admin-missing-bg: #FFF8F4;
   --llds-admin-scrim: rgba(35,31,32,0.28);
+  --llds-admin-scrim-modal: rgba(35,31,32,0.32);
+  --llds-admin-shadow-soft: rgba(35,31,32,0.08);
+  --llds-admin-shadow-card: rgba(35,31,32,0.1);
+  --llds-admin-shadow-drawer: rgba(35,31,32,0.14);
+  --llds-admin-shadow-modal: rgba(35,31,32,0.22);
+  --llds-admin-shadow-strong: rgba(35,31,32,0.25);
+  --llds-admin-selection: rgba(228,33,39,0.16);
+  --llds-admin-radius-fill: rgba(119,115,47,0.12);
   --llds-font: Inter, system-ui, sans-serif;
   --llds-radius-field: 8px;
   --llds-radius-cta: 8px;

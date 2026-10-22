@@ -6,7 +6,21 @@ export type Database = {
   
   "public": {
           Tables: {
-            "app_settings": {
+            "admin_events": {
+                  Row: {
+                    "actor_id": string | null,"created_at": string,"id": number,"kind": string,"payload": NonNullable<Json>
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "actor_id"?: string | null,"created_at"?: string,"id"?: never,"kind": string,"payload"?: NonNullable<Json>
+                  }
+                  Update: {
+                    "actor_id"?: string | null,"created_at"?: string,"id"?: never,"kind"?: string,"payload"?: NonNullable<Json>
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"app_settings": {
                   Row: {
                     "bike_kmh": number,"car_kmh": number,"default_geofence_radius_m": number,"default_guest_preview_s": number,"id": boolean,"updated_at": string,"walk_kmh": number
                   }
@@ -48,14 +62,14 @@ isOneToOne: false
                   ]
                 },"lines": {
                   Row: {
-                    "code": string,"content_version": number,"cover_media_id": string | null,"created_at": string,"id": string,"length_m": number | null,"name": NonNullable<Json>,"published_at": string | null,"sort_order": number,"status": Database["public"]['Enums']["line_status"],"tagline": NonNullable<Json>,"track": unknown,"updated_at": string
+                    "code": string,"content_version": number,"cover_media_id": string | null,"created_at": string,"id": string,"length_m": number | null,"name": NonNullable<Json>,"published_at": string | null,"sort_order": number,"status": Database["public"]['Enums']["line_status"],"tagline": NonNullable<Json>,"track": unknown,"track_source_name": string | null,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "code": string,"content_version"?: number,"cover_media_id"?: string | null,"created_at"?: string,"id"?: string,"length_m"?: number | null,"name"?: NonNullable<Json>,"published_at"?: string | null,"sort_order"?: number,"status"?: Database["public"]['Enums']["line_status"],"tagline"?: NonNullable<Json>,"track"?: unknown,"updated_at"?: string
+                    "code": string,"content_version"?: number,"cover_media_id"?: string | null,"created_at"?: string,"id"?: string,"length_m"?: number | null,"name"?: NonNullable<Json>,"published_at"?: string | null,"sort_order"?: number,"status"?: Database["public"]['Enums']["line_status"],"tagline"?: NonNullable<Json>,"track"?: unknown,"track_source_name"?: string | null,"updated_at"?: string
                   }
                   Update: {
-                    "code"?: string,"content_version"?: number,"cover_media_id"?: string | null,"created_at"?: string,"id"?: string,"length_m"?: number | null,"name"?: NonNullable<Json>,"published_at"?: string | null,"sort_order"?: number,"status"?: Database["public"]['Enums']["line_status"],"tagline"?: NonNullable<Json>,"track"?: unknown,"updated_at"?: string
+                    "code"?: string,"content_version"?: number,"cover_media_id"?: string | null,"created_at"?: string,"id"?: string,"length_m"?: number | null,"name"?: NonNullable<Json>,"published_at"?: string | null,"sort_order"?: number,"status"?: Database["public"]['Enums']["line_status"],"tagline"?: NonNullable<Json>,"track"?: unknown,"track_source_name"?: string | null,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -337,7 +351,7 @@ isOneToOne: false
           Views: {
             "line_overview": {
                   Row: {
-                    "code": string | null,"content_version": number | null,"cover_media_id": string | null,"created_at": string | null,"id": string | null,"length_m": number | null,"name": Json | null,"points_max": number | null,"published_at": string | null,"sort_order": number | null,"stamp_count": number | null,"status": Database["public"]['Enums']["line_status"] | null,"stop_count": number | null,"tagline": Json | null,"track_geojson": Json | null,"updated_at": string | null
+                    "code": string | null,"content_version": number | null,"cover_media_id": string | null,"created_at": string | null,"id": string | null,"length_m": number | null,"name": Json | null,"points_max": number | null,"published_at": string | null,"sort_order": number | null,"stamp_count": number | null,"status": Database["public"]['Enums']["line_status"] | null,"stop_count": number | null,"tagline": Json | null,"track_geojson": Json | null,"track_source_name": string | null,"updated_at": string | null
                   }
                   ComputedFields: never
                   Relationships: [
@@ -352,6 +366,14 @@ isOneToOne: false
                 },"line_stamps": {
                   Row: {
                     "line_id": string | null,"stamp_id": string | null
+                  }
+                  ComputedFields: never
+                  Relationships: [
+                    
+                  ]
+                },"media_usages": {
+                  Row: {
+                    "kind": Database["public"]['Enums']["stop_media_kind"] | null,"lang": Database["public"]['Enums']["lang_code"] | null,"line_code": string | null,"line_id": string | null,"media_id": string | null,"partner_id": string | null,"partner_name": string | null,"stamp_id": string | null,"stamp_name": Json | null,"stop_id": string | null,"stop_name": Json | null,"usage": string | null
                   }
                   ComputedFields: never
                   Relationships: [
@@ -404,11 +426,33 @@ isOneToOne: false
                 }
           }
           Functions: {
-            "default_geofence_radius_m":
+            "add_stop":
+{ Args: { "p_lat": number,"p_line_id": string,"p_lng": number }; Returns: string
+                           },
+"admin_delete_user":
+{ Args: { "p_user_id": string }; Returns: undefined
+                           },
+"admin_incomplete_stops":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "line_code": string,"line_id": string,"missing": (string)[],"stop_id": string,"stop_name": Json,"stop_position": number
+            }[]
+                           },
+"admin_list_users":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "created_at": string,"email": string,"first_name": string,"id": string,"lines": Json,"points": number,"stamps": number
+            }[]
+                           },
+"assert_admin":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
+"default_geofence_radius_m":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
 "default_guest_preview_s":
 { Args: Record<PropertyKey, never>; Returns: number
+                           },
+"delete_stop":
+{ Args: { "p_stop_id": string }; Returns: undefined
                            },
 "is_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
@@ -427,6 +471,42 @@ isOneToOne: false
                            },
 "is_storage_object_public":
 { Args: { "p_bucket": string,"p_path": string }; Returns: boolean
+                           },
+"line_is_publishable":
+{ Args: { "p_line_id": string }; Returns: boolean
+                           },
+"line_publication_issues":
+{ Args: { "p_line_id": string }; Returns: {
+              "blocking": boolean,"code": string,"missing": (string)[],"stop_id": string
+            }[]
+                           },
+"log_admin_event":
+{ Args: { "p_kind": string,"p_payload": Json }; Returns: undefined
+                           },
+"move_stop":
+{ Args: { "p_lat": number,"p_lng": number,"p_stop_id": string }; Returns: {
+              "lat": number,"lng": number
+            }[]
+                           },
+"publish_line":
+{ Args: { "p_line_id": string }; Returns: number
+                           },
+"reorder_lines":
+{ Args: { "p_line_ids": (string)[] }; Returns: undefined
+                           },
+"reorder_stops":
+{ Args: { "p_line_id": string,"p_stop_ids": (string)[] }; Returns: undefined
+                           },
+"set_line_track":
+{ Args: { "p_geojson": Json,"p_line_id": string,"p_source_name": string }; Returns: number
+                           },
+"snap_to_track":
+{ Args: { "p_lat": number,"p_line_id": string,"p_lng": number }; Returns: {
+              "fraction": number,"lat": number,"lng": number
+            }[]
+                           },
+"stop_missing_items":
+{ Args: { "p_stop_id": string }; Returns: (string)[]
                            }
           }
           Enums: {

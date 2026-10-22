@@ -55,6 +55,7 @@ export const lineOverviewSchema = z.object({
   sort_order: z.number().int(),
   length_m: z.number().nonnegative().nullable(),
   track_geojson: lineStringSchema.nullable(),
+  track_source_name: z.string().nullable(),
   stop_count: z.number().int().nonnegative(),
   points_max: z.number().int().nonnegative(),
   stamp_count: z.number().int().nonnegative(),
