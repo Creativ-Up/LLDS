@@ -5,7 +5,7 @@
 - **Node.js ≥ 22** et **pnpm 10** (`npm i -g pnpm@10`, version figée dans `packageManager`).
 - **Docker Desktop** démarré (Supabase local).
 - **ffmpeg** (optionnel) : génère les vidéos et audios placeholder du seed. Sans lui, le seed ne contient que les images et sous-titres.
-- App mobile : **Expo Go** (SDK 58) sur un téléphone du même réseau, ou un émulateur Android / simulateur iOS. À partir du jalon M3 (MapLibre, géofencing), un *development build* sera nécessaire.
+- App mobile : un **build de développement** (Expo Dev Client) installé sur le téléphone — la carte MapLibre, le géofencing et les notifications n'existent pas dans Expo Go. Voir « Build de développement Android » ci-dessous.
 
 ## Premier lancement
 
@@ -22,6 +22,7 @@ pnpm dev         # admin (http://localhost:3000) + Metro (app mobile)
 | `pnpm dev:usb` | App sur un téléphone Android branché en USB (`adb reverse` de Metro et Supabase), sans dépendre du Wi-Fi |
 | `pnpm dev:tunnel` | App via le tunnel Expo (exige `npx expo login`) ; Supabase local reste injoignable depuis le téléphone |
 | `pnpm typecheck` / `pnpm lint` | Vérifications TypeScript strict et ESLint sur tout le monorepo |
+| `pnpm test` | Tests unitaires de la logique partagée (géométrie du tracé, guidage, arrivées, trajet simulé) |
 | `pnpm db:start` / `pnpm db:stop` | Démarre / arrête Supabase local |
 | `pnpm db:reset` | Recrée la base : migrations → `seed.sql` → médias dans Storage → compte admin |
 | `pnpm db:check` | Vérifie les règles d'accès (anonyme, utilisateur, admin) sur la base locale |
@@ -64,12 +65,36 @@ Sur un téléphone physique, l'app remplace automatiquement `127.0.0.1` par l'ad
 
 ## Application mobile
 
-- Parcours d'onboarding (`src/app/`) : `accueil` → `connexion` / `inscription` / `mot-de-passe-oublie` (lien e-mail → `nouveau-mot-de-passe`, schéma `llds://`, ou `exp://…/--/` dans Expo Go : `lib/links.ts`) → `langue` → `autorisations` → `lignes` → `ligne/[id]` → `transport` → `experience` → `pret` → `carte` (carte MapLibre : jalon M3). `index` redirige selon les préférences enregistrées ; `dev` garde l'écran de diagnostic et « Réinitialiser l'app » (déconnexion + effacement des choix).
+- Parcours d'onboarding (`src/app/`) : `accueil` → `connexion` / `inscription` / `mot-de-passe-oublie` (lien e-mail → `nouveau-mot-de-passe`, schéma `llds://`, ou `exp://…/--/` dans Expo Go : `lib/links.ts`) → `langue` → `autorisations` → `lignes` → `ligne/[id]` → `transport` → `experience` → `pret` → `carte`. `index` redirige selon les préférences enregistrées ; `dev` garde l'écran de diagnostic et « Réinitialiser l'app » (déconnexion + effacement des choix).
 - Expo Go 58 se déclare `executionEnvironment: "bare"` : le détecter avec `isRunningInExpoGo()` (paquet `expo`). `expo-notifications` n'y est chargé qu'en dehors d'Expo Go (`lib/notifications.ts`).
 - Les choix (langue, ligne, sens, transport, expérience, mode invité) sont stockés sur l'appareil (`expo-sqlite/localStorage`) et recopiés dans `profiles` pour un compte. Les messages de validation des formulaires suivent l'ordre du prototype (`features/auth/auth-form.ts`).
 - Mise en page : les positions de la maquette (390 × 852) sont recalées sur les zones sûres de l'appareil (`theme/layout.ts`).
 - Le typecheck régénère d'abord les routes typées d'Expo Router (`scripts/typed-routes.js`), sans lancer Metro.
 - E-mails envoyés en local (réinitialisation du mot de passe) : Mailpit, http://127.0.0.1:54324.
+
+## Build de développement Android
+
+Le code natif (`apps/mobile/android/`, non versionné) est généré par `expo prebuild` à partir de `app.config.ts` et de ses plugins. Après l'ajout d'une dépendance native :
+
+```bash
+cd apps/mobile
+npx expo prebuild --platform android --no-install
+cd android
+# JDK : celui d'Android Studio (JAVA_HOME="C:\Program Files\Android\Android Studio\jbr")
+./gradlew assembleDebug -PreactNativeArchitectures=arm64-v8a
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+- Identifiant de l'application : `be.creativup.llds`. Le JavaScript vient toujours de Metro (`pnpm dev:usb`, puis « a ») ; seul l'ajout d'un module natif impose de recompiler.
+- Windows : les fichiers objets CMake dépassent 260 caractères dans un dossier profond. Le plugin `plugins/with-long-path-cmake.js` impose CMake 3.31.6 (ninja ≥ 1.12, chemins longs) ; l'installer une fois avec `sdkmanager "cmake;3.31.6"`. La prise en charge des chemins longs doit être activée dans Windows (`LongPathsEnabled`).
+- MIUI (Xiaomi) : activer « Installer via USB » dans les options développeur, sinon `adb install` échoue (`INSTALL_FAILED_USER_RESTRICTED`).
+
+## Carte et arrivées (jalon M3)
+
+- `src/app/carte.tsx` : carte MapLibre sans tuiles (fond crème, tracé et arrêts en GeoJSON, utilisable hors ligne), guidage vers le prochain arrêt, bandeau d'arrivée, fiche du point d'intérêt et fiche de ligne. La logique pure (tracé orienté selon le sens, prochain arrêt, consigne, entrées dans les rayons, trajet simulé) est dans `packages/shared/src/domain/route.ts`, testée par `pnpm test`.
+- Arrivées application ouverte : position suivie par `features/map/use-tracking.ts` (précision > 50 m ignorée, sortie au-delà du rayon + 30 m) → bandeau + vibration. Application fermée : géofencing système (`features/map/geofencing.ts`, 15 arrêts non visités au plus, autorisation « Toujours ») → notification locale ; la toucher ouvre la fiche de l'arrêt.
+- **Simulation de position** (menu développeur : menu Expo du build, ou appui long sur la pilule de ligne de la carte) : placer la position près d'un arrêt (« Approcher »), dans son rayon (« Entrer »), ou parcourir la ligne à ×10 / ×30 / ×100 la vitesse du mode de transport. Si l'application passe en arrière-plan pendant un trajet simulé, les arrivées à venir sont notifiées à l'heure prévue.
+- Destinations des jalons suivants (`lecteur`, `carnet`, `parametres`, `cachets`, `avantages`) : écrans d'attente.
 
 ## Règles à garder en tête
 

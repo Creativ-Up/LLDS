@@ -6,7 +6,8 @@
  * Metro reste en mode « lan » (écoute sur toutes les interfaces, IPv4 comprise) : en mode
  * `--localhost`, il n'écoute que sur [::1] sous Windows, injoignable pour `adb reverse` (IPv4).
  *
- * Usage : `pnpm dev:usb [--clear]` (débogage USB activé sur le téléphone), puis « a » pour ouvrir Expo Go.
+ * Usage : `pnpm dev:usb [--clear]` (débogage USB activé sur le téléphone), puis « a » pour ouvrir le build de
+ * développement installé sur le téléphone (carte, géofencing et notifications exigent ce build, pas Expo Go).
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -47,7 +48,7 @@ if (devices.length === 0) {
 
 for (const port of PORTS) adb(['reverse', `tcp:${port}`, `tcp:${port}`]);
 console.log(`adb reverse → ports ${PORTS.join(', ')} redirigés vers le PC (${devices.length} appareil(s)).`);
-console.log('Dans le terminal Expo, appuyez sur « a » pour ouvrir l’app dans Expo Go.\n');
+console.log('Dans le terminal Expo, appuyez sur « a » pour ouvrir le build de développement sur le téléphone.\n');
 
 const mobileDir = resolve(repoRoot, 'apps/mobile');
 const expoCli = resolve(dirname(createRequire(join(mobileDir, 'package.json')).resolve('expo/package.json')), 'bin/cli');

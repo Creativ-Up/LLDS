@@ -65,7 +65,10 @@ export const tokens = {
     "pressTilleul": "#F5F1D9",
     "overlayTop": "rgba(255,253,242,0.1)",
     "overlayMid": "rgba(35,31,32,0.5)",
-    "overlayBottom": "rgba(35,31,32,0.82)"
+    "overlayBottom": "rgba(35,31,32,0.82)",
+    "scrimLine": "rgba(35,31,32,0.32)",
+    "stampRing": "rgba(86,58,41,0.55)",
+    "stampRingEmpty": "rgba(86,58,41,0.2)"
   },
   "font": {
     "family": "Inter",

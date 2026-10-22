@@ -85,6 +85,30 @@ export function useLineStamps(lineId: string | undefined) {
   });
 }
 
+/** Arrêts où un avantage partenaire actif et en cours de validité est visible (« VOIR VOUCHER »). */
+export function useOfferStops(stopIds: readonly string[]) {
+  return useQuery({
+    queryKey: ['offer-stops', [...stopIds].sort()],
+    enabled: stopIds.length > 0,
+    queryFn: async () => {
+      const today = new Date().toISOString().slice(0, 10);
+      const rows = unwrap(
+        await supabase
+          .from('offers')
+          .select('visible_from_stop_id, valid_from, valid_until')
+          .eq('active', true)
+          .in('visible_from_stop_id', [...stopIds]),
+      );
+      return new Set(
+        rows
+          .filter((row) => (!row.valid_from || row.valid_from <= today) && (!row.valid_until || row.valid_until >= today))
+          .map((row) => row.visible_from_stop_id)
+          .filter((id): id is string => id !== null),
+      );
+    },
+  });
+}
+
 export function useSettings() {
   return useQuery({
     queryKey: ['settings'],

@@ -58,3 +58,4 @@ export function downloadSizeBytes(
 }
 
 export * from './geo';
+export * from './route';

@@ -98,6 +98,12 @@ export default function LineDetail() {
     router.push('/transport');
   };
 
+  // Ligne déjà commencée : la carte s'ouvre dans le sens affiché, et rouvrira au prochain lancement.
+  const openMap = () => {
+    update({ lineId: line.id, direction, onboarded: true });
+    router.replace('/carte');
+  };
+
   const state =
     status === 'in_progress'
       ? {
@@ -109,7 +115,7 @@ export default function LineDetail() {
             next: nextName,
           }),
           cta: t('lineDetail.resume', { stop: nextName.toUpperCase() }),
-          onCta: () => router.replace('/carte'),
+          onCta: openMap,
           link: { label: t('lineDetail.restart'), onPress: chooseLine },
         }
       : status === 'completed'
@@ -117,7 +123,7 @@ export default function LineDetail() {
             title: t('lineDetail.doneTitle', { total: line.stop_count }),
             sub: t('lineDetail.doneSub', { points: summary?.points ?? 0, count: line.stamp_count }),
             cta: t('lineDetail.review'),
-            onCta: () => router.replace('/carte'),
+            onCta: openMap,
             link: null,
           }
         : {

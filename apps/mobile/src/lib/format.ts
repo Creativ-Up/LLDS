@@ -13,10 +13,11 @@ export function formatKm(t: TFunction, lang: Lang, meters: number, compact = fal
   return compact ? t('units.kmCompact', { value }) : t('units.km', { value });
 }
 
-/** Distance à la ligne : mètres sous 1 km, puis km (« 1,2km »). */
-export function formatDistance(t: TFunction, lang: Lang, meters: number): string {
+/** Distance : mètres (par dizaines) sous 1 km, puis km ; « 1,2km » (liste des lignes) ou « 1,2 km » (carte). */
+export function formatDistance(t: TFunction, lang: Lang, meters: number, compact = true): string {
   if (meters < 1000) return t('units.m', { value: formatNumber(lang, Math.max(10, Math.round(meters / 10) * 10), 0) });
-  return t('units.kmCompact', { value: formatNumber(lang, meters / 1000, 1) });
+  const value = formatNumber(lang, meters / 1000, 1);
+  return compact ? t('units.kmCompact', { value }) : t('units.km', { value });
 }
 
 /** Durée estimée : « 45 min », « 4 h », « 4 h 30 ». */

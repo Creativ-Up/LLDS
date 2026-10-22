@@ -31,6 +31,9 @@
   --color-overlay-top: rgba(255,253,242,0.1);
   --color-overlay-mid: rgba(35,31,32,0.5);
   --color-overlay-bottom: rgba(35,31,32,0.82);
+  --color-scrim-line: rgba(35,31,32,0.32);
+  --color-stamp-ring: rgba(86,58,41,0.55);
+  --color-stamp-ring-empty: rgba(86,58,41,0.2);
   --color-palette-red-900: #8C191C;
   --color-palette-red-500: #E42127;
   --color-palette-red-300: #F0565E;

@@ -15,6 +15,7 @@ const config: ExpoConfig = {
   userInterfaceStyle: 'light',
   backgroundColor: tokens.color.cream,
   ios: {
+    bundleIdentifier: 'be.creativup.llds',
     icon: './assets/expo.icon',
     supportsTablet: false,
     infoPlist: {
@@ -22,6 +23,7 @@ const config: ExpoConfig = {
     },
   },
   android: {
+    package: 'be.creativup.llds',
     adaptiveIcon: {
       backgroundColor: tokens.color.cream,
       foregroundImage: './assets/images/android-icon-foreground.png',
@@ -52,6 +54,10 @@ const config: ExpoConfig = {
       },
     ],
     'expo-notifications',
+    // Carte sans tuiles (fond crème + GeoJSON) : moteur OpenGL et localisation par défaut.
+    '@maplibre/maplibre-react-native',
+    // Build Android sous Windows : CMake récent, dont le ninja gère les chemins longs.
+    './plugins/with-long-path-cmake.js',
   ],
   // Textes natifs traduits (boîtes d'autorisation iOS).
   locales: {
