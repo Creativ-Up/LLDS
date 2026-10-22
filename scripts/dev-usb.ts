@@ -6,7 +6,7 @@
  * Metro reste en mode « lan » (écoute sur toutes les interfaces, IPv4 comprise) : en mode
  * `--localhost`, il n'écoute que sur [::1] sous Windows, injoignable pour `adb reverse` (IPv4).
  *
- * Usage : `pnpm dev:usb` (débogage USB activé sur le téléphone), puis « a » pour ouvrir Expo Go.
+ * Usage : `pnpm dev:usb [--clear]` (débogage USB activé sur le téléphone), puis « a » pour ouvrir Expo Go.
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -52,7 +52,8 @@ console.log('Dans le terminal Expo, appuyez sur « a » pour ouvrir l’app dans
 const mobileDir = resolve(repoRoot, 'apps/mobile');
 const expoCli = resolve(dirname(createRequire(join(mobileDir, 'package.json')).resolve('expo/package.json')), 'bin/cli');
 
-const expo = spawnSync(process.execPath, [expoCli, 'start', '--port', String(PORTS[0])], {
+// Options supplémentaires transmises à `expo start` (ex. `pnpm dev:usb --clear`).
+const expo = spawnSync(process.execPath, [expoCli, 'start', '--port', String(PORTS[0]), ...process.argv.slice(2)], {
   cwd: mobileDir,
   stdio: 'inherit',
   env: { ...process.env, REACT_NATIVE_PACKAGER_HOSTNAME: '127.0.0.1' },

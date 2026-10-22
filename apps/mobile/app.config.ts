@@ -17,6 +17,9 @@ const config: ExpoConfig = {
   ios: {
     icon: './assets/expo.icon',
     supportsTablet: false,
+    infoPlist: {
+      CFBundleAllowMixedLocalizations: true,
+    },
   },
   android: {
     adaptiveIcon: {
@@ -39,7 +42,23 @@ const config: ExpoConfig = {
     ],
     'expo-sqlite',
     'expo-localization',
+    [
+      'expo-location',
+      {
+        // Textes des boîtes système : voir locales/*.json (FR, NL, EN).
+        isIosBackgroundLocationEnabled: true,
+        isAndroidBackgroundLocationEnabled: true,
+        isAndroidForegroundServiceEnabled: true,
+      },
+    ],
+    'expo-notifications',
   ],
+  // Textes natifs traduits (boîtes d'autorisation iOS).
+  locales: {
+    fr: './locales/fr.json',
+    nl: './locales/nl.json',
+    en: './locales/en.json',
+  },
   experiments: {
     typedRoutes: true,
     reactCompiler: true,

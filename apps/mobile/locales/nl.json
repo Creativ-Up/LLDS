@@ -1,0 +1,6 @@
+{
+  "ios": {
+    "NSLocationWhenInUseUsageDescription": "Om je positie op het tracé te tonen en je te verwittigen wanneer je een halte nadert.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Om je te verwittigen wanneer je een halte nadert, ook met je telefoon op zak. Je positie wordt niet opgeslagen of gedeeld."
+  }
+}

@@ -57,7 +57,15 @@ export const tokens = {
     "passiveBorder": "#DCD8A8",
     "passiveText": "#A9A67C",
     "scrim": "rgba(35,31,32,0.3)",
-    "white": "#FFFFFF"
+    "white": "#FFFFFF",
+    "haloRed": "rgba(228,33,39,0.18)",
+    "haloRedSoft": "rgba(228,33,39,0.16)",
+    "haloTilleul": "rgba(184,178,72,0.24)",
+    "photoBg": "#EDE7D6",
+    "pressTilleul": "#F5F1D9",
+    "overlayTop": "rgba(255,253,242,0.1)",
+    "overlayMid": "rgba(35,31,32,0.5)",
+    "overlayBottom": "rgba(35,31,32,0.82)"
   },
   "font": {
     "family": "Inter",

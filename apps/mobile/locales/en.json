@@ -1,0 +1,6 @@
+{
+  "ios": {
+    "NSLocationWhenInUseUsageDescription": "To show your position on the route and alert you as you approach each stop.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "To alert you as you approach each stop, even with your phone in your pocket. Your position is neither stored nor shared."
+  }
+}

@@ -20,6 +20,7 @@
     "db:reset": "pnpm seed:build && supabase db reset && pnpm seed:upload",
     "db:types": "tsx scripts/gen-db-types.ts",
     "db:check": "tsx scripts/check-rls.ts",
+    "db:check:onboarding": "tsx scripts/check-onboarding.ts",
     "seed:build": "tsx scripts/seed/build-seed.ts",
     "seed:upload": "tsx scripts/seed/upload-seed.ts",
     "env:local": "tsx scripts/write-local-env.ts",

@@ -23,6 +23,14 @@
   --color-passive-border: #DCD8A8;
   --color-passive-text: #A9A67C;
   --color-scrim: rgba(35,31,32,0.3);
+  --color-halo-red: rgba(228,33,39,0.18);
+  --color-halo-red-soft: rgba(228,33,39,0.16);
+  --color-halo-tilleul: rgba(184,178,72,0.24);
+  --color-photo-bg: #EDE7D6;
+  --color-press-tilleul: #F5F1D9;
+  --color-overlay-top: rgba(255,253,242,0.1);
+  --color-overlay-mid: rgba(35,31,32,0.5);
+  --color-overlay-bottom: rgba(35,31,32,0.82);
   --color-palette-red-900: #8C191C;
   --color-palette-red-500: #E42127;
   --color-palette-red-300: #F0565E;

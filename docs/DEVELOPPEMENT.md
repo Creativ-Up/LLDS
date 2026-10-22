@@ -25,6 +25,7 @@ pnpm dev         # admin (http://localhost:3000) + Metro (app mobile)
 | `pnpm db:start` / `pnpm db:stop` | Démarre / arrête Supabase local |
 | `pnpm db:reset` | Recrée la base : migrations → `seed.sql` → médias dans Storage → compte admin |
 | `pnpm db:check` | Vérifie les règles d'accès (anonyme, utilisateur, admin) sur la base locale |
+| `pnpm db:check:onboarding` | Rejoue les appels Supabase de l'onboarding mobile (inscription, erreurs Auth, profil, ligne en cours, invité) |
 | `pnpm db:types` | Régénère `packages/shared/src/database.types.ts` (après chaque migration) |
 | `pnpm tokens` | Régénère les tokens depuis `tokens/tokens.json` |
 | `pnpm seed:build [--force]` | Régénère `supabase/seed.sql` et les placeholders depuis `seed/demo-seed.json` |
@@ -60,6 +61,15 @@ Sur un téléphone physique, l'app remplace automatiquement `127.0.0.1` par l'ad
 - Fond de carte de l'éditeur : tuiles OpenFreeMap (en ligne, sans clé), configurable via `NEXT_PUBLIC_MAP_STYLE_URL` (vide = fond uni sans tuiles). Le worker MapLibre est copié dans `public/vendor/` au lancement (non versionné).
 - Médias : téléversés depuis le navigateur dans Storage (barre de progression), métadonnées mesurées (taille, dimensions, durée, SHA-256). Bucket `media-public` pour couvertures, cachets et visuels partenaires ; `media` (URLs signées) pour le reste.
 - `pnpm db:check` rejoue le critère d'acceptation M1 côté base (ligne de 3 arrêts créée de zéro, publiée, visible par l'app).
+
+## Application mobile
+
+- Parcours d'onboarding (`src/app/`) : `accueil` → `connexion` / `inscription` / `mot-de-passe-oublie` (lien e-mail → `nouveau-mot-de-passe`, schéma `llds://`, ou `exp://…/--/` dans Expo Go : `lib/links.ts`) → `langue` → `autorisations` → `lignes` → `ligne/[id]` → `transport` → `experience` → `pret` → `carte` (carte MapLibre : jalon M3). `index` redirige selon les préférences enregistrées ; `dev` garde l'écran de diagnostic et « Réinitialiser l'app » (déconnexion + effacement des choix).
+- Expo Go 58 se déclare `executionEnvironment: "bare"` : le détecter avec `isRunningInExpoGo()` (paquet `expo`). `expo-notifications` n'y est chargé qu'en dehors d'Expo Go (`lib/notifications.ts`).
+- Les choix (langue, ligne, sens, transport, expérience, mode invité) sont stockés sur l'appareil (`expo-sqlite/localStorage`) et recopiés dans `profiles` pour un compte. Les messages de validation des formulaires suivent l'ordre du prototype (`features/auth/auth-form.ts`).
+- Mise en page : les positions de la maquette (390 × 852) sont recalées sur les zones sûres de l'appareil (`theme/layout.ts`).
+- Le typecheck régénère d'abord les routes typées d'Expo Router (`scripts/typed-routes.js`), sans lancer Metro.
+- E-mails envoyés en local (réinitialisation du mot de passe) : Mailpit, http://127.0.0.1:54324.
 
 ## Règles à garder en tête
 

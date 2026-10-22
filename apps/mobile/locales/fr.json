@@ -1,0 +1,6 @@
+{
+  "ios": {
+    "NSLocationWhenInUseUsageDescription": "Pour situer votre position sur le tracé et vous prévenir à l’approche de chaque arrêt.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Pour vous prévenir à l’approche de chaque arrêt, même téléphone en poche. Votre position n’est ni stockée, ni partagée."
+  }
+}

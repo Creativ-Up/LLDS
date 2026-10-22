@@ -21,6 +21,14 @@
   --llds-passive-text: #A9A67C;
   --llds-scrim: rgba(35,31,32,0.3);
   --llds-white: #FFFFFF;
+  --llds-halo-red: rgba(228,33,39,0.18);
+  --llds-halo-red-soft: rgba(228,33,39,0.16);
+  --llds-halo-tilleul: rgba(184,178,72,0.24);
+  --llds-photo-bg: #EDE7D6;
+  --llds-press-tilleul: #F5F1D9;
+  --llds-overlay-top: rgba(255,253,242,0.1);
+  --llds-overlay-mid: rgba(35,31,32,0.5);
+  --llds-overlay-bottom: rgba(35,31,32,0.82);
   --llds-palette-red-900: #8C191C;
   --llds-palette-red-500: #E42127;
   --llds-palette-red-300: #F0565E;
